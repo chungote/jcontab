@@ -117,7 +117,7 @@ public final class Contab extends javax.swing.JFrame {
                         "Error", JOptionPane.ERROR_MESSAGE);
         }
         
-        SimpleDateFormat formato = new SimpleDateFormat("yyyy", new Locale("ES", "EC"));
+        SimpleDateFormat formato = new SimpleDateFormat("MMM/yyyy", new Locale("ES", "EC"));
         Date fechaActual = new Date();
         String hoy = formato.format(fechaActual);
         buscarFechaTxt.setText(hoy);
@@ -245,7 +245,6 @@ public final class Contab extends javax.swing.JFrame {
         }
     }
     
-    
     /*
      * Actualiza tabla
      */
@@ -256,8 +255,8 @@ public final class Contab extends javax.swing.JFrame {
         listaFacturaClientesTabla.getColumnModel().getColumn(3).setPreferredWidth(80);
         listaFacturaClientesTabla.getColumnModel().getColumn(4).setPreferredWidth(80);
         listaFacturaClientesTabla.getColumnModel().getColumn(5).setPreferredWidth(80);
-        listaFacturaClientesTabla.getColumnModel().getColumn(8).setPreferredWidth(220);
-        
+        listaFacturaClientesTabla.getColumnModel().getColumn(8).setPreferredWidth(220); 
+        listaFacturaClientesTabla.setRowHeight(25);
         listaFacturaClientesTabla.getColumnModel().getColumn(0).setCellRenderer(new ColorTableCellRenderer());
         listaFacturaClientesTabla.getColumnModel().getColumn(1).setCellRenderer(new ColorTableCellRenderer1());
         listaFacturaClientesTabla.getColumnModel().getColumn(2).setCellRenderer(new ColorTableCellRenderer1());
@@ -268,8 +267,7 @@ public final class Contab extends javax.swing.JFrame {
         listaFacturaClientesTabla.getColumnModel().getColumn(7).setCellRenderer(new ColorTableCellRenderer1());
         listaFacturaClientesTabla.getColumnModel().getColumn(8).setCellRenderer(new ColorTableCellRenderer1());
     }
-    
-    
+   
     /*
      * Actualiza tabla
      */
@@ -373,7 +371,6 @@ public final class Contab extends javax.swing.JFrame {
         });
     }
 
-    
     /*
      * base de datos seleccionar
      */
@@ -518,7 +515,6 @@ public final class Contab extends javax.swing.JFrame {
         //articulosTabbedPane.setSelectedIndex(1);
     }
 
-    
     /*
      * HABILITA ESCRITURA O ACTUALIZACION de FICHA ARTICULOS
      */
@@ -771,8 +767,8 @@ public final class Contab extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jSeparator5 = new javax.swing.JToolBar.Separator();
         jSeparator6 = new javax.swing.JToolBar.Separator();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        copiaBDButton = new javax.swing.JButton();
+        resturaBDButton = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
@@ -896,7 +892,7 @@ public final class Contab extends javax.swing.JFrame {
         jSeparator26 = new javax.swing.JToolBar.Separator();
         jSeparator14 = new javax.swing.JToolBar.Separator();
         jSeparator16 = new javax.swing.JToolBar.Separator();
-        jButton8 = new javax.swing.JButton();
+        imprimirFacturaButton = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         ivaTxt = new javax.swing.JTextField();
@@ -975,19 +971,29 @@ public final class Contab extends javax.swing.JFrame {
         jToolBar1.add(jSeparator5);
         jToolBar1.add(jSeparator6);
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mypack/media-floppy.png"))); // NOI18N
-        jButton1.setToolTipText("Guardar base de datos");
-        jButton1.setFocusable(false);
-        jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jToolBar1.add(jButton1);
+        copiaBDButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mypack/media-floppy.png"))); // NOI18N
+        copiaBDButton.setToolTipText("Guardar base de datos");
+        copiaBDButton.setFocusable(false);
+        copiaBDButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        copiaBDButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        copiaBDButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                copiaBDButtonActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(copiaBDButton);
 
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mypack/document-export-table.png"))); // NOI18N
-        jButton2.setToolTipText("Restaurar base de datos");
-        jButton2.setFocusable(false);
-        jButton2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jToolBar1.add(jButton2);
+        resturaBDButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mypack/document-export-table.png"))); // NOI18N
+        resturaBDButton.setToolTipText("Restaurar base de datos");
+        resturaBDButton.setFocusable(false);
+        resturaBDButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        resturaBDButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        resturaBDButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                resturaBDButtonActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(resturaBDButton);
 
         jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mypack/documentinfo.png"))); // NOI18N
         jButton3.setToolTipText("Informacion");
@@ -1177,11 +1183,12 @@ public final class Contab extends javax.swing.JFrame {
         jToolBar7.setRollover(true);
         jToolBar7.add(jSeparator45);
 
+        nuevoClienteButton.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
         nuevoClienteButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mypack/list-add.png"))); // NOI18N
+        nuevoClienteButton.setText("Nuevo");
         nuevoClienteButton.setToolTipText("Nuevo cliente");
         nuevoClienteButton.setFocusable(false);
-        nuevoClienteButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        nuevoClienteButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        nuevoClienteButton.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         nuevoClienteButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 nuevoClienteButtonActionPerformed(evt);
@@ -1189,11 +1196,12 @@ public final class Contab extends javax.swing.JFrame {
         });
         jToolBar7.add(nuevoClienteButton);
 
+        borrarFichaClienteButton.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
         borrarFichaClienteButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mypack/list-remove.png"))); // NOI18N
+        borrarFichaClienteButton.setText("Borrar");
         borrarFichaClienteButton.setToolTipText("Borrar cliente");
         borrarFichaClienteButton.setFocusable(false);
-        borrarFichaClienteButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        borrarFichaClienteButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        borrarFichaClienteButton.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         borrarFichaClienteButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 borrarFichaClienteButtonActionPerformed(evt);
@@ -1201,11 +1209,12 @@ public final class Contab extends javax.swing.JFrame {
         });
         jToolBar7.add(borrarFichaClienteButton);
 
+        guardarClienteButton.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
         guardarClienteButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mypack/document-save.png"))); // NOI18N
+        guardarClienteButton.setText("Guardar");
         guardarClienteButton.setToolTipText("Guardar cliente");
         guardarClienteButton.setFocusable(false);
-        guardarClienteButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        guardarClienteButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        guardarClienteButton.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         guardarClienteButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 guardarClienteButtonActionPerformed(evt);
@@ -1217,11 +1226,12 @@ public final class Contab extends javax.swing.JFrame {
         jToolBar7.add(jSeparator47);
 
         crearFacturaClienteButton.setBackground(new java.awt.Color(255, 255, 51));
+        crearFacturaClienteButton.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
         crearFacturaClienteButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mypack/view-file-columns.png"))); // NOI18N
+        crearFacturaClienteButton.setText("Factura");
         crearFacturaClienteButton.setToolTipText("Crear factura");
         crearFacturaClienteButton.setFocusable(false);
-        crearFacturaClienteButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        crearFacturaClienteButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        crearFacturaClienteButton.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         crearFacturaClienteButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 crearFacturaClienteButtonActionPerformed(evt);
@@ -1294,8 +1304,10 @@ public final class Contab extends javax.swing.JFrame {
         fechaTxt.setFont(new java.awt.Font("Dialog", 0, 10));
         fechaTxt.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
+        ciudadTxt.setEditable(false);
         ciudadTxt.setFont(new java.awt.Font("Dialog", 0, 10)); // NOI18N
 
+        telefonoTxt.setEditable(false);
         telefonoTxt.setFont(new java.awt.Font("Dialog", 0, 10));
 
         facturaArticulosClienteTable.setFont(new java.awt.Font("Dialog", 0, 10));
@@ -1662,11 +1674,12 @@ public final class Contab extends javax.swing.JFrame {
         jToolBar4.setRollover(true);
         jToolBar4.add(jSeparator17);
 
+        nuevaFacturaButton.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
         nuevaFacturaButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mypack/list-add.png"))); // NOI18N
+        nuevaFacturaButton.setText("Nueva");
         nuevaFacturaButton.setToolTipText("Nueva factura");
         nuevaFacturaButton.setFocusable(false);
-        nuevaFacturaButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        nuevaFacturaButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        nuevaFacturaButton.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         nuevaFacturaButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 nuevaFacturaButtonActionPerformed(evt);
@@ -1674,11 +1687,12 @@ public final class Contab extends javax.swing.JFrame {
         });
         jToolBar4.add(nuevaFacturaButton);
 
+        borrarFacturaClienteButton.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
         borrarFacturaClienteButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mypack/list-remove.png"))); // NOI18N
+        borrarFacturaClienteButton.setText("Borrar");
         borrarFacturaClienteButton.setToolTipText("Borrar factura");
         borrarFacturaClienteButton.setFocusable(false);
-        borrarFacturaClienteButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        borrarFacturaClienteButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        borrarFacturaClienteButton.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         borrarFacturaClienteButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 borrarFacturaClienteButtonActionPerformed(evt);
@@ -1686,11 +1700,12 @@ public final class Contab extends javax.swing.JFrame {
         });
         jToolBar4.add(borrarFacturaClienteButton);
 
+        guardarFacturaButton.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
         guardarFacturaButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mypack/document-save.png"))); // NOI18N
+        guardarFacturaButton.setText("Guardar");
         guardarFacturaButton.setToolTipText("Guardar factura");
         guardarFacturaButton.setFocusable(false);
-        guardarFacturaButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        guardarFacturaButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        guardarFacturaButton.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         guardarFacturaButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 guardarFacturaButtonActionPerformed(evt);
@@ -1703,11 +1718,12 @@ public final class Contab extends javax.swing.JFrame {
         jToolBar4.add(jSeparator8);
         jToolBar4.add(jSeparator7);
 
+        agregarArticuloButton.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
         agregarArticuloButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mypack/insert-table.png"))); // NOI18N
+        agregarArticuloButton.setText("Add");
         agregarArticuloButton.setToolTipText("Agregar un artículo a la factura");
         agregarArticuloButton.setFocusable(false);
-        agregarArticuloButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        agregarArticuloButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        agregarArticuloButton.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         agregarArticuloButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 agregarArticuloButtonActionPerformed(evt);
@@ -1715,11 +1731,12 @@ public final class Contab extends javax.swing.JFrame {
         });
         jToolBar4.add(agregarArticuloButton);
 
+        eliminarArticuloButton.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
         eliminarArticuloButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mypack/edit-table-delete-row.png"))); // NOI18N
+        eliminarArticuloButton.setText("Del");
         eliminarArticuloButton.setToolTipText("Borrar un artículo de la factura");
         eliminarArticuloButton.setFocusable(false);
-        eliminarArticuloButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        eliminarArticuloButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        eliminarArticuloButton.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         eliminarArticuloButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 eliminarArticuloButtonActionPerformed(evt);
@@ -1737,11 +1754,12 @@ public final class Contab extends javax.swing.JFrame {
         jToolBar4.add(jSeparator30);
 
         calucularFacturaButton.setBackground(new java.awt.Color(255, 255, 51));
+        calucularFacturaButton.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
         calucularFacturaButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mypack/accessories-calculator.png"))); // NOI18N
+        calucularFacturaButton.setText("Calc");
         calucularFacturaButton.setToolTipText("Computar factura");
         calucularFacturaButton.setFocusable(false);
-        calucularFacturaButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        calucularFacturaButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        calucularFacturaButton.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         calucularFacturaButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 calucularFacturaButtonActionPerformed(evt);
@@ -1752,12 +1770,18 @@ public final class Contab extends javax.swing.JFrame {
         jToolBar4.add(jSeparator14);
         jToolBar4.add(jSeparator16);
 
-        jButton8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mypack/printer.png"))); // NOI18N
-        jButton8.setToolTipText("Imprimir factura");
-        jButton8.setFocusable(false);
-        jButton8.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton8.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jToolBar4.add(jButton8);
+        imprimirFacturaButton.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
+        imprimirFacturaButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mypack/printer.png"))); // NOI18N
+        imprimirFacturaButton.setText("Imprimir");
+        imprimirFacturaButton.setToolTipText("Imprimir factura");
+        imprimirFacturaButton.setFocusable(false);
+        imprimirFacturaButton.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        imprimirFacturaButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                imprimirFacturaButtonActionPerformed(evt);
+            }
+        });
+        jToolBar4.add(imprimirFacturaButton);
 
         jLabel6.setFont(new java.awt.Font("Dialog", 1, 10));
         jLabel6.setForeground(new java.awt.Color(153, 153, 153));
@@ -2176,11 +2200,12 @@ public final class Contab extends javax.swing.JFrame {
         jToolBar6.setRollover(true);
         jToolBar6.add(jSeparator38);
 
+        nuevoArticuloButton.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
         nuevoArticuloButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mypack/list-add.png"))); // NOI18N
+        nuevoArticuloButton.setText("Nuevo");
         nuevoArticuloButton.setToolTipText("Nuevo artículo");
         nuevoArticuloButton.setFocusable(false);
-        nuevoArticuloButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        nuevoArticuloButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        nuevoArticuloButton.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         nuevoArticuloButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 nuevoArticuloButtonActionPerformed(evt);
@@ -2188,18 +2213,30 @@ public final class Contab extends javax.swing.JFrame {
         });
         jToolBar6.add(nuevoArticuloButton);
 
+        borrarFichaArticuloButton.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
         borrarFichaArticuloButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mypack/list-remove.png"))); // NOI18N
+        borrarFichaArticuloButton.setText("Borrar");
         borrarFichaArticuloButton.setToolTipText("Eliminar artículo");
         borrarFichaArticuloButton.setFocusable(false);
-        borrarFichaArticuloButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        borrarFichaArticuloButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        borrarFichaArticuloButton.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        borrarFichaArticuloButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                borrarFichaArticuloButtonActionPerformed(evt);
+            }
+        });
         jToolBar6.add(borrarFichaArticuloButton);
 
+        guardarArticuloButton.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
         guardarArticuloButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mypack/document-save.png"))); // NOI18N
+        guardarArticuloButton.setText("Guardar");
         guardarArticuloButton.setToolTipText("Guardar articulo");
         guardarArticuloButton.setFocusable(false);
-        guardarArticuloButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        guardarArticuloButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        guardarArticuloButton.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        guardarArticuloButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                guardarArticuloButtonActionPerformed(evt);
+            }
+        });
         jToolBar6.add(guardarArticuloButton);
         jToolBar6.add(jSeparator39);
         jToolBar6.add(jSeparator40);
@@ -2208,7 +2245,7 @@ public final class Contab extends javax.swing.JFrame {
         jToolBar6.add(jSeparator43);
         jToolBar6.add(jSeparator44);
 
-        agregarArticuloAFacturaButton.setFont(new java.awt.Font("Dialog", 1, 10));
+        agregarArticuloAFacturaButton.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
         agregarArticuloAFacturaButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mypack/news-subscribe.png"))); // NOI18N
         agregarArticuloAFacturaButton.setText("factura");
         agregarArticuloAFacturaButton.setToolTipText("Agregar articulo a factura");
@@ -2544,7 +2581,7 @@ public final class Contab extends javax.swing.JFrame {
         direccionTxt.setText(direccionClienteTxt.getText());
         telefonoTxt.setText(telefonoClienteTxt.getText());
         ciudadTxt.setText(ciudadClienteTxt.getText());
-        //leerUltimaFactura();
+        leerUltimaFactura();
 }//GEN-LAST:event_crearFacturaClienteButtonActionPerformed
 
     private void ivabaseTxtCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_ivabaseTxtCaretUpdate
@@ -2900,6 +2937,8 @@ public final class Contab extends javax.swing.JFrame {
             //chequea si hay escrito los datos, si hay? guarda
             if((!fechaTxt.getText().isEmpty()) && !numeroSerieTxt.getText().isEmpty()){
                 actualizarFichaFacturaCliente();
+                leerClientesFactura("Cliente", "", "");
+                actualizaListaFacturasClientesTablaAnchos();
             }else{
                 //custom title, warning icon
                 JFrame frame = new JFrame();
@@ -2947,7 +2986,376 @@ public final class Contab extends javax.swing.JFrame {
                         "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_borrarFacturaClienteButtonActionPerformed
+
+    private void borrarFichaArticuloButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_borrarFichaArticuloButtonActionPerformed
+        // TODO add your handling code here:
+        //Necesita password de super usuario
+        JPasswordField jpf = new JPasswordField();
+        JOptionPane.showConfirmDialog(null, jpf, "Password administrador: ", JOptionPane.OK_CANCEL_OPTION);
+        char[] input = jpf.getPassword();
+        char[] correctPassword = { '1','2'};
+        boolean isCorrect = true;
+        isCorrect = Arrays.equals(input, correctPassword);
+        if(isCorrect){
+            //Password Valido procede a borrar
+            if (!idArticuloTxt.getText().isEmpty()){
+                borrarFichaArticulo();
+                limpiaFichaArticulos();
+                leerArticulos("");
+                actualizaListaArticulosTablaAnchos();
+            }
+        }else{
+            JFrame frame = new JFrame();
+                JOptionPane.showMessageDialog(frame,
+                        "Error 1: al borrar, password no valido",
+                        "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_borrarFichaArticuloButtonActionPerformed
+
+    private void guardarArticuloButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarArticuloButtonActionPerformed
+        // TODO add your handling code here:
+        if(flagSaveFichaArticulo == 0){
+            //GUARDAR
+            //chequea si hay escrito los datos, si hay? guarda
+            if((!FechaIngresoArticuloTxt.getText().isEmpty()) && !detalleArticuloTxt.getText().isEmpty()){
+                guardarFichaArticuloBD(); //guarda ficha cliente en base datos
+                leerArticulos("");
+                actualizaListaArticulosTablaAnchos();
+            }else{
+                //custom title, warning icon
+                JFrame frame = new JFrame();
+                JOptionPane.showMessageDialog(frame,
+                        "Artículo no guardado, llenar todos los datos",
+                        "Error -10", JOptionPane.ERROR_MESSAGE);
+            }   
+        }else{
+            //ACTUALIZAR
+            //chequea si hay escrito los datos, si hay? guarda
+            if((!idArticuloTxt.getText().isEmpty()) && !detalleArticuloTxt.getText().isEmpty()){
+                actualizarFichaArticulo();           
+            }else{
+                //custom title, warning icon
+                JFrame frame = new JFrame();
+                JOptionPane.showMessageDialog(frame,
+                        "Artículo no actualizado \nCargar imagen",
+                        "Error - 11", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_guardarArticuloButtonActionPerformed
+
+    private void imprimirFacturaButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_imprimirFacturaButtonActionPerformed
+        // TODO add your handling code here:
+        if(!totalTxt.getText().isEmpty()){
+            //System.out.println("Imprimiendo reporte...");
+            String filename = System.getProperty("user.home") + "/jContab/ImpresionFactura.jasper";
+
+             //Obtener número de columnas y computar datos
+            String cantidad = " ";
+            String articulo = " ";
+            String pUnitario = " ";
+            String pTotal= " ";
+
+            ParticipantesDatasource datasource = new ParticipantesDatasource();
+            for (int i = 0, rows = facturaArticulosClienteTable.getRowCount(); i < rows; i++)
+            {
+                    cantidad = (String) facturaArticulosClienteTable.getValueAt(i, 0).toString();
+                    articulo = (String) facturaArticulosClienteTable.getValueAt(i, 1).toString();
+                    pUnitario = (String) facturaArticulosClienteTable.getValueAt(i, 2).toString();
+                    pTotal = (String) facturaArticulosClienteTable.getValueAt(i, 3).toString();
+                    Participante p = new Participante(fechaTxt.getText(), clienteFacturaTxt.getText(), rucTxt.getText(), direccionTxt.getText(), telefonoTxt.getText(), cantidad, articulo, pUnitario, pTotal, subtotalTxt.getText(), ivat12Txt.getText(), totalTxt.getText(), ciudadTxt.getText());
+                    datasource.addParticipante(p);
+            }
+
+            //System.out.println("Imprimiendo..");
+            //custom title, warning icon
+            JFrame frame = new JFrame();
+            JOptionPane.showMessageDialog(frame,
+                        "Imprimiendo factura...",
+                        "Información", JOptionPane.WARNING_MESSAGE);
+                
+            try {
+                JasperReport reporte = (JasperReport) JRLoader.loadObject(filename);
+                JasperPrint jasperPrint = JasperFillManager.fillReport(reporte, null,datasource);
+                JasperViewer jv = new JasperViewer(jasperPrint, false);
+                jv.setVisible(true);
+
+            } catch (Exception e) {
+                //System.out.println(e);
+            }
+        }
+    }//GEN-LAST:event_imprimirFacturaButtonActionPerformed
+
+    private void copiaBDButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_copiaBDButtonActionPerformed
+        // TODO add your handling code here:
+        //LINUX
+        String filename = System.getProperty("user.home") + "/jContab/";
+        //WINDOWS
+        //String filename = File.separator + "D:\\HC9\\";
+
+        Calendar c = Calendar.getInstance();
+        int day = c.get(Calendar.DATE);
+        int month = c.get(Calendar.MONTH) + 1;
+        int year = c.get(Calendar.YEAR);
+        String fecha = String.valueOf(year)+"_"+String.valueOf(month)+"_"+String.valueOf(day);
+
+        JFileChooser chooser = new JFileChooser();
+        File f = new File( filename + fecha + "_jContab_empresa_bckup.sql");
+        FileFilter jpegFilter = new FileNameExtensionFilter(null, new String[] { "sql"});
+
+        chooser.addChoosableFileFilter(jpegFilter);
+        chooser.setSelectedFile(f);
+        chooser.showSaveDialog(null);
+        File curFile = chooser.getSelectedFile();
+
+        //LINUX
+        //String command= "mysqldump --opt --user=root --password=treky5 --host=localhost historias_clinicas -r copia-seguridad.sql";
+        String command= "mysqldump --opt --user=root --password=treky5 --host=localhost empresa -r "+ String.valueOf(curFile);
+
+        //WINDOWS
+        //String command= "D:/Archivos de programa/MySQL/MySQL Server 5.1/bin/mysqldump --opt --user=root --password=treky5 --host=localhost historias_clinicas -r C:/copia-seguridad.sql";
+        //String command= "C:/Program Files/MySQL/MySQL Server 5.1/bin/mysqldump --opt --user=root --password=treky5 --host=localhost historias_clinicas -r "+ String.valueOf(curFile);
+
+        String line;
+        try{
+            java.lang.Process proc = Runtime.getRuntime().exec(command);
+            BufferedReader input = new BufferedReader(new InputStreamReader(proc.getErrorStream()));
+            while ((line = input.readLine()) != null) {
+                System.out.println(line);
+            }
+            input.close();
+            int retVal = proc.waitFor();
+            System.out.println(retVal);
+            proc.destroy(); //beta
+            if (retVal == 0){
+                JOptionPane.showMessageDialog(null, "Copia de seguridad realizada ...");
+            }
+
+        } catch(Exception e){
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error al guardar base de datos! ...");
+        }
+    }//GEN-LAST:event_copiaBDButtonActionPerformed
+
+    private void resturaBDButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resturaBDButtonActionPerformed
+        // TODO add your handling code here:
+        //Necesita password de super usuario
+        JPasswordField jpf = new JPasswordField();
+        JOptionPane.showConfirmDialog(null, jpf, "Código Super Usuario", JOptionPane.OK_CANCEL_OPTION);
+        // jpf.getPassword();
+        char[] input = jpf.getPassword();
+        char[] correctPassword = { '1','2'};
+        boolean isCorrect = true;
+        isCorrect = Arrays.equals(input, correctPassword);
+        if(isCorrect){
+
+            //LINUX
+            String filename = System.getProperty("user.home") + "/jContab/";
+
+            //WINDOWS
+            //String filename = File.separator + "D:\\HC9\\";
+
+            Calendar c = Calendar.getInstance();
+            int day = c.get(Calendar.DATE);
+            int month = c.get(Calendar.MONTH) + 1;
+            int year = c.get(Calendar.YEAR);
+            String fecha = String.valueOf(year)+"_"+String.valueOf(month)+"_"+String.valueOf(day);
+
+            JFileChooser chooser = new JFileChooser();
+            File f = new File( filename + fecha + "_jContab_empresa_bckup.sql");
+            FileFilter jpegFilter = new FileNameExtensionFilter(null, new String[] { "sql"});
+            chooser.addChoosableFileFilter(jpegFilter);
+            chooser.setSelectedFile(f);
+            chooser.showOpenDialog(null);
+            File curFile = chooser.getSelectedFile();
+
+            int processComplete;
+            //String command= "mysqldump --opt --user=root --password=treky5 --host=localhost historias_clinicas -r copia-seguridad.sql";
+            try {
+                //LINUX
+                //String[] executeCmd = new String[]{"mysql", "historias_clinicas", "--user=" + "root", "--password=" + "treky5", "-e", " source /home/jacg/NetBeansProjects/ListaBaseDatos/copia-seguridad.sql" };
+                //String[] executeCmd = new String[]{"mysql", "ClinicManagerPediatria", "--user=" + "root", "--password=" + "treky5", "-e", " source " + curFile };
+                String[] executeCmd = new String[]{"mysql", "empresa", "--user=" + "root", "--password=" + "treky5", "-e", " source " + curFile };
+
+                //WINDOWS
+                //String[] executeCmd = new String[]{"C:/Program Files/MySQL/MySQL Server 5.1/bin/mysql", "historias_clinicas", "--user=" + "root", "--password=" + "treky5", "-e", " source " + curFile };
+
+
+                java.lang.Process runtimeProcess = Runtime.getRuntime().exec(executeCmd);
+                processComplete = runtimeProcess.waitFor();
+                int pc = processComplete;
+                System.out.print(processComplete);
+                runtimeProcess.destroy();
+                
+                leerClientes("Cliente","");
+                actualizaListaClientesTablaAnchos();
+                leerArticulos("");
+                actualizaListaArticulosTablaAnchos();
+                leerClientesFactura("Cliente","","");
+                actualizaListaFacturasClientesTablaAnchos();
+
+                JOptionPane.showMessageDialog(null, "Restauracion exitosa ...");
+   
+
+            }catch(Exception e){
+                JOptionPane.showMessageDialog(null, "Error no se actualizo la DB: " + e.getMessage(), "Verificar",JOptionPane.ERROR_MESSAGE);
+                e.printStackTrace();
+            }
+        }else{
+                //custom title, warning icon
+                JFrame frame = new JFrame();
+                JOptionPane.showMessageDialog(frame,
+                        "Base de datos no restaurada",
+                        "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_resturaBDButtonActionPerformed
   
+    
+    /*
+     * Actualizar datos de articulos en la base de datos
+     */
+    void actualizarFichaArticulo(){
+        //custom title, warning icon
+        JOptionPane.showMessageDialog(new JFrame(),
+                  "Debe cargar nueva foto, o buscar copia.jpg",
+                  "Información", JOptionPane.WARNING_MESSAGE);
+        cargaImagen();
+        if(flagDriver == 1){
+            conectarBD(baseDatos);
+            try {
+                    pstatement = connection.prepareStatement(
+                    "UPDATE articulos SET descripcion = ?, fecha = ?,"
+                    + "stock = ?, PVenta=?, proveedor = ?, pcoste = ?,"
+                    + "beneficio = ?, pvp = ?, imagen = ? WHERE codarticulo = ?");
+
+                    pstatement.setString(1, detalleArticuloTxt.getText());
+                    pstatement.setString(2, FechaIngresoArticuloTxt.getText());
+                    pstatement.setString(3, stockTxt.getText());
+                    pstatement.setString(4, precioVentaTxt.getText());
+                    pstatement.setString(5, proveedorTxt.getText());
+                    pstatement.setString(6, precioCosteTxt.getText());
+                    pstatement.setString(7, beneficioTxt.getText());
+                    pstatement.setString(8, precioFinalTxt.getText());
+
+                    File imagen = new File(fila);
+                    FileInputStream fis = new FileInputStream(imagen);
+
+                
+                    pstatement.setBinaryStream(9, fis, (int)imagen.length());
+                    pstatement.setInt(10, Integer.parseInt(idArticuloTxt.getText()));
+                    int actualizar = pstatement.executeUpdate();
+                    
+                    System.out.println("Resultado: " +actualizar);
+                    fis.close();
+                    pstatement.close();
+                    connection.close();
+
+                //custom title, warning icon
+                JFrame frame = new JFrame();
+                JOptionPane.showMessageDialog(frame,
+                        "Ficha artículo actualizado",
+                        "Información", JOptionPane.WARNING_MESSAGE);
+                flagSaveFichaArticulo = 1; //actualizar
+
+            } catch (Exception e) {
+                System.out.println("ERROR: "+e);
+            }
+        }
+    }
+
+    
+    /*
+     * GUARDAR FICHA CLIENTES NUEVA
+     */
+    void guardarFichaArticuloBD(){
+        //si esta presente driver guarda informacion
+        if(flagDriver == 1){
+            conectarBD(baseDatos);
+            try {
+                pstatement = connection.prepareStatement(
+                        "INSERT INTO articulos VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+
+                pstatement.setString(1, null);
+                pstatement.setString(2, detalleArticuloTxt.getText());
+                pstatement.setString(3, stockTxt.getText());
+                pstatement.setString(4, precioVentaTxt.getText());
+                pstatement.setString(5, ivat12Txt.getText());
+                pstatement.setString(6, precioFinalTxt.getText());
+                pstatement.setString(7, "");
+                pstatement.setString(8, proveedorTxt.getText());
+                pstatement.setString(9, precioCosteTxt.getText());
+                pstatement.setString(10, beneficioTxt.getText());
+
+                File imagen = new File(fila);
+                FileInputStream fis = new FileInputStream(imagen);
+                pstatement.setBinaryStream(11, fis, (int)imagen.length());
+                pstatement.setString(12, FechaIngresoArticuloTxt.getText());
+                
+                pstatement.execute();
+                pstatement.close();
+                connection.close();
+                fis.close();
+                //custom title, warning icon
+                JOptionPane.showMessageDialog(new JFrame(),
+                        "Artículo guardado",
+                        "Información", JOptionPane.WARNING_MESSAGE);
+                flagSaveFichaArticulo = 1; //guardado y listo para actualizar
+                int temp2 = temp + 1; //actualiza id
+
+                //ESCRIVE ARCHIVO CONFIGURACION
+                /*
+                try {
+                    FileWriter fw = new FileWriter("codart.config");
+                    BufferedWriter bw = new BufferedWriter(fw);
+                    PrintWriter salida = new PrintWriter(bw);
+                    salida.print(temp2);
+                    salida.close();
+                } catch (Exception e) {
+                    System.out.println("Error escritura codart.config: "+e);
+                    //custom title, warning icon
+                        JOptionPane.showMessageDialog(new JFrame(),
+                                "Error escritura codart.config, pongase en contacto con arcusmedical.soporte@gmail.com",
+                                "Error", JOptionPane.ERROR_MESSAGE);
+                }
+                 *
+                 */
+            } catch (Exception e) {
+                System.out.println("Error: "+ e);
+                JFrame frame = new JFrame();
+                JOptionPane.showMessageDialog(frame,
+                        "Articulo no se guardo",
+                        "Error - 9", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+
+    
+    
+    /*
+     * BORRAR FICHA ARTICULO
+     */
+    public void borrarFichaArticulo(){
+        if(flagDriver == 1){
+            //PROCEDE A BORRAR FICHA DEL ARTICULO
+            conectarBD(baseDatos);
+            try {
+                statement = connection.createStatement();
+                int borrar = statement.executeUpdate("DELETE FROM articulos WHERE codarticulo=" + Integer.parseInt(idArticuloTxt.getText()));
+                statement.close();
+                connection.close();
+
+                JFrame frame = new JFrame();
+                JOptionPane.showMessageDialog(frame,
+                        "Articulo borrado",
+                        "Información", JOptionPane.INFORMATION_MESSAGE);
+            } catch (Exception e) {
+                JFrame frame = new JFrame();
+                JOptionPane.showMessageDialog(frame,
+                        "No se borro articulo",
+                        "Error - 8", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+
     
     /*
      * Borrar factura de la base de datos
@@ -3296,6 +3704,7 @@ public final class Contab extends javax.swing.JFrame {
     private javax.swing.JTextField cobradoTxt2;
     private javax.swing.JTextField cobradoTxt4;
     private javax.swing.JButton cobrarFacturaButton1;
+    private javax.swing.JButton copiaBDButton;
     private javax.swing.JButton crearFacturaClienteButton;
     public javax.swing.JTextArea detalleArticuloTxt;
     private javax.swing.JTextField direccionClienteTxt;
@@ -3315,15 +3724,13 @@ public final class Contab extends javax.swing.JFrame {
     public javax.swing.JTextField idArticuloTxt;
     private javax.swing.JTextField idClienteTxt;
     private javax.swing.JTextField idFacturaTxt;
+    private javax.swing.JButton imprimirFacturaButton;
     private javax.swing.JTextField ivaPorTxt;
     private javax.swing.JTextField ivaTxt;
     private javax.swing.JTextField ivaTxt1;
     private javax.swing.JTextField ivabaseTxt;
     private javax.swing.JTextField ivat12Txt;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton8;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -3457,6 +3864,7 @@ public final class Contab extends javax.swing.JFrame {
     public javax.swing.JTextField proveedorTxt;
     private javax.swing.JTextField recividoTxt;
     private javax.swing.JTextField recividoTxt1;
+    private javax.swing.JButton resturaBDButton;
     private javax.swing.JTextField retencionTxt;
     private javax.swing.JTextField rucTxt;
     public javax.swing.JTextField stockTxt;
