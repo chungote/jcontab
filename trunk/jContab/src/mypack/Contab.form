@@ -89,7 +89,7 @@
         </Component>
         <Component class="javax.swing.JToolBar$Separator" name="jSeparator6">
         </Component>
-        <Component class="javax.swing.JButton" name="jButton1">
+        <Component class="javax.swing.JButton" name="copiaBDButton">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/mypack/media-floppy.png"/>
@@ -99,8 +99,11 @@
             <Property name="horizontalTextPosition" type="int" value="0"/>
             <Property name="verticalTextPosition" type="int" value="3"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="copiaBDButtonActionPerformed"/>
+          </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="jButton2">
+        <Component class="javax.swing.JButton" name="resturaBDButton">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/mypack/document-export-table.png"/>
@@ -110,6 +113,9 @@
             <Property name="horizontalTextPosition" type="int" value="0"/>
             <Property name="verticalTextPosition" type="int" value="3"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="resturaBDButtonActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="jButton3">
           <Properties>
@@ -473,13 +479,16 @@
                 </Component>
                 <Component class="javax.swing.JButton" name="nuevoClienteButton">
                   <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Dialog" size="10" style="1"/>
+                    </Property>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                       <Image iconType="3" name="/mypack/list-add.png"/>
                     </Property>
+                    <Property name="text" type="java.lang.String" value="Nuevo"/>
                     <Property name="toolTipText" type="java.lang.String" value="Nuevo cliente"/>
                     <Property name="focusable" type="boolean" value="false"/>
-                    <Property name="horizontalTextPosition" type="int" value="0"/>
-                    <Property name="verticalTextPosition" type="int" value="3"/>
+                    <Property name="horizontalTextPosition" type="int" value="4"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="nuevoClienteButtonActionPerformed"/>
@@ -487,13 +496,16 @@
                 </Component>
                 <Component class="javax.swing.JButton" name="borrarFichaClienteButton">
                   <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Dialog" size="10" style="1"/>
+                    </Property>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                       <Image iconType="3" name="/mypack/list-remove.png"/>
                     </Property>
+                    <Property name="text" type="java.lang.String" value="Borrar"/>
                     <Property name="toolTipText" type="java.lang.String" value="Borrar cliente"/>
                     <Property name="focusable" type="boolean" value="false"/>
-                    <Property name="horizontalTextPosition" type="int" value="0"/>
-                    <Property name="verticalTextPosition" type="int" value="3"/>
+                    <Property name="horizontalTextPosition" type="int" value="4"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="borrarFichaClienteButtonActionPerformed"/>
@@ -501,13 +513,16 @@
                 </Component>
                 <Component class="javax.swing.JButton" name="guardarClienteButton">
                   <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Dialog" size="10" style="1"/>
+                    </Property>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                       <Image iconType="3" name="/mypack/document-save.png"/>
                     </Property>
+                    <Property name="text" type="java.lang.String" value="Guardar"/>
                     <Property name="toolTipText" type="java.lang.String" value="Guardar cliente"/>
                     <Property name="focusable" type="boolean" value="false"/>
-                    <Property name="horizontalTextPosition" type="int" value="0"/>
-                    <Property name="verticalTextPosition" type="int" value="3"/>
+                    <Property name="horizontalTextPosition" type="int" value="4"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="guardarClienteButtonActionPerformed"/>
@@ -524,13 +539,16 @@
                     <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                       <Color blue="33" green="ff" red="ff" type="rgb"/>
                     </Property>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Dialog" size="10" style="1"/>
+                    </Property>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                       <Image iconType="3" name="/mypack/view-file-columns.png"/>
                     </Property>
+                    <Property name="text" type="java.lang.String" value="Factura"/>
                     <Property name="toolTipText" type="java.lang.String" value="Crear factura"/>
                     <Property name="focusable" type="boolean" value="false"/>
-                    <Property name="horizontalTextPosition" type="int" value="0"/>
-                    <Property name="verticalTextPosition" type="int" value="3"/>
+                    <Property name="horizontalTextPosition" type="int" value="4"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="crearFacturaClienteButtonActionPerformed"/>
@@ -933,6 +951,7 @@
                 </Component>
                 <Component class="javax.swing.JTextField" name="ciudadTxt">
                   <Properties>
+                    <Property name="editable" type="boolean" value="false"/>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Dialog" size="10" style="0"/>
                     </Property>
@@ -940,6 +959,7 @@
                 </Component>
                 <Component class="javax.swing.JTextField" name="telefonoTxt">
                   <Properties>
+                    <Property name="editable" type="boolean" value="false"/>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Dialog" size="10" style="0"/>
                     </Property>
@@ -1312,13 +1332,16 @@
                 </Component>
                 <Component class="javax.swing.JButton" name="nuevaFacturaButton">
                   <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Dialog" size="10" style="1"/>
+                    </Property>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                       <Image iconType="3" name="/mypack/list-add.png"/>
                     </Property>
+                    <Property name="text" type="java.lang.String" value="Nueva"/>
                     <Property name="toolTipText" type="java.lang.String" value="Nueva factura"/>
                     <Property name="focusable" type="boolean" value="false"/>
-                    <Property name="horizontalTextPosition" type="int" value="0"/>
-                    <Property name="verticalTextPosition" type="int" value="3"/>
+                    <Property name="horizontalTextPosition" type="int" value="4"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="nuevaFacturaButtonActionPerformed"/>
@@ -1326,13 +1349,16 @@
                 </Component>
                 <Component class="javax.swing.JButton" name="borrarFacturaClienteButton">
                   <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Dialog" size="10" style="1"/>
+                    </Property>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                       <Image iconType="3" name="/mypack/list-remove.png"/>
                     </Property>
+                    <Property name="text" type="java.lang.String" value="Borrar"/>
                     <Property name="toolTipText" type="java.lang.String" value="Borrar factura"/>
                     <Property name="focusable" type="boolean" value="false"/>
-                    <Property name="horizontalTextPosition" type="int" value="0"/>
-                    <Property name="verticalTextPosition" type="int" value="3"/>
+                    <Property name="horizontalTextPosition" type="int" value="4"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="borrarFacturaClienteButtonActionPerformed"/>
@@ -1340,13 +1366,16 @@
                 </Component>
                 <Component class="javax.swing.JButton" name="guardarFacturaButton">
                   <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Dialog" size="10" style="1"/>
+                    </Property>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                       <Image iconType="3" name="/mypack/document-save.png"/>
                     </Property>
+                    <Property name="text" type="java.lang.String" value="Guardar"/>
                     <Property name="toolTipText" type="java.lang.String" value="Guardar factura"/>
                     <Property name="focusable" type="boolean" value="false"/>
-                    <Property name="horizontalTextPosition" type="int" value="0"/>
-                    <Property name="verticalTextPosition" type="int" value="3"/>
+                    <Property name="horizontalTextPosition" type="int" value="4"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="guardarFacturaButtonActionPerformed"/>
@@ -1364,13 +1393,16 @@
                 </Component>
                 <Component class="javax.swing.JButton" name="agregarArticuloButton">
                   <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Dialog" size="10" style="1"/>
+                    </Property>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                       <Image iconType="3" name="/mypack/insert-table.png"/>
                     </Property>
+                    <Property name="text" type="java.lang.String" value="Add"/>
                     <Property name="toolTipText" type="java.lang.String" value="Agregar un art&#xed;culo a la factura"/>
                     <Property name="focusable" type="boolean" value="false"/>
-                    <Property name="horizontalTextPosition" type="int" value="0"/>
-                    <Property name="verticalTextPosition" type="int" value="3"/>
+                    <Property name="horizontalTextPosition" type="int" value="4"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="agregarArticuloButtonActionPerformed"/>
@@ -1378,13 +1410,16 @@
                 </Component>
                 <Component class="javax.swing.JButton" name="eliminarArticuloButton">
                   <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Dialog" size="10" style="1"/>
+                    </Property>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                       <Image iconType="3" name="/mypack/edit-table-delete-row.png"/>
                     </Property>
+                    <Property name="text" type="java.lang.String" value="Del"/>
                     <Property name="toolTipText" type="java.lang.String" value="Borrar un art&#xed;culo de la factura"/>
                     <Property name="focusable" type="boolean" value="false"/>
-                    <Property name="horizontalTextPosition" type="int" value="0"/>
-                    <Property name="verticalTextPosition" type="int" value="3"/>
+                    <Property name="horizontalTextPosition" type="int" value="4"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="eliminarArticuloButtonActionPerformed"/>
@@ -1413,13 +1448,16 @@
                     <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                       <Color blue="33" green="ff" red="ff" type="rgb"/>
                     </Property>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Dialog" size="10" style="1"/>
+                    </Property>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                       <Image iconType="3" name="/mypack/accessories-calculator.png"/>
                     </Property>
+                    <Property name="text" type="java.lang.String" value="Calc"/>
                     <Property name="toolTipText" type="java.lang.String" value="Computar factura"/>
                     <Property name="focusable" type="boolean" value="false"/>
-                    <Property name="horizontalTextPosition" type="int" value="0"/>
-                    <Property name="verticalTextPosition" type="int" value="3"/>
+                    <Property name="horizontalTextPosition" type="int" value="4"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="calucularFacturaButtonActionPerformed"/>
@@ -1431,16 +1469,22 @@
                 </Component>
                 <Component class="javax.swing.JToolBar$Separator" name="jSeparator16">
                 </Component>
-                <Component class="javax.swing.JButton" name="jButton8">
+                <Component class="javax.swing.JButton" name="imprimirFacturaButton">
                   <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Dialog" size="10" style="1"/>
+                    </Property>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                       <Image iconType="3" name="/mypack/printer.png"/>
                     </Property>
+                    <Property name="text" type="java.lang.String" value="Imprimir"/>
                     <Property name="toolTipText" type="java.lang.String" value="Imprimir factura"/>
                     <Property name="focusable" type="boolean" value="false"/>
-                    <Property name="horizontalTextPosition" type="int" value="0"/>
-                    <Property name="verticalTextPosition" type="int" value="3"/>
+                    <Property name="horizontalTextPosition" type="int" value="4"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="imprimirFacturaButtonActionPerformed"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>
@@ -2148,13 +2192,16 @@
                 </Component>
                 <Component class="javax.swing.JButton" name="nuevoArticuloButton">
                   <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Dialog" size="10" style="1"/>
+                    </Property>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                       <Image iconType="3" name="/mypack/list-add.png"/>
                     </Property>
+                    <Property name="text" type="java.lang.String" value="Nuevo"/>
                     <Property name="toolTipText" type="java.lang.String" value="Nuevo art&#xed;culo"/>
                     <Property name="focusable" type="boolean" value="false"/>
-                    <Property name="horizontalTextPosition" type="int" value="0"/>
-                    <Property name="verticalTextPosition" type="int" value="3"/>
+                    <Property name="horizontalTextPosition" type="int" value="4"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="nuevoArticuloButtonActionPerformed"/>
@@ -2162,25 +2209,37 @@
                 </Component>
                 <Component class="javax.swing.JButton" name="borrarFichaArticuloButton">
                   <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Dialog" size="10" style="1"/>
+                    </Property>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                       <Image iconType="3" name="/mypack/list-remove.png"/>
                     </Property>
+                    <Property name="text" type="java.lang.String" value="Borrar"/>
                     <Property name="toolTipText" type="java.lang.String" value="Eliminar art&#xed;culo"/>
                     <Property name="focusable" type="boolean" value="false"/>
-                    <Property name="horizontalTextPosition" type="int" value="0"/>
-                    <Property name="verticalTextPosition" type="int" value="3"/>
+                    <Property name="horizontalTextPosition" type="int" value="4"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="borrarFichaArticuloButtonActionPerformed"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JButton" name="guardarArticuloButton">
                   <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Dialog" size="10" style="1"/>
+                    </Property>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                       <Image iconType="3" name="/mypack/document-save.png"/>
                     </Property>
+                    <Property name="text" type="java.lang.String" value="Guardar"/>
                     <Property name="toolTipText" type="java.lang.String" value="Guardar articulo"/>
                     <Property name="focusable" type="boolean" value="false"/>
-                    <Property name="horizontalTextPosition" type="int" value="0"/>
-                    <Property name="verticalTextPosition" type="int" value="3"/>
+                    <Property name="horizontalTextPosition" type="int" value="4"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="guardarArticuloButtonActionPerformed"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JToolBar$Separator" name="jSeparator39">
                 </Component>
