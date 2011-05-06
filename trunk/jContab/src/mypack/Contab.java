@@ -874,7 +874,7 @@ public final class Contab extends javax.swing.JFrame {
         jToolBar4 = new javax.swing.JToolBar();
         jSeparator17 = new javax.swing.JToolBar.Separator();
         nuevaFacturaButton = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        borrarFacturaClienteButton = new javax.swing.JButton();
         guardarFacturaButton = new javax.swing.JButton();
         jSeparator10 = new javax.swing.JToolBar.Separator();
         jSeparator11 = new javax.swing.JToolBar.Separator();
@@ -1674,12 +1674,17 @@ public final class Contab extends javax.swing.JFrame {
         });
         jToolBar4.add(nuevaFacturaButton);
 
-        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mypack/list-remove.png"))); // NOI18N
-        jButton4.setToolTipText("Borrar factura");
-        jButton4.setFocusable(false);
-        jButton4.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton4.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jToolBar4.add(jButton4);
+        borrarFacturaClienteButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mypack/list-remove.png"))); // NOI18N
+        borrarFacturaClienteButton.setToolTipText("Borrar factura");
+        borrarFacturaClienteButton.setFocusable(false);
+        borrarFacturaClienteButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        borrarFacturaClienteButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        borrarFacturaClienteButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                borrarFacturaClienteButtonActionPerformed(evt);
+            }
+        });
+        jToolBar4.add(borrarFacturaClienteButton);
 
         guardarFacturaButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mypack/document-save.png"))); // NOI18N
         guardarFacturaButton.setToolTipText("Guardar factura");
@@ -2881,6 +2886,8 @@ public final class Contab extends javax.swing.JFrame {
             //chequea si hay escrito los datos, si hay? guarda
             if((!fechaTxt.getText().isEmpty()) && !numeroSerieTxt.getText().isEmpty()){
                 guardarFichaFacturaClienteBD(); //guarda ficha cliente en base datos
+                leerClientesFactura("Cliente", "", "");
+                actualizaListaFacturasClientesTablaAnchos();
             }else{
                 //custom title, warning icon
                 JFrame frame = new JFrame();
@@ -2903,7 +2910,72 @@ public final class Contab extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_guardarFacturaButtonActionPerformed
 
+    private void borrarFacturaClienteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_borrarFacturaClienteButtonActionPerformed
+        // TODO add your handling code here:
+        //Necesita password de super usuario
+        JPasswordField jpf = new JPasswordField();
+        JOptionPane.showConfirmDialog(null, jpf, "Password administrador: ", JOptionPane.OK_CANCEL_OPTION);
+        char[] input = jpf.getPassword();
+        char[] correctPassword = { '1','2'};
+        boolean isCorrect = true;
+        isCorrect = Arrays.equals(input, correctPassword);
+        if(isCorrect){
+            //Password Valido procede a borrar
+            if (!idFacturaTxt.getText().isEmpty()){
+                borrarFichaFactura();
+                limpiaFichaFactura();                         
+                facturaArticulosClienteTable.removeAll();
+                facturaArticulosClienteTable.updateUI();   
+                int cont = 0;
+                if(facturaArticulosClienteTable.getRowCount() != 0){
+                    do{
+                        model1.removeRow(facturaArticulosClienteTable.getRowCount()-1);
+                        facturaArticulosClienteTable.removeAll();
+                        facturaArticulosClienteTable.updateUI();
+                        facturaArticulosClienteTable.setModel(model1);
+                        actualizaTablaFacturaClienteAnchos();
+                        cont = model1.getRowCount();
+                    }while(cont != 0);
+                }
+                leerClientesFactura("Cliente", "", "");
+                actualizaListaFacturasClientesTablaAnchos();
+            }
+        }else{
+            JFrame frame = new JFrame();
+                JOptionPane.showMessageDialog(frame,
+                        "Error 1: al borrar, password no valido",
+                        "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_borrarFacturaClienteButtonActionPerformed
+  
     
+    /*
+     * Borrar factura de la base de datos
+     */
+    void borrarFichaFactura(){
+        if(flagDriver == 1){
+            //PROCEDE A BORRAR FICHA DEL ARTICULO
+            conectarBD(baseDatos);
+            try {
+
+                statement = connection.createStatement();
+                int borrar = statement.executeUpdate("DELETE FROM Facturas WHERE id=" + (String)idFacturaTxt.getText());
+                statement.close();
+                connection.close();
+
+                JFrame frame = new JFrame();
+                JOptionPane.showMessageDialog(frame,
+                        "Ficha de factura borrada",
+                        "Información", JOptionPane.INFORMATION_MESSAGE);
+            } catch (Exception e) {
+                JFrame frame = new JFrame();
+                JOptionPane.showMessageDialog(frame,
+                        "Error 2: al borrar ficha de factura",
+                        "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+
     /*
      * Actualizar datos de articulos en la base de datos
      */
@@ -3204,6 +3276,7 @@ public final class Contab extends javax.swing.JFrame {
     private javax.swing.JButton agregarArticuloAFacturaButton;
     private javax.swing.JButton agregarArticuloButton;
     public javax.swing.JTextField beneficioTxt;
+    private javax.swing.JButton borrarFacturaClienteButton;
     private javax.swing.JButton borrarFichaArticuloButton;
     private javax.swing.JButton borrarFichaClienteButton;
     private javax.swing.JTextField buscarArticuloTxt;
@@ -3250,7 +3323,6 @@ public final class Contab extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton8;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
