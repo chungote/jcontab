@@ -583,6 +583,11 @@ public final class Contab extends javax.swing.JFrame {
                     setBackground(new Color(153, 204, 255));
                 }
 
+                if (hasFocus) {
+                    // this cell is the anchor and the table has the focus
+                    setBackground(Color.GREEN);
+                }
+                
                 if(column == 1){
                     setHorizontalAlignment(JLabel.LEFT);
                     setFont(new Font("Dialog", Font.PLAIN, 12));
@@ -629,6 +634,10 @@ public final class Contab extends javax.swing.JFrame {
                     setBackground(new Color(153, 204, 255));
                 }
 
+                if (hasFocus) {
+                    // this cell is the anchor and the table has the focus
+                    setBackground(Color.GREEN);
+                }
                 if(column == 1){
                     setHorizontalAlignment(JLabel.CENTER);
                     setFont(new Font("Dialog", Font.PLAIN, 12));
@@ -695,6 +704,11 @@ public final class Contab extends javax.swing.JFrame {
                 //setBackground(Color.lightGray);
                 setBackground(new Color(153, 204, 255));
             }
+            
+            if (hasFocus) {
+                    // this cell is the anchor and the table has the focus
+                    setBackground(Color.GREEN);
+            }
             setFont(new Font("Dialog", Font.PLAIN, 12));
             setText((String)obj);
 
@@ -739,6 +753,10 @@ public final class Contab extends javax.swing.JFrame {
                 setBackground(new Color(153, 204, 255));
             }
             
+            if (hasFocus) {
+                    // this cell is the anchor and the table has the focus
+                    setBackground(Color.GREEN);
+            }
             if(value.toString().equals("true")){
                 //setBackground(new Color(153, 204, 255));
                 setSelected(true);
@@ -904,6 +922,15 @@ public final class Contab extends javax.swing.JFrame {
         ivaTxt1 = new javax.swing.JTextField();
         cobrarFacturaButton1 = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
+        jToolBar8 = new javax.swing.JToolBar();
+        jSeparator49 = new javax.swing.JToolBar.Separator();
+        jSeparator50 = new javax.swing.JToolBar.Separator();
+        jLabel37 = new javax.swing.JLabel();
+        buscarProveedorTxt = new javax.swing.JTextField();
+        clearBusquedaTxt1 = new javax.swing.JButton();
+        jSeparator51 = new javax.swing.JToolBar.Separator();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        proveedoresTable = new javax.swing.JTable();
         jPanel4 = new javax.swing.JPanel();
         jPanel8 = new javax.swing.JPanel();
         jToolBar5 = new javax.swing.JToolBar();
@@ -1183,7 +1210,7 @@ public final class Contab extends javax.swing.JFrame {
         jToolBar7.setRollover(true);
         jToolBar7.add(jSeparator45);
 
-        nuevoClienteButton.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
+        nuevoClienteButton.setFont(new java.awt.Font("Dialog", 1, 10));
         nuevoClienteButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mypack/list-add.png"))); // NOI18N
         nuevoClienteButton.setText("Nuevo");
         nuevoClienteButton.setToolTipText("Nuevo cliente");
@@ -1196,7 +1223,7 @@ public final class Contab extends javax.swing.JFrame {
         });
         jToolBar7.add(nuevoClienteButton);
 
-        borrarFichaClienteButton.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
+        borrarFichaClienteButton.setFont(new java.awt.Font("Dialog", 1, 10));
         borrarFichaClienteButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mypack/list-remove.png"))); // NOI18N
         borrarFichaClienteButton.setText("Borrar");
         borrarFichaClienteButton.setToolTipText("Borrar cliente");
@@ -1209,7 +1236,7 @@ public final class Contab extends javax.swing.JFrame {
         });
         jToolBar7.add(borrarFichaClienteButton);
 
-        guardarClienteButton.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
+        guardarClienteButton.setFont(new java.awt.Font("Dialog", 1, 10));
         guardarClienteButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mypack/document-save.png"))); // NOI18N
         guardarClienteButton.setText("Guardar");
         guardarClienteButton.setToolTipText("Guardar cliente");
@@ -1226,7 +1253,7 @@ public final class Contab extends javax.swing.JFrame {
         jToolBar7.add(jSeparator47);
 
         crearFacturaClienteButton.setBackground(new java.awt.Color(255, 255, 51));
-        crearFacturaClienteButton.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
+        crearFacturaClienteButton.setFont(new java.awt.Font("Dialog", 1, 10));
         crearFacturaClienteButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mypack/view-file-columns.png"))); // NOI18N
         crearFacturaClienteButton.setText("Factura");
         crearFacturaClienteButton.setToolTipText("Crear factura");
@@ -1305,7 +1332,7 @@ public final class Contab extends javax.swing.JFrame {
         fechaTxt.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         ciudadTxt.setEditable(false);
-        ciudadTxt.setFont(new java.awt.Font("Dialog", 0, 10)); // NOI18N
+        ciudadTxt.setFont(new java.awt.Font("Dialog", 0, 10));
 
         telefonoTxt.setEditable(false);
         telefonoTxt.setFont(new java.awt.Font("Dialog", 0, 10));
@@ -1674,7 +1701,7 @@ public final class Contab extends javax.swing.JFrame {
         jToolBar4.setRollover(true);
         jToolBar4.add(jSeparator17);
 
-        nuevaFacturaButton.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
+        nuevaFacturaButton.setFont(new java.awt.Font("Dialog", 1, 10));
         nuevaFacturaButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mypack/list-add.png"))); // NOI18N
         nuevaFacturaButton.setText("Nueva");
         nuevaFacturaButton.setToolTipText("Nueva factura");
@@ -1687,7 +1714,7 @@ public final class Contab extends javax.swing.JFrame {
         });
         jToolBar4.add(nuevaFacturaButton);
 
-        borrarFacturaClienteButton.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
+        borrarFacturaClienteButton.setFont(new java.awt.Font("Dialog", 1, 10));
         borrarFacturaClienteButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mypack/list-remove.png"))); // NOI18N
         borrarFacturaClienteButton.setText("Borrar");
         borrarFacturaClienteButton.setToolTipText("Borrar factura");
@@ -1700,7 +1727,7 @@ public final class Contab extends javax.swing.JFrame {
         });
         jToolBar4.add(borrarFacturaClienteButton);
 
-        guardarFacturaButton.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
+        guardarFacturaButton.setFont(new java.awt.Font("Dialog", 1, 10));
         guardarFacturaButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mypack/document-save.png"))); // NOI18N
         guardarFacturaButton.setText("Guardar");
         guardarFacturaButton.setToolTipText("Guardar factura");
@@ -1718,7 +1745,7 @@ public final class Contab extends javax.swing.JFrame {
         jToolBar4.add(jSeparator8);
         jToolBar4.add(jSeparator7);
 
-        agregarArticuloButton.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
+        agregarArticuloButton.setFont(new java.awt.Font("Dialog", 1, 10));
         agregarArticuloButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mypack/insert-table.png"))); // NOI18N
         agregarArticuloButton.setText("Add");
         agregarArticuloButton.setToolTipText("Agregar un artículo a la factura");
@@ -1731,7 +1758,7 @@ public final class Contab extends javax.swing.JFrame {
         });
         jToolBar4.add(agregarArticuloButton);
 
-        eliminarArticuloButton.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
+        eliminarArticuloButton.setFont(new java.awt.Font("Dialog", 1, 10));
         eliminarArticuloButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mypack/edit-table-delete-row.png"))); // NOI18N
         eliminarArticuloButton.setText("Del");
         eliminarArticuloButton.setToolTipText("Borrar un artículo de la factura");
@@ -1754,7 +1781,7 @@ public final class Contab extends javax.swing.JFrame {
         jToolBar4.add(jSeparator30);
 
         calucularFacturaButton.setBackground(new java.awt.Color(255, 255, 51));
-        calucularFacturaButton.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
+        calucularFacturaButton.setFont(new java.awt.Font("Dialog", 1, 10));
         calucularFacturaButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mypack/accessories-calculator.png"))); // NOI18N
         calucularFacturaButton.setText("Calc");
         calucularFacturaButton.setToolTipText("Computar factura");
@@ -1770,7 +1797,7 @@ public final class Contab extends javax.swing.JFrame {
         jToolBar4.add(jSeparator14);
         jToolBar4.add(jSeparator16);
 
-        imprimirFacturaButton.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
+        imprimirFacturaButton.setFont(new java.awt.Font("Dialog", 1, 10));
         imprimirFacturaButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mypack/printer.png"))); // NOI18N
         imprimirFacturaButton.setText("Imprimir");
         imprimirFacturaButton.setToolTipText("Imprimir factura");
@@ -1922,15 +1949,68 @@ public final class Contab extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Facturas venta", new javax.swing.ImageIcon(getClass().getResource("/mypack/view-file-columns.png")), jPanel2); // NOI18N
 
+        jToolBar8.setFloatable(false);
+        jToolBar8.setRollover(true);
+        jToolBar8.setBorderPainted(false);
+        jToolBar8.add(jSeparator49);
+        jToolBar8.add(jSeparator50);
+
+        jLabel37.setText("Buscar proveedor:");
+        jToolBar8.add(jLabel37);
+
+        buscarProveedorTxt.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
+        buscarProveedorTxt.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                buscarProveedorTxtCaretUpdate(evt);
+            }
+        });
+        jToolBar8.add(buscarProveedorTxt);
+
+        clearBusquedaTxt1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mypack/edit-clear-locationbar-rtl.png"))); // NOI18N
+        clearBusquedaTxt1.setToolTipText("Limpiar busqueda");
+        clearBusquedaTxt1.setFocusable(false);
+        clearBusquedaTxt1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        clearBusquedaTxt1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        clearBusquedaTxt1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                clearBusquedaTxt1ActionPerformed(evt);
+            }
+        });
+        jToolBar8.add(clearBusquedaTxt1);
+        jToolBar8.add(jSeparator51);
+
+        proveedoresTable.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        proveedoresTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
+            },
+            new String [] {
+                "Id", "Cliente", "Teléfono", "R.U.C.", "Ciudad", "Dirección"
+            }
+        ));
+        proveedoresTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+        jScrollPane4.setViewportView(proveedoresTable);
+
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 762, Short.MAX_VALUE)
+            .addComponent(jToolBar8, javax.swing.GroupLayout.DEFAULT_SIZE, 762, Short.MAX_VALUE)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addGap(12, 12, 12)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 738, Short.MAX_VALUE)
+                .addGap(12, 12, 12))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 604, Short.MAX_VALUE)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addComponent(jToolBar8, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(320, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Proveedores", new javax.swing.ImageIcon(getClass().getResource("/mypack/meeting-participant.png")), jPanel6); // NOI18N
@@ -2200,7 +2280,7 @@ public final class Contab extends javax.swing.JFrame {
         jToolBar6.setRollover(true);
         jToolBar6.add(jSeparator38);
 
-        nuevoArticuloButton.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
+        nuevoArticuloButton.setFont(new java.awt.Font("Dialog", 1, 10));
         nuevoArticuloButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mypack/list-add.png"))); // NOI18N
         nuevoArticuloButton.setText("Nuevo");
         nuevoArticuloButton.setToolTipText("Nuevo artículo");
@@ -2213,7 +2293,7 @@ public final class Contab extends javax.swing.JFrame {
         });
         jToolBar6.add(nuevoArticuloButton);
 
-        borrarFichaArticuloButton.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
+        borrarFichaArticuloButton.setFont(new java.awt.Font("Dialog", 1, 10));
         borrarFichaArticuloButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mypack/list-remove.png"))); // NOI18N
         borrarFichaArticuloButton.setText("Borrar");
         borrarFichaArticuloButton.setToolTipText("Eliminar artículo");
@@ -2226,7 +2306,7 @@ public final class Contab extends javax.swing.JFrame {
         });
         jToolBar6.add(borrarFichaArticuloButton);
 
-        guardarArticuloButton.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
+        guardarArticuloButton.setFont(new java.awt.Font("Dialog", 1, 10));
         guardarArticuloButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mypack/document-save.png"))); // NOI18N
         guardarArticuloButton.setText("Guardar");
         guardarArticuloButton.setToolTipText("Guardar articulo");
@@ -2245,7 +2325,7 @@ public final class Contab extends javax.swing.JFrame {
         jToolBar6.add(jSeparator43);
         jToolBar6.add(jSeparator44);
 
-        agregarArticuloAFacturaButton.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
+        agregarArticuloAFacturaButton.setFont(new java.awt.Font("Dialog", 1, 10));
         agregarArticuloAFacturaButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mypack/news-subscribe.png"))); // NOI18N
         agregarArticuloAFacturaButton.setText("factura");
         agregarArticuloAFacturaButton.setToolTipText("Agregar articulo a factura");
@@ -2361,7 +2441,6 @@ public final class Contab extends javax.swing.JFrame {
                                 "R.U.C.",
                                 "Telefono",
                                 "Ciudad"};
-        ArrayList data1 = new ArrayList();
         DefaultTableModel model = new DefaultTableModel(columnNames, 0);
 
         conectarBD(baseDatos);
@@ -3208,6 +3287,74 @@ public final class Contab extends javax.swing.JFrame {
                         "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_resturaBDButtonActionPerformed
+
+    private void buscarProveedorTxtCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_buscarProveedorTxtCaretUpdate
+        // TODO add your handling code here:
+        String buscar = buscarProveedorTxt.getText();
+        leerProveedorBD("Empresa", buscar);
+        actualizaTablaProveedoresAnchos();
+    }//GEN-LAST:event_buscarProveedorTxtCaretUpdate
+
+    /*
+     * Actualiza tabla
+     */
+    void actualizaTablaProveedoresAnchos(){
+        proveedoresTable.getColumnModel().getColumn(0).setPreferredWidth(80);
+        proveedoresTable.getColumnModel().getColumn(1).setPreferredWidth(220);
+        proveedoresTable.getColumnModel().getColumn(2).setPreferredWidth(120);
+        proveedoresTable.getColumnModel().getColumn(3).setPreferredWidth(138);
+        proveedoresTable.getColumnModel().getColumn(4).setPreferredWidth(180);
+                
+
+        proveedoresTable.setRowHeight(40);
+
+        proveedoresTable.getColumnModel().getColumn(0).setCellRenderer(new ColorTableCellRenderer());
+        proveedoresTable.getColumnModel().getColumn(1).setCellRenderer(new TextAreaRenderer());
+        proveedoresTable.getColumnModel().getColumn(2).setCellRenderer(new ColorTableCellRenderer());
+        proveedoresTable.getColumnModel().getColumn(3).setCellRenderer(new TextAreaRenderer());   
+        proveedoresTable.getColumnModel().getColumn(4).setCellRenderer(new TextAreaRenderer());   
+    }
+
+    
+    /*
+     * Lee base de datos leerToDB() de acuerdo a cierta busqueda
+     */
+    void leerProveedorBD(String findClave, String find){
+        proveedoresTable.removeAll();
+        proveedoresTable.updateUI();
+        String[] columnNames = {"Código",
+                                "Empresa",
+                                "Ciudad",
+                                "Contactos",
+                                "Telefono/s"};
+        DefaultTableModel model = new DefaultTableModel(columnNames, 0);
+        
+        if(flagDriver ==1){
+            conectarBD(baseDatos);
+            try {
+                statement = connection.createStatement();
+                rs = statement.executeQuery("SELECT * FROM Proveedores WHERE " + "Empresa" + " LIKE '%" + (String)find+"%'");
+                while(rs.next()){                    
+                    Object[] row = new Object[9];
+                    row[0] = rs.getObject("id");
+                    row[1] = rs.getObject("Empresa");
+                    row[2] = rs.getObject("Ciudad");
+                    row[3] = rs.getObject("Contacto");
+                    row[4] = rs.getObject("Telefono");
+                    model.addRow(row);
+                }
+                proveedoresTable.setModel(model);
+
+            } catch (Exception e) {
+                System.out.println("Error de lectura");
+                System.out.println(e);
+            }
+        }
+    }
+
+    private void clearBusquedaTxt1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearBusquedaTxt1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_clearBusquedaTxt1ActionPerformed
   
     
     /*
@@ -3692,12 +3839,14 @@ public final class Contab extends javax.swing.JFrame {
     private javax.swing.JTextField buscarClienteTxt;
     private javax.swing.JTextField buscarFacturaClienteTxt;
     private javax.swing.JTextField buscarFechaTxt;
+    private javax.swing.JTextField buscarProveedorTxt;
     private javax.swing.JButton calcularArticuloButton;
     private javax.swing.JButton calucularFacturaButton;
     private javax.swing.JTextField ciudadClienteTxt;
     private javax.swing.JTextField ciudadTxt;
     private javax.swing.JButton cleanFacturaButton;
     private javax.swing.JButton clearBusquedaTxt;
+    private javax.swing.JButton clearBusquedaTxt1;
     private javax.swing.JTextField clienteFacturaTxt;
     private javax.swing.JTextField clienteTxt;
     private javax.swing.JTable clientesTable;
@@ -3761,6 +3910,7 @@ public final class Contab extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel34;
     private javax.swing.JLabel jLabel35;
     private javax.swing.JLabel jLabel36;
+    private javax.swing.JLabel jLabel37;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel49;
     private javax.swing.JLabel jLabel5;
@@ -3792,6 +3942,7 @@ public final class Contab extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JToolBar.Separator jSeparator1;
@@ -3837,7 +3988,10 @@ public final class Contab extends javax.swing.JFrame {
     private javax.swing.JToolBar.Separator jSeparator46;
     private javax.swing.JToolBar.Separator jSeparator47;
     private javax.swing.JToolBar.Separator jSeparator48;
+    private javax.swing.JToolBar.Separator jSeparator49;
     private javax.swing.JToolBar.Separator jSeparator5;
+    private javax.swing.JToolBar.Separator jSeparator50;
+    private javax.swing.JToolBar.Separator jSeparator51;
     private javax.swing.JToolBar.Separator jSeparator6;
     private javax.swing.JToolBar.Separator jSeparator7;
     private javax.swing.JToolBar.Separator jSeparator8;
@@ -3850,6 +4004,7 @@ public final class Contab extends javax.swing.JFrame {
     private javax.swing.JToolBar jToolBar5;
     private javax.swing.JToolBar jToolBar6;
     private javax.swing.JToolBar jToolBar7;
+    private javax.swing.JToolBar jToolBar8;
     private javax.swing.JButton limpiarArticuloTxt;
     private javax.swing.JTable listaArticulosTabla;
     private javax.swing.JTable listaFacturaClientesTabla;
@@ -3862,6 +4017,7 @@ public final class Contab extends javax.swing.JFrame {
     public javax.swing.JTextField precioFinalTxt;
     public javax.swing.JTextField precioVentaTxt;
     public javax.swing.JTextField proveedorTxt;
+    private javax.swing.JTable proveedoresTable;
     private javax.swing.JTextField recividoTxt;
     private javax.swing.JTextField recividoTxt1;
     private javax.swing.JButton resturaBDButton;
