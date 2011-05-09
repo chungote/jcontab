@@ -95,6 +95,8 @@ public final class Contab extends javax.swing.JFrame {
     int flagSaveFichaArticulo = 0; // 0 no guardado 1 actualizar
     int flagSaveFichaCliente = 0; // 0 no guardado 1 actualizar
     int flagSaveFichaFacturaCliente = 0;
+    int flagSaveFichaProveedor = 0;   //actualiza datos
+    int flagSaveFacturaProveedor = 0;
     BufferedImage image = null;
     boolean is_Driver = false;
     String baseDatos = "jdbc:mysql://localhost:3306/empresa?"+"user=root&password=treky5";
@@ -145,16 +147,115 @@ public final class Contab extends javax.swing.JFrame {
         //*********************
         facturaArticulosClienteTable.removeAll();
         facturaArticulosClienteTable.updateUI();
-
-//        row1[0] = "";
-//        row1[1] = "";
-//        row1[2] = "";
-//        row1[3] = "";
-//        model1.addRow(row1);
         facturaArticulosClienteTable.setModel(model1);
         actualizaTablaFacturaClienteAnchos();
+        
+        leerProveedorBD("Empresa", "");
+        actualizaTablaProveedoresAnchos();
+        seleccionProveedoresTabla();
+        
+        leerFacturaProveedorBD("Proveedor", "");
+        actualizaTablaFacturasProveedoresAnchos();
+        seleccionFacturasProveedoresTabla();
+        buscarFechaTxt1.setText(hoy);
     }
  
+    /*
+     * Listener para seleccion de facturas a partir de la tabla
+     */
+    void seleccionFacturasProveedoresTabla(){
+        facturasProveedoresTable.getSelectionModel().addListSelectionListener(
+            new ListSelectionListener() {
+                public void valueChanged(ListSelectionEvent e) {
+                    if (facturasProveedoresTable.getSelectedRow() != -1){
+                        seleccionTablaFacturasProveedores();
+                    }
+                }
+        });
+    }
+
+    
+     /*
+     * base de datos seleccionar
+     */
+    void seleccionTablaFacturasProveedores(){
+        int fila = facturasProveedoresTable.getSelectedRow();
+        int columna = 0;
+        String num;
+            //num = String.valueOf(TablaPacientes.getValueAt(fila,(int)0));
+        num = String.valueOf(facturasProveedoresTable.getValueAt(fila,columna));
+        if(flagDriver == 1){
+            conectarBD(baseDatos);
+            try {
+                statement = connection.createStatement();
+                rs = statement.executeQuery("SELECT * FROM FacturaProveedores WHERE id=" + (String)num);
+                while(rs.next()){
+                    idFacturaProveedorTxt.setText(rs.getString("id"));
+                    serieFacturaProveedorTxt.setText(rs.getString("Nserie"));
+                    proveedorFacturaTxt.setText(rs.getString("Proveedor"));
+                    fechaCompraTxt.setText(rs.getString("Fecha"));
+                    rucFacturaProveedorTxt.setText(rs.getString("RUC"));
+                    subtotalTxt1.setText(rs.getString("Subtotal"));
+                    ivat12Txt1.setText(rs.getString("IVA"));
+                    totalTxt1.setText(rs.getString("Total"));
+                    telefonoProveedorTxt.setText(rs.getString("Telefono"));
+                    direccionProveedorTxt.setText(rs.getString("Direccion"));
+                    articuloComboBox.setSelectedIndex(Integer.valueOf((String)rs.getObject("Articulo")));
+                }
+                flagSaveFacturaProveedor = 1;   //actualiza datos
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        }
+    }
+
+    /*
+     * Listener para seleccion de proveedores a partir de la tabla
+     */
+    void seleccionProveedoresTabla(){
+        proveedoresTable.getSelectionModel().addListSelectionListener(
+            new ListSelectionListener() {
+            @Override
+                public void valueChanged(ListSelectionEvent e) {
+                    if (proveedoresTable.getSelectedRow() != -1){
+                        seleccionTablaProveedores();
+                    }
+                }
+        });
+    }
+
+    
+    /*
+     * base de datos seleccionar
+     */
+    void seleccionTablaProveedores(){
+        int fila = proveedoresTable.getSelectedRow();
+        int columna = 0;
+        String num = null;
+            //num = String.valueOf(TablaPacientes.getValueAt(fila,(int)0));
+        num = String.valueOf(proveedoresTable.getValueAt(fila,columna));
+         if(flagDriver == 1){
+            conectarBD(baseDatos);
+            try {
+                statement = connection.createStatement();
+                rs = statement.executeQuery("SELECT * FROM Proveedores WHERE id=" + (String)num);
+                while(rs.next()){
+                    idProveedorTxt.setText(rs.getString("id"));
+                    empresaTxt.setText(rs.getString("Empresa"));
+                    contactoTextArea.setText(rs.getString("Contacto"));
+                    telefonoTextArea.setText(rs.getString("Telefono"));
+                    ciudadProveedorTxt.setText(rs.getString("Ciudad"));
+                    emailProveedorTxt.setText(rs.getString("Email"));
+                    wwwTxt.setText(rs.getString("Direccion"));
+                    rucProveedorTxt.setText(rs.getString("RUC"));
+                }
+                flagSaveFichaProveedor = 1;   //actualiza datos
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        }
+    }
+
     /*
      * LEER FACTURAS DE CLIENTES
      */
@@ -179,7 +280,7 @@ public final class Contab extends javax.swing.JFrame {
             conectarBD(baseDatos);
             try {
                 statement = connection.createStatement();
-                rs = statement.executeQuery("SELECT * FROM Facturas WHERE " + findClave + " LIKE '%" + (String)find+"%'" + "AND Fecha"+ " LIKE '%" + (String)findClave1 +"%'");
+                rs = statement.executeQuery("SELECT * FROM FacturasClientes WHERE " + findClave + " LIKE '%" + (String)find+"%'" + "AND Fecha"+ " LIKE '%" + (String)findClave1 +"%'");
                 while(rs.next()){                               
                     Object[] row = new Object[9];
                     row[0] = rs.getObject("id");
@@ -284,6 +385,29 @@ public final class Contab extends javax.swing.JFrame {
         facturaArticulosClienteTable.getColumnModel().getColumn(3).setCellRenderer(new ColorTableCellRenderer());
     }
 
+    
+   void  actualizaTablaFacturasProveedoresAnchos() {
+       facturasProveedoresTable.getColumnModel().getColumn(0).setPreferredWidth(60);
+       facturasProveedoresTable.getColumnModel().getColumn(1).setPreferredWidth(270);
+       facturasProveedoresTable.getColumnModel().getColumn(2).setPreferredWidth(100);
+       facturasProveedoresTable.getColumnModel().getColumn(3).setPreferredWidth(80);
+       facturasProveedoresTable.getColumnModel().getColumn(4).setPreferredWidth(80);
+       facturasProveedoresTable.getColumnModel().getColumn(5).setPreferredWidth(80);
+       facturasProveedoresTable.getColumnModel().getColumn(6).setPreferredWidth(80);
+
+       facturasProveedoresTable.setRowHeight(25);
+
+       facturasProveedoresTable.getColumnModel().getColumn(0).setCellRenderer(new ColorTableCellRenderer());
+       facturasProveedoresTable.getColumnModel().getColumn(1).setCellRenderer(new TextAreaRenderer());
+       facturasProveedoresTable.getColumnModel().getColumn(2).setCellRenderer(new ColorTableCellRenderer());
+       facturasProveedoresTable.getColumnModel().getColumn(3).setCellRenderer(new ColorTableCellRenderer());
+       facturasProveedoresTable.getColumnModel().getColumn(4).setCellRenderer(new ColorTableCellRenderer1());
+       facturasProveedoresTable.getColumnModel().getColumn(5).setCellRenderer(new CheckBoxRenderer());
+       facturasProveedoresTable.getColumnModel().getColumn(6).setCellRenderer(new ColorTableCellRenderer1());
+      
+
+    }
+
     /*
      * Actualiza tabla
      */
@@ -385,7 +509,7 @@ public final class Contab extends javax.swing.JFrame {
             conectarBD(baseDatos);
             try {
                 statement = connection.createStatement();
-                rs = statement.executeQuery("SELECT * FROM Facturas WHERE id=" + (String)num);
+                rs = statement.executeQuery("SELECT * FROM FacturasClientes WHERE id=" + (String)num);
                 while(rs.next()){
                     clienteFacturaTxt.setText(rs.getString("Cliente"));
                     fechaTxt.setText(rs.getString("Fecha"));
@@ -424,7 +548,7 @@ public final class Contab extends javax.swing.JFrame {
             try {
                 //BUSCA Y LEE ARTICULOS VENDIDOS AL CLIENTE
                 statement = connection.createStatement();
-                rs = statement.executeQuery("SELECT * FROM VentaArticulo WHERE nserie" + " LIKE '%" +(String)numeroSerieTxt.getText()+"%'");
+                rs = statement.executeQuery("SELECT * FROM Ventas WHERE nserie" + " LIKE '%" +(String)numeroSerieTxt.getText()+"%'");
                 while(rs.next()){
                     Object[] row = new Object[4];
                     row[0] = rs.getObject("cantidad");
@@ -434,7 +558,6 @@ public final class Contab extends javax.swing.JFrame {
                     model.addRow(row);
                 }
                 facturaArticulosClienteTable.setModel(model);
-
                 rs.close();
                 statement.close();
                 connection.close();
@@ -475,7 +598,7 @@ public final class Contab extends javax.swing.JFrame {
             conectarBD(baseDatos);
             try {
                 statement = connection.createStatement();
-                rs = statement.executeQuery("SELECT * FROM articulos WHERE codarticulo=" + (String)num);
+                rs = statement.executeQuery("SELECT * FROM Articulos WHERE codarticulo=" + (String)num);
                 while(rs.next()){
                     //historiaclinicaTxt.setText(rs.getString("Historia_Clinica"));
                     idArticuloTxt.setText(rs.getString("codarticulo"));
@@ -579,8 +702,7 @@ public final class Contab extends javax.swing.JFrame {
                     setBackground(Color.WHITE);
                 }
                 else {
-                    //setBackground(Color.lightGray);
-                    setBackground(new Color(153, 204, 255));
+                    setBackground(new Color(235, 232, 232));
                 }
 
                 if (hasFocus) {
@@ -631,7 +753,7 @@ public final class Contab extends javax.swing.JFrame {
                 }
                 else {
                     //setBackground(Color.lightGray);
-                    setBackground(new Color(153, 204, 255));
+                    setBackground(new Color(235, 232, 232));
                 }
 
                 if (hasFocus) {
@@ -702,7 +824,7 @@ public final class Contab extends javax.swing.JFrame {
             }
             else {
                 //setBackground(Color.lightGray);
-                setBackground(new Color(153, 204, 255));
+                setBackground(new Color(235, 232, 232));
             }
             
             if (hasFocus) {
@@ -750,7 +872,7 @@ public final class Contab extends javax.swing.JFrame {
             }
             else {
                 //setBackground(Color.lightGray);
-                setBackground(new Color(153, 204, 255));
+                setBackground(new Color(235, 232, 232));
             }
             
             if (hasFocus) {
@@ -929,9 +1051,106 @@ public final class Contab extends javax.swing.JFrame {
         buscarProveedorTxt = new javax.swing.JTextField();
         clearBusquedaTxt1 = new javax.swing.JButton();
         jSeparator51 = new javax.swing.JToolBar.Separator();
+        jSeparator56 = new javax.swing.JToolBar.Separator();
         jScrollPane4 = new javax.swing.JScrollPane();
         proveedoresTable = new javax.swing.JTable();
+        jToolBar9 = new javax.swing.JToolBar();
+        jSeparator52 = new javax.swing.JToolBar.Separator();
+        nuevoProveedorButton = new javax.swing.JButton();
+        borrarProveedorButton = new javax.swing.JButton();
+        guardarProveedorButton = new javax.swing.JButton();
+        jSeparator53 = new javax.swing.JToolBar.Separator();
+        jSeparator54 = new javax.swing.JToolBar.Separator();
+        jSeparator55 = new javax.swing.JToolBar.Separator();
+        crearFacturaClienteButton1 = new javax.swing.JButton();
+        jPanel14 = new javax.swing.JPanel();
+        idProveedorTxt = new javax.swing.JTextField();
+        jLabel38 = new javax.swing.JLabel();
+        jLabel39 = new javax.swing.JLabel();
+        empresaTxt = new javax.swing.JTextField();
+        jLabel40 = new javax.swing.JLabel();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        contactoTextArea = new javax.swing.JTextArea();
+        jLabel41 = new javax.swing.JLabel();
+        ciudadProveedorTxt = new javax.swing.JTextField();
+        jLabel42 = new javax.swing.JLabel();
+        jScrollPane7 = new javax.swing.JScrollPane();
+        telefonoTextArea = new javax.swing.JTextArea();
+        jLabel43 = new javax.swing.JLabel();
+        emailProveedorTxt = new javax.swing.JTextField();
+        jLabel44 = new javax.swing.JLabel();
+        wwwTxt = new javax.swing.JTextField();
+        jLabel45 = new javax.swing.JLabel();
+        rucProveedorTxt = new javax.swing.JTextField();
         jPanel4 = new javax.swing.JPanel();
+        jToolBar10 = new javax.swing.JToolBar();
+        jLabel46 = new javax.swing.JLabel();
+        buscarFacturaProveedorTxt = new javax.swing.JTextField();
+        cleanFacturaButton1 = new javax.swing.JButton();
+        jSeparator57 = new javax.swing.JToolBar.Separator();
+        jSeparator58 = new javax.swing.JToolBar.Separator();
+        jSeparator59 = new javax.swing.JToolBar.Separator();
+        jSeparator60 = new javax.swing.JToolBar.Separator();
+        jSeparator61 = new javax.swing.JToolBar.Separator();
+        fechaBuscarRadioButton1 = new javax.swing.JRadioButton();
+        buscarFechaTxt1 = new javax.swing.JTextField();
+        jSeparator62 = new javax.swing.JToolBar.Separator();
+        jSeparator63 = new javax.swing.JToolBar.Separator();
+        jScrollPane11 = new javax.swing.JScrollPane();
+        facturasProveedoresTable = new javax.swing.JTable();
+        jToolBar11 = new javax.swing.JToolBar();
+        jSeparator64 = new javax.swing.JToolBar.Separator();
+        nuevaFacturaButton1 = new javax.swing.JButton();
+        borrarFacturaClienteButton1 = new javax.swing.JButton();
+        guardarFacturaButton1 = new javax.swing.JButton();
+        jSeparator65 = new javax.swing.JToolBar.Separator();
+        jSeparator66 = new javax.swing.JToolBar.Separator();
+        jSeparator67 = new javax.swing.JToolBar.Separator();
+        jSeparator68 = new javax.swing.JToolBar.Separator();
+        jSeparator69 = new javax.swing.JToolBar.Separator();
+        jSeparator70 = new javax.swing.JToolBar.Separator();
+        jSeparator71 = new javax.swing.JToolBar.Separator();
+        jSeparator72 = new javax.swing.JToolBar.Separator();
+        jSeparator73 = new javax.swing.JToolBar.Separator();
+        jSeparator74 = new javax.swing.JToolBar.Separator();
+        jSeparator75 = new javax.swing.JToolBar.Separator();
+        jSeparator76 = new javax.swing.JToolBar.Separator();
+        jSeparator77 = new javax.swing.JToolBar.Separator();
+        jSeparator78 = new javax.swing.JToolBar.Separator();
+        calucularFacturaButton1 = new javax.swing.JButton();
+        jSeparator79 = new javax.swing.JToolBar.Separator();
+        jSeparator80 = new javax.swing.JToolBar.Separator();
+        jSeparator81 = new javax.swing.JToolBar.Separator();
+        imprimirFacturaButton1 = new javax.swing.JButton();
+        jPanel25 = new javax.swing.JPanel();
+        jLabel71 = new javax.swing.JLabel();
+        jLabel72 = new javax.swing.JLabel();
+        proveedorFacturaTxt = new javax.swing.JTextField();
+        fechaCompraTxt = new javax.swing.JTextField();
+        jLabel77 = new javax.swing.JLabel();
+        idFacturaProveedorTxt = new javax.swing.JTextField();
+        jLabel78 = new javax.swing.JLabel();
+        serieFacturaProveedorTxt = new javax.swing.JTextField();
+        subtotalTxt1 = new javax.swing.JTextField();
+        jLabel79 = new javax.swing.JLabel();
+        jLabel80 = new javax.swing.JLabel();
+        ivat12Txt1 = new javax.swing.JTextField();
+        totalTxt1 = new javax.swing.JTextField();
+        jLabel81 = new javax.swing.JLabel();
+        jLabel47 = new javax.swing.JLabel();
+        direccionProveedorTxt = new javax.swing.JTextField();
+        jLabel48 = new javax.swing.JLabel();
+        telefonoProveedorTxt = new javax.swing.JTextField();
+        jLabel50 = new javax.swing.JLabel();
+        articuloComboBox = new javax.swing.JComboBox();
+        jLabel51 = new javax.swing.JLabel();
+        rucFacturaProveedorTxt = new javax.swing.JTextField();
+        jPanel12 = new javax.swing.JPanel();
+        jLabel52 = new javax.swing.JLabel();
+        ivaTxt2 = new javax.swing.JTextField();
+        jLabel65 = new javax.swing.JLabel();
+        ivaTxt3 = new javax.swing.JTextField();
+        pagarFacturaButton = new javax.swing.JButton();
         jPanel8 = new javax.swing.JPanel();
         jToolBar5 = new javax.swing.JToolBar();
         jSeparator32 = new javax.swing.JToolBar.Separator();
@@ -1958,7 +2177,7 @@ public final class Contab extends javax.swing.JFrame {
         jLabel37.setText("Buscar proveedor:");
         jToolBar8.add(jLabel37);
 
-        buscarProveedorTxt.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
+        buscarProveedorTxt.setFont(new java.awt.Font("Dialog", 1, 12));
         buscarProveedorTxt.addCaretListener(new javax.swing.event.CaretListener() {
             public void caretUpdate(javax.swing.event.CaretEvent evt) {
                 buscarProveedorTxtCaretUpdate(evt);
@@ -1978,8 +2197,9 @@ public final class Contab extends javax.swing.JFrame {
         });
         jToolBar8.add(clearBusquedaTxt1);
         jToolBar8.add(jSeparator51);
+        jToolBar8.add(jSeparator56);
 
-        proveedoresTable.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        proveedoresTable.setFont(new java.awt.Font("Dialog", 0, 14));
         proveedoresTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null},
@@ -1994,36 +2214,626 @@ public final class Contab extends javax.swing.JFrame {
         proveedoresTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
         jScrollPane4.setViewportView(proveedoresTable);
 
+        jToolBar9.setFloatable(false);
+        jToolBar9.setRollover(true);
+        jToolBar9.add(jSeparator52);
+
+        nuevoProveedorButton.setFont(new java.awt.Font("Dialog", 1, 10));
+        nuevoProveedorButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mypack/list-add.png"))); // NOI18N
+        nuevoProveedorButton.setText("Nuevo");
+        nuevoProveedorButton.setToolTipText("Nuevo cliente");
+        nuevoProveedorButton.setFocusable(false);
+        nuevoProveedorButton.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        nuevoProveedorButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nuevoProveedorButtonActionPerformed(evt);
+            }
+        });
+        jToolBar9.add(nuevoProveedorButton);
+
+        borrarProveedorButton.setFont(new java.awt.Font("Dialog", 1, 10));
+        borrarProveedorButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mypack/list-remove.png"))); // NOI18N
+        borrarProveedorButton.setText("Borrar");
+        borrarProveedorButton.setToolTipText("Borrar cliente");
+        borrarProveedorButton.setFocusable(false);
+        borrarProveedorButton.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        borrarProveedorButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                borrarProveedorButtonActionPerformed(evt);
+            }
+        });
+        jToolBar9.add(borrarProveedorButton);
+
+        guardarProveedorButton.setFont(new java.awt.Font("Dialog", 1, 10));
+        guardarProveedorButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mypack/document-save.png"))); // NOI18N
+        guardarProveedorButton.setText("Guardar");
+        guardarProveedorButton.setToolTipText("Guardar cliente");
+        guardarProveedorButton.setFocusable(false);
+        guardarProveedorButton.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        guardarProveedorButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                guardarProveedorButtonActionPerformed(evt);
+            }
+        });
+        jToolBar9.add(guardarProveedorButton);
+        jToolBar9.add(jSeparator53);
+        jToolBar9.add(jSeparator54);
+        jToolBar9.add(jSeparator55);
+
+        crearFacturaClienteButton1.setBackground(new java.awt.Color(255, 255, 51));
+        crearFacturaClienteButton1.setFont(new java.awt.Font("Dialog", 1, 10));
+        crearFacturaClienteButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mypack/view-file-columns.png"))); // NOI18N
+        crearFacturaClienteButton1.setText("Factura");
+        crearFacturaClienteButton1.setToolTipText("Crear factura");
+        crearFacturaClienteButton1.setFocusable(false);
+        crearFacturaClienteButton1.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        crearFacturaClienteButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                crearFacturaClienteButton1ActionPerformed(evt);
+            }
+        });
+        jToolBar9.add(crearFacturaClienteButton1);
+
+        idProveedorTxt.setEditable(false);
+        idProveedorTxt.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+
+        jLabel38.setText("id:");
+        jLabel38.setEnabled(false);
+
+        jLabel39.setText("Empresa:");
+
+        jLabel40.setText("Contacto/s:");
+
+        contactoTextArea.setColumns(20);
+        contactoTextArea.setRows(5);
+        jScrollPane6.setViewportView(contactoTextArea);
+
+        jLabel41.setText("Ciudad:");
+
+        jLabel42.setText("Teléfono/s:");
+
+        telefonoTextArea.setColumns(20);
+        telefonoTextArea.setRows(5);
+        jScrollPane7.setViewportView(telefonoTextArea);
+
+        jLabel43.setText("Email:");
+
+        jLabel44.setText("Direccion:");
+
+        jLabel45.setText("R.U.C.:");
+
+        javax.swing.GroupLayout jPanel14Layout = new javax.swing.GroupLayout(jPanel14);
+        jPanel14.setLayout(jPanel14Layout);
+        jPanel14Layout.setHorizontalGroup(
+            jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel14Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel14Layout.createSequentialGroup()
+                        .addComponent(jLabel42)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane7))
+                    .addGroup(jPanel14Layout.createSequentialGroup()
+                        .addComponent(jLabel38)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(idProveedorTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel14Layout.createSequentialGroup()
+                        .addComponent(jLabel40)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane6))
+                    .addGroup(jPanel14Layout.createSequentialGroup()
+                        .addComponent(jLabel39)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(empresaTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 286, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(jPanel14Layout.createSequentialGroup()
+                            .addComponent(jLabel41)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(ciudadProveedorTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel14Layout.createSequentialGroup()
+                            .addComponent(jLabel43)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(emailProveedorTxt))
+                        .addGroup(jPanel14Layout.createSequentialGroup()
+                            .addComponent(jLabel44)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(wwwTxt)))
+                    .addGroup(jPanel14Layout.createSequentialGroup()
+                        .addComponent(jLabel45)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(rucProveedorTxt, javax.swing.GroupLayout.DEFAULT_SIZE, 227, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        jPanel14Layout.setVerticalGroup(
+            jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel14Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel38)
+                    .addComponent(idProveedorTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel39)
+                    .addComponent(empresaTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ciudadProveedorTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel41))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel14Layout.createSequentialGroup()
+                        .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel40)
+                            .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(8, 8, 8)
+                        .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel42)
+                            .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel14Layout.createSequentialGroup()
+                        .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel43)
+                            .addComponent(emailProveedorTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel44)
+                            .addComponent(wwwTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel45)
+                            .addComponent(rucProveedorTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(9, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jToolBar8, javax.swing.GroupLayout.DEFAULT_SIZE, 762, Short.MAX_VALUE)
             .addGroup(jPanel6Layout.createSequentialGroup()
-                .addGap(12, 12, 12)
+                .addContainerGap()
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 738, Short.MAX_VALUE)
-                .addGap(12, 12, 12))
+                .addContainerGap())
+            .addComponent(jToolBar9, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 762, Short.MAX_VALUE)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addGap(33, 33, 33)
+                .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(36, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addComponent(jToolBar8, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(320, Short.MAX_VALUE))
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jToolBar9, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel14, javax.swing.GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Proveedores", new javax.swing.ImageIcon(getClass().getResource("/mypack/meeting-participant.png")), jPanel6); // NOI18N
+
+        jToolBar10.setFloatable(false);
+        jToolBar10.setRollover(true);
+
+        jLabel46.setText("Buscar factura:");
+        jToolBar10.add(jLabel46);
+
+        buscarFacturaProveedorTxt.setMinimumSize(new java.awt.Dimension(4, 39));
+        buscarFacturaProveedorTxt.setPreferredSize(new java.awt.Dimension(124, 39));
+        buscarFacturaProveedorTxt.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                buscarFacturaProveedorTxtCaretUpdate(evt);
+            }
+        });
+        jToolBar10.add(buscarFacturaProveedorTxt);
+
+        cleanFacturaButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mypack/edit-clear-locationbar-rtl.png"))); // NOI18N
+        cleanFacturaButton1.setToolTipText("Limpiar busqueda");
+        cleanFacturaButton1.setFocusable(false);
+        cleanFacturaButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        cleanFacturaButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        cleanFacturaButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cleanFacturaButton1ActionPerformed(evt);
+            }
+        });
+        jToolBar10.add(cleanFacturaButton1);
+        jToolBar10.add(jSeparator57);
+        jToolBar10.add(jSeparator58);
+        jToolBar10.add(jSeparator59);
+        jToolBar10.add(jSeparator60);
+        jToolBar10.add(jSeparator61);
+
+        fechaBuscarRadioButton1.setFont(new java.awt.Font("Dialog", 1, 10));
+        fechaBuscarRadioButton1.setSelected(true);
+        fechaBuscarRadioButton1.setText("Fecha");
+        fechaBuscarRadioButton1.setFocusable(false);
+        fechaBuscarRadioButton1.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        fechaBuscarRadioButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jToolBar10.add(fechaBuscarRadioButton1);
+
+        buscarFechaTxt1.setFont(new java.awt.Font("Dialog", 0, 10));
+        buscarFechaTxt1.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                buscarFechaTxt1CaretUpdate(evt);
+            }
+        });
+        jToolBar10.add(buscarFechaTxt1);
+        jToolBar10.add(jSeparator62);
+        jToolBar10.add(jSeparator63);
+
+        facturasProveedoresTable.setFont(new java.awt.Font("Dialog", 0, 14));
+        facturasProveedoresTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
+            },
+            new String [] {
+                "Id", "Cliente", "Teléfono", "R.U.C.", "Ciudad", "Dirección"
+            }
+        ));
+        facturasProveedoresTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+        jScrollPane11.setViewportView(facturasProveedoresTable);
+
+        jToolBar11.setFloatable(false);
+        jToolBar11.setRollover(true);
+        jToolBar11.add(jSeparator64);
+
+        nuevaFacturaButton1.setFont(new java.awt.Font("Dialog", 1, 10));
+        nuevaFacturaButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mypack/list-add.png"))); // NOI18N
+        nuevaFacturaButton1.setText("Nueva");
+        nuevaFacturaButton1.setToolTipText("Nueva factura");
+        nuevaFacturaButton1.setFocusable(false);
+        nuevaFacturaButton1.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        nuevaFacturaButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nuevaFacturaButton1ActionPerformed(evt);
+            }
+        });
+        jToolBar11.add(nuevaFacturaButton1);
+
+        borrarFacturaClienteButton1.setFont(new java.awt.Font("Dialog", 1, 10));
+        borrarFacturaClienteButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mypack/list-remove.png"))); // NOI18N
+        borrarFacturaClienteButton1.setText("Borrar");
+        borrarFacturaClienteButton1.setToolTipText("Borrar factura");
+        borrarFacturaClienteButton1.setFocusable(false);
+        borrarFacturaClienteButton1.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        borrarFacturaClienteButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                borrarFacturaClienteButton1ActionPerformed(evt);
+            }
+        });
+        jToolBar11.add(borrarFacturaClienteButton1);
+
+        guardarFacturaButton1.setFont(new java.awt.Font("Dialog", 1, 10));
+        guardarFacturaButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mypack/document-save.png"))); // NOI18N
+        guardarFacturaButton1.setText("Guardar");
+        guardarFacturaButton1.setToolTipText("Guardar factura");
+        guardarFacturaButton1.setFocusable(false);
+        guardarFacturaButton1.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        guardarFacturaButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                guardarFacturaButton1ActionPerformed(evt);
+            }
+        });
+        jToolBar11.add(guardarFacturaButton1);
+        jToolBar11.add(jSeparator65);
+        jToolBar11.add(jSeparator66);
+        jToolBar11.add(jSeparator67);
+        jToolBar11.add(jSeparator68);
+        jToolBar11.add(jSeparator69);
+        jToolBar11.add(jSeparator70);
+        jToolBar11.add(jSeparator71);
+        jToolBar11.add(jSeparator72);
+        jToolBar11.add(jSeparator73);
+        jToolBar11.add(jSeparator74);
+        jToolBar11.add(jSeparator75);
+        jToolBar11.add(jSeparator76);
+        jToolBar11.add(jSeparator77);
+        jToolBar11.add(jSeparator78);
+
+        calucularFacturaButton1.setBackground(new java.awt.Color(255, 255, 51));
+        calucularFacturaButton1.setFont(new java.awt.Font("Dialog", 1, 10));
+        calucularFacturaButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mypack/accessories-calculator.png"))); // NOI18N
+        calucularFacturaButton1.setText("Calc");
+        calucularFacturaButton1.setToolTipText("Computar factura");
+        calucularFacturaButton1.setFocusable(false);
+        calucularFacturaButton1.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        calucularFacturaButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                calucularFacturaButton1ActionPerformed(evt);
+            }
+        });
+        jToolBar11.add(calucularFacturaButton1);
+        jToolBar11.add(jSeparator79);
+        jToolBar11.add(jSeparator80);
+        jToolBar11.add(jSeparator81);
+
+        imprimirFacturaButton1.setFont(new java.awt.Font("Dialog", 1, 10));
+        imprimirFacturaButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mypack/printer.png"))); // NOI18N
+        imprimirFacturaButton1.setText("Imprimir");
+        imprimirFacturaButton1.setToolTipText("Imprimir factura");
+        imprimirFacturaButton1.setFocusable(false);
+        imprimirFacturaButton1.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        imprimirFacturaButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                imprimirFacturaButton1ActionPerformed(evt);
+            }
+        });
+        jToolBar11.add(imprimirFacturaButton1);
+
+        jLabel71.setFont(new java.awt.Font("Dialog", 1, 10));
+        jLabel71.setText("Proveedor:");
+
+        jLabel72.setFont(new java.awt.Font("Dialog", 1, 10));
+        jLabel72.setText("Fecha compra:");
+
+        proveedorFacturaTxt.setFont(new java.awt.Font("Dialog", 0, 10));
+
+        fechaCompraTxt.setFont(new java.awt.Font("Dialog", 0, 10));
+        fechaCompraTxt.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+
+        jLabel77.setFont(new java.awt.Font("Dialog", 1, 10));
+        jLabel77.setText("id:");
+        jLabel77.setEnabled(false);
+
+        idFacturaProveedorTxt.setEditable(false);
+        idFacturaProveedorTxt.setFont(new java.awt.Font("Dialog", 0, 10));
+        idFacturaProveedorTxt.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+
+        jLabel78.setFont(new java.awt.Font("Dialog", 1, 10));
+        jLabel78.setText("Factura SERIE Nº :");
+
+        serieFacturaProveedorTxt.setFont(new java.awt.Font("Dialog", 0, 10));
+
+        subtotalTxt1.setFont(new java.awt.Font("Dialog", 0, 10));
+        subtotalTxt1.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+
+        jLabel79.setFont(new java.awt.Font("Dialog", 1, 10));
+        jLabel79.setText("Subtotal $");
+
+        jLabel80.setFont(new java.awt.Font("Dialog", 1, 10));
+        jLabel80.setText("I.V.A. 12% $");
+
+        ivat12Txt1.setFont(new java.awt.Font("Dialog", 0, 10));
+        ivat12Txt1.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+
+        totalTxt1.setBackground(new java.awt.Color(255, 255, 51));
+        totalTxt1.setFont(new java.awt.Font("Dialog", 0, 10));
+        totalTxt1.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+
+        jLabel81.setFont(new java.awt.Font("Dialog", 1, 10));
+        jLabel81.setText("Total US $");
+
+        jLabel47.setFont(new java.awt.Font("Dialog", 1, 10));
+        jLabel47.setText("Dirección:");
+
+        direccionProveedorTxt.setFont(new java.awt.Font("Dialog", 0, 10));
+
+        jLabel48.setFont(new java.awt.Font("Dialog", 1, 10));
+        jLabel48.setText("Telefono:");
+
+        telefonoProveedorTxt.setFont(new java.awt.Font("Dialog", 0, 10));
+
+        jLabel50.setFont(new java.awt.Font("Dialog", 1, 10));
+        jLabel50.setText("Artículo:");
+
+        articuloComboBox.setFont(new java.awt.Font("Dialog", 1, 10));
+        articuloComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Bienes y servicios con IVA 12%", "Bienes y servicios con IVA 0%", "Activos fijos con IVA 12%", "Activos fijos con IVA 0%", " " }));
+        articuloComboBox.setOpaque(false);
+
+        jLabel51.setFont(new java.awt.Font("Dialog", 1, 10));
+        jLabel51.setText("R.U.C.:");
+
+        rucFacturaProveedorTxt.setFont(new java.awt.Font("Dialog", 0, 10));
+
+        javax.swing.GroupLayout jPanel25Layout = new javax.swing.GroupLayout(jPanel25);
+        jPanel25.setLayout(jPanel25Layout);
+        jPanel25Layout.setHorizontalGroup(
+            jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel25Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel51)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel25Layout.createSequentialGroup()
+                        .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel25Layout.createSequentialGroup()
+                                .addComponent(jLabel77)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(idFacturaProveedorTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 62, Short.MAX_VALUE)
+                                .addComponent(jLabel78)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(serieFacturaProveedorTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel25Layout.createSequentialGroup()
+                                .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel25Layout.createSequentialGroup()
+                                        .addComponent(jLabel50)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(articuloComboBox, 0, 239, Short.MAX_VALUE))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel25Layout.createSequentialGroup()
+                                        .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel47)
+                                            .addComponent(jLabel71))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(direccionProveedorTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(proveedorFacturaTxt, javax.swing.GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE)))
+                                    .addComponent(rucFacturaProveedorTxt, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(jPanel25Layout.createSequentialGroup()
+                                        .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel79, javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(jLabel80, javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(jLabel81, javax.swing.GroupLayout.Alignment.TRAILING))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(totalTxt1, javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(ivat12Txt1, javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(subtotalTxt1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(jPanel25Layout.createSequentialGroup()
+                                        .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(jLabel48)
+                                            .addComponent(jLabel72))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(telefonoProveedorTxt, javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(fechaCompraTxt, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                        .addGap(137, 137, 137))))
+        );
+        jPanel25Layout.setVerticalGroup(
+            jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel25Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel77)
+                    .addComponent(idFacturaProveedorTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(serieFacturaProveedorTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel78))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
+                .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel51)
+                    .addComponent(rucFacturaProveedorTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel25Layout.createSequentialGroup()
+                        .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel71)
+                            .addComponent(proveedorFacturaTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel47)
+                            .addComponent(direccionProveedorTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel50)
+                            .addComponent(articuloComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel25Layout.createSequentialGroup()
+                        .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(fechaCompraTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel72))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(telefonoProveedorTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel48))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(subtotalTxt1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel79))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(ivat12Txt1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel80))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(totalTxt1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel81))))
+                .addContainerGap())
+        );
+
+        jLabel52.setFont(new java.awt.Font("Dialog", 1, 10));
+        jLabel52.setForeground(new java.awt.Color(153, 153, 153));
+        jLabel52.setText("I.V.A.");
+
+        ivaTxt2.setBackground(javax.swing.UIManager.getDefaults().getColor("Button.background"));
+        ivaTxt2.setFont(new java.awt.Font("Dialog", 0, 10));
+        ivaTxt2.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+
+        jLabel65.setFont(new java.awt.Font("Dialog", 1, 10));
+        jLabel65.setForeground(new java.awt.Color(153, 153, 153));
+        jLabel65.setText("Compras");
+
+        ivaTxt3.setBackground(javax.swing.UIManager.getDefaults().getColor("Button.background"));
+        ivaTxt3.setFont(new java.awt.Font("Dialog", 0, 10));
+        ivaTxt3.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+
+        javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
+        jPanel12.setLayout(jPanel12Layout);
+        jPanel12Layout.setHorizontalGroup(
+            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel12Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel12Layout.createSequentialGroup()
+                        .addComponent(jLabel52)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(ivaTxt2))
+                    .addGroup(jPanel12Layout.createSequentialGroup()
+                        .addComponent(jLabel65)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(ivaTxt3, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel12Layout.setVerticalGroup(
+            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel12Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel65)
+                    .addComponent(ivaTxt3, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel52)
+                    .addComponent(ivaTxt2, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(20, Short.MAX_VALUE))
+        );
+
+        pagarFacturaButton.setFont(new java.awt.Font("Dialog", 1, 10));
+        pagarFacturaButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mypack/dialog-ok-apply.png"))); // NOI18N
+        pagarFacturaButton.setText("Pagar factura");
+        pagarFacturaButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        pagarFacturaButton.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+        pagarFacturaButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        pagarFacturaButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pagarFacturaButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 762, Short.MAX_VALUE)
+            .addComponent(jToolBar10, javax.swing.GroupLayout.DEFAULT_SIZE, 779, Short.MAX_VALUE)
+            .addComponent(jToolBar11, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 779, Short.MAX_VALUE)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane11, javax.swing.GroupLayout.DEFAULT_SIZE, 755, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel25, javax.swing.GroupLayout.PREFERRED_SIZE, 579, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                        .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                        .addComponent(pagarFacturaButton)
+                        .addGap(30, 30, 30))))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 604, Short.MAX_VALUE)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addComponent(jToolBar10, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane11, javax.swing.GroupLayout.DEFAULT_SIZE, 304, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(jToolBar11, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(jPanel25, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(pagarFacturaButton)
+                        .addGap(27, 27, 27))))
         );
 
         jTabbedPane1.addTab("Facturas compras", new javax.swing.ImageIcon(getClass().getResource("/mypack/view-file-columns.png")), jPanel4); // NOI18N
@@ -2904,9 +3714,7 @@ public final class Contab extends javax.swing.JFrame {
         escrituraFichaFactura();
         fechaTxt.setText(hoy);
         leerUltimaFactura();
-        
-        facturaArticulosClienteTable.removeAll();
-        facturaArticulosClienteTable.updateUI();   
+         
         int cont = 0;
         if(facturaArticulosClienteTable.getRowCount() != 0){
             do{
@@ -2917,6 +3725,8 @@ public final class Contab extends javax.swing.JFrame {
                 actualizaTablaFacturaClienteAnchos();
                 cont = model1.getRowCount();
             }while(cont != 0);
+            facturaArticulosClienteTable.removeAll();
+            facturaArticulosClienteTable.updateUI();  
         }
 }//GEN-LAST:event_nuevaFacturaButtonActionPerformed
 
@@ -2930,7 +3740,7 @@ public final class Contab extends javax.swing.JFrame {
             conectarBD(baseDatos);
             try {
                 statement = connection.createStatement();
-                rs = statement.executeQuery("SELECT * FROM Facturas");
+                rs = statement.executeQuery("SELECT * FROM FacturasClientes");
                 //while(conectarBD.rs.last()){
                 rs.last();
                 String cant;
@@ -3354,7 +4164,253 @@ public final class Contab extends javax.swing.JFrame {
 
     private void clearBusquedaTxt1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearBusquedaTxt1ActionPerformed
         // TODO add your handling code here:
+        buscarProveedorTxt.setText("");
     }//GEN-LAST:event_clearBusquedaTxt1ActionPerformed
+
+    private void nuevoProveedorButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nuevoProveedorButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_nuevoProveedorButtonActionPerformed
+
+    private void borrarProveedorButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_borrarProveedorButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_borrarProveedorButtonActionPerformed
+
+    private void guardarProveedorButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarProveedorButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_guardarProveedorButtonActionPerformed
+
+    private void crearFacturaClienteButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_crearFacturaClienteButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_crearFacturaClienteButton1ActionPerformed
+
+    private void buscarFacturaProveedorTxtCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_buscarFacturaProveedorTxtCaretUpdate
+        // TODO add your handling code here:
+        String buscar = buscarFacturaProveedorTxt.getText();
+        leerFacturaProveedorBD("Proveedor", buscar);
+        actualizaTablaFacturasProveedoresAnchos();
+    }//GEN-LAST:event_buscarFacturaProveedorTxtCaretUpdate
+
+    
+     /*
+     * Lee base de datos leerToDB() de acuerdo a cierta busqueda
+     */
+    void leerFacturaProveedorBD(String findClave, String find){
+        facturasProveedoresTable.removeAll();
+        facturasProveedoresTable.updateUI();
+        String[] columnNames = {"Código",
+                                "Proveedor",
+                                "Fecha",
+                                "Factura #",
+                                "Total",
+                                "Pagado",
+                                "IVA"};
+        DefaultTableModel model = new DefaultTableModel(columnNames, 0);
+        
+        if(flagDriver == 1){
+            conectarBD(baseDatos);
+            try {
+                statement = connection.createStatement();
+                rs = statement.executeQuery("SELECT * FROM FacturaProveedores WHERE " + findClave + " LIKE '%" + (String)find+"%'");
+                while(rs.next()){
+                    Object[] row = new Object[7];
+                    row[0] = rs.getObject("id");
+                    row[1] = rs.getObject("Proveedor");
+                    row[2] = rs.getObject("Fecha");
+                    row[3] = rs.getObject("Nserie");
+                    row[4] = rs.getObject("Total");
+                    row[5] = rs.getObject("Pagado");
+                    row[6] = rs.getObject("IVA");  
+                    model.addRow(row);
+                }
+                facturasProveedoresTable.setModel(model);
+
+            } catch (Exception e) {
+                System.out.println("Error de lectura");
+                System.out.println(e);
+            }
+        }
+    }
+
+    private void cleanFacturaButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cleanFacturaButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cleanFacturaButton1ActionPerformed
+
+    private void buscarFechaTxt1CaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_buscarFechaTxt1CaretUpdate
+        // TODO add your handling code here:
+    }//GEN-LAST:event_buscarFechaTxt1CaretUpdate
+
+    private void nuevaFacturaButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nuevaFacturaButton1ActionPerformed
+        // TODO add your handling code here:
+        limpiaFichaFacturaProveedor();
+        SimpleDateFormat formato = new SimpleDateFormat("dd/MMM/yyyy", new Locale("ES", "EC"));
+        Date fechaActual = new Date();
+        String hoy = formato.format(fechaActual);
+        fechaCompraTxt.setText(hoy);
+        flagSaveFacturaProveedor = 0;   //Guardar dato
+    }//GEN-LAST:event_nuevaFacturaButton1ActionPerformed
+
+    /*
+     * Limpia ficha de factura
+     */
+    void limpiaFichaFacturaProveedor(){
+        idFacturaProveedorTxt.setText("");
+        serieFacturaProveedorTxt.setText("");
+        proveedorFacturaTxt.setText("");
+        rucFacturaProveedorTxt.setText("");
+        subtotalTxt1.setText("0.00");
+        ivat12Txt1.setText("");
+        totalTxt1.setText("");
+        telefonoProveedorTxt.setText("");
+        fechaCompraTxt.setText("");
+        direccionProveedorTxt.setText("");
+    }
+    
+    
+    private void borrarFacturaClienteButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_borrarFacturaClienteButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_borrarFacturaClienteButton1ActionPerformed
+
+    private void guardarFacturaButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarFacturaButton1ActionPerformed
+        // TODO add your handling code here:
+        //chequea si actualiza o guarda datos
+        if (flagSaveFacturaProveedor == 0){
+            //GUARDAR
+            //chequea si hay escrito los datos, si hay? guarda
+            if((!totalTxt1.getText().isEmpty()) && !rucFacturaProveedorTxt.getText().isEmpty()){
+                guardarFacturaProveedor();
+                flagSaveFacturaProveedor = 1;
+            }
+        }else{
+            //ACTUALIZA
+            //chequea si hay escrito los datos
+            if((!totalTxt1.getText().isEmpty()) && !rucFacturaProveedorTxt.getText().isEmpty()){
+                actualizarFacturaProveedor();
+                flagSaveFacturaProveedor = 1; //actualizar
+            }
+        }
+    }//GEN-LAST:event_guardarFacturaButton1ActionPerformed
+
+    /*
+     * Actualizar datos de facturas en la base de datos
+     */
+    void actualizarFacturaProveedor(){
+        if(flagDriver == 1){
+            conectarBD(baseDatos);
+            try {                    
+                statement = connection.createStatement();
+                int actualizar = statement.executeUpdate("UPDATE FacturaProveedores SET " +
+                    "Nserie='" +serieFacturaProveedorTxt.getText()+"', "+
+                    "Proveedor='" + proveedorFacturaTxt.getText()+"', "+
+                    "Fecha='" + fechaCompraTxt.getText()+"', "+
+                    "RUC='" + rucFacturaProveedorTxt.getText()+"', "+
+                    "Pagado='" +"false"+"', "+
+                    "Direccion='" + direccionProveedorTxt.getText()+"', "+
+                    "Subtotal='" + subtotalTxt1.getText()+"', "+
+                    "IVA='" + ivat12Txt1.getText()+"', "+
+                    "Total='" + totalTxt1.getText()+"', "+
+                    "Telefono='" + telefonoProveedorTxt.getText()+"', "+
+                    "Articulo='" + articuloComboBox.getSelectedIndex() +"'"+
+                    " WHERE id =" + (String)idFacturaProveedorTxt.getText());
+                statement.close();
+                connection.close();
+                 //custom title, warning icon
+                JFrame frame = new JFrame();
+                JOptionPane.showMessageDialog(frame,
+                        "Factura actualizada",
+                        "Información", JOptionPane.WARNING_MESSAGE);
+                flagSaveFacturaProveedor = 1; //actualizar
+                leerFacturaProveedorBD("Proveedor", "");
+                actualizaTablaFacturasProveedoresAnchos();
+            } catch (Exception e) {
+                JFrame frame = new JFrame();
+                JOptionPane.showMessageDialog(frame,
+                        "Factura no se actualizo",
+                        "Error - 11", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+
+    /*
+     * Guarda en base de datos nueva factura
+     */
+    void guardarFacturaProveedor(){
+        if(flagDriver == 1){
+            conectarBD(baseDatos);
+            try {
+                statement = connection.createStatement();
+                int escribe = statement.executeUpdate("INSERT INTO FacturaProveedores " +
+                        "(Nserie, Proveedor, Fecha, RUC, Pagado, Direccion, Subtotal, IVA, Total, Telefono, Articulo) " +
+                    "VALUES(" +
+                    "'"+serieFacturaProveedorTxt.getText()+"' ,"+
+                    "'"+proveedorFacturaTxt.getText()+"' ,"+
+                    "'"+fechaCompraTxt.getText()+"' ,"+
+                    "'"+rucFacturaProveedorTxt.getText()+"' ,"+
+                    "'"+"false"+"' ,"+
+                    "'"+direccionProveedorTxt.getText()+"' ,"+
+                    "'"+subtotalTxt1.getText()+"' ,"+
+                    "'"+ivat12Txt1.getText()+"' ,"+
+                    "'"+totalTxt1.getText()+"' ,"+
+                    "'"+telefonoProveedorTxt.getText()+"' ,"+
+                    "'"+articuloComboBox.getSelectedIndex()+"'"+
+                ")");
+                statement.close();
+                connection.close();
+                //custom title, warning icon
+                JOptionPane.showMessageDialog(new JFrame(),
+                        "Factura guardada",
+                        "Información", JOptionPane.WARNING_MESSAGE);
+                leerFacturaProveedorBD("Proveedor", "");
+                actualizaTablaFacturasProveedoresAnchos();
+            } catch (Exception e) {
+                System.out.println("Error: "+ e);
+                JFrame frame = new JFrame();
+                JOptionPane.showMessageDialog(frame,
+                        "Factura no se guardo",
+                        "Error - 10", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+
+    
+    private void calucularFacturaButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_calucularFacturaButton1ActionPerformed
+        // TODO add your handling code here:
+        //Obtengo datos de la tabla para computar datos
+        String cant;
+        Integer cantidad;
+        String pUnit;
+        Double pUnitario;
+        Double iva=0.00;
+        Double res2,res3;
+        //NumberFormat nf = NumberFormat.getInstance();
+        DecimalFormat nf = new DecimalFormat("####.##");
+        nf.setMinimumFractionDigits(2);
+        nf.setMaximumFractionDigits(2);
+        
+        if(articuloComboBox.getSelectedIndex()==0){
+            //System.out.println("12%");
+            iva= 0.12;
+        }else if(articuloComboBox.getSelectedIndex()==1){
+            iva= 0.00;
+        }else if(articuloComboBox.getSelectedIndex()==2){
+            iva= 0.12;
+        }else if(articuloComboBox.getSelectedIndex()==3){
+            iva= 0.00;
+        }
+        cant = (String) subtotalTxt1.getText().toString();
+        res2 = Double.valueOf(cant);
+        res3 = res2*iva;
+        ivat12Txt1.setText(nf.format(res3));
+        iva = res2 + res3;
+        totalTxt1.setText(nf.format(iva));
+    }//GEN-LAST:event_calucularFacturaButton1ActionPerformed
+
+    private void imprimirFacturaButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_imprimirFacturaButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_imprimirFacturaButton1ActionPerformed
+
+    private void pagarFacturaButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pagarFacturaButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_pagarFacturaButtonActionPerformed
   
     
     /*
@@ -3370,7 +4426,7 @@ public final class Contab extends javax.swing.JFrame {
             conectarBD(baseDatos);
             try {
                     pstatement = connection.prepareStatement(
-                    "UPDATE articulos SET descripcion = ?, fecha = ?,"
+                    "UPDATE Articulos SET descripcion = ?, fecha = ?,"
                     + "stock = ?, PVenta=?, proveedor = ?, pcoste = ?,"
                     + "beneficio = ?, pvp = ?, imagen = ? WHERE codarticulo = ?");
 
@@ -3419,7 +4475,7 @@ public final class Contab extends javax.swing.JFrame {
             conectarBD(baseDatos);
             try {
                 pstatement = connection.prepareStatement(
-                        "INSERT INTO articulos VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                        "INSERT INTO Articulos VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
                 pstatement.setString(1, null);
                 pstatement.setString(2, detalleArticuloTxt.getText());
@@ -3486,7 +4542,7 @@ public final class Contab extends javax.swing.JFrame {
             conectarBD(baseDatos);
             try {
                 statement = connection.createStatement();
-                int borrar = statement.executeUpdate("DELETE FROM articulos WHERE codarticulo=" + Integer.parseInt(idArticuloTxt.getText()));
+                int borrar = statement.executeUpdate("DELETE FROM Articulos WHERE codarticulo=" + Integer.parseInt(idArticuloTxt.getText()));
                 statement.close();
                 connection.close();
 
@@ -3514,7 +4570,7 @@ public final class Contab extends javax.swing.JFrame {
             try {
 
                 statement = connection.createStatement();
-                int borrar = statement.executeUpdate("DELETE FROM Facturas WHERE id=" + (String)idFacturaTxt.getText());
+                int borrar = statement.executeUpdate("DELETE FROM FacturasClientes WHERE id=" + (String)idFacturaTxt.getText());
                 statement.close();
                 connection.close();
 
@@ -3540,7 +4596,7 @@ public final class Contab extends javax.swing.JFrame {
             conectarBD(baseDatos);
             try {
                     statement = connection.createStatement();
-                    int actualizar = statement.executeUpdate("UPDATE Facturas SET " +
+                    int actualizar = statement.executeUpdate("UPDATE FacturasClientes SET " +
                     "Cliente='"+clienteFacturaTxt.getText()+"' ,"+
                     "RUC='"+rucTxt.getText()+"' ,"+
                 //    "Cobrado='"+"false"+"' ,"+
@@ -3559,7 +4615,7 @@ public final class Contab extends javax.swing.JFrame {
                     //GUARDA TABLA DE ARTICULOS UNO POR UNO NUMERO SERIE CLAVE EN BUSQUEDA
                     for (int i = 0, rows = facturaArticulosClienteTable.getRowCount()-1; i < rows; i++){
                         statement = connection.createStatement();
-                        int escribe2 = statement.executeUpdate("UPDATE VentaArticulo SET " +
+                        int escribe2 = statement.executeUpdate("UPDATE Ventas SET " +
 
                         "fecha='"+fechaTxt.getText()+"' ,"+
                         "nserie='"+numeroSerieTxt.getText()+"' ,"+
@@ -3597,7 +4653,7 @@ public final class Contab extends javax.swing.JFrame {
             conectarBD(baseDatos);
             try {
                 statement = connection.createStatement();
-                int escribe = statement.executeUpdate("INSERT INTO Facturas " +
+                int escribe = statement.executeUpdate("INSERT INTO FacturasClientes " +
                         "(Cliente, RUC, Cobrado, Subtotal, Iva, Total, Fuente, Recivido, Fecha, Nserie, Direccion, Telefono, Ciudad) " +
                     "VALUES(" +
                     "'"+clienteFacturaTxt.getText()+"' ,"+
@@ -3620,7 +4676,7 @@ public final class Contab extends javax.swing.JFrame {
                 rows = facturaArticulosClienteTable.getRowCount();
                 for (int i = 0; i < rows; i++){
                     statement = connection.createStatement();
-                    int escribe2 = statement.executeUpdate("INSERT INTO VentaArticulo " +
+                    int escribe2 = statement.executeUpdate("INSERT INTO Ventas " +
                         "(RUC, fecha, nserie, cantidad, articulo, punitario, ptotal) " +
                     "VALUES(" +
                     "'"+rucTxt.getText()+"' ,"+
@@ -3737,7 +4793,7 @@ public final class Contab extends javax.swing.JFrame {
             conectarBD(baseDatos);
             try {
                 statement = connection.createStatement();
-                rs = statement.executeQuery("SELECT * FROM articulos WHERE " + "descripcion" + " LIKE '%" + (String)find+"%'");
+                rs = statement.executeQuery("SELECT * FROM Articulos WHERE " + "descripcion" + " LIKE '%" + (String)find+"%'");
                 while(rs.next()){
                     Object[] row = new Object[5];
                     row[0] = rs.getObject("codarticulo");
@@ -3830,21 +4886,29 @@ public final class Contab extends javax.swing.JFrame {
     private javax.swing.JTextField RUCTxt;
     private javax.swing.JButton agregarArticuloAFacturaButton;
     private javax.swing.JButton agregarArticuloButton;
+    private javax.swing.JComboBox articuloComboBox;
     public javax.swing.JTextField beneficioTxt;
     private javax.swing.JButton borrarFacturaClienteButton;
+    private javax.swing.JButton borrarFacturaClienteButton1;
     private javax.swing.JButton borrarFichaArticuloButton;
     private javax.swing.JButton borrarFichaClienteButton;
+    private javax.swing.JButton borrarProveedorButton;
     private javax.swing.JTextField buscarArticuloTxt;
     private javax.swing.JComboBox buscarClienteComboBox;
     private javax.swing.JTextField buscarClienteTxt;
     private javax.swing.JTextField buscarFacturaClienteTxt;
+    private javax.swing.JTextField buscarFacturaProveedorTxt;
     private javax.swing.JTextField buscarFechaTxt;
+    private javax.swing.JTextField buscarFechaTxt1;
     private javax.swing.JTextField buscarProveedorTxt;
     private javax.swing.JButton calcularArticuloButton;
     private javax.swing.JButton calucularFacturaButton;
+    private javax.swing.JButton calucularFacturaButton1;
     private javax.swing.JTextField ciudadClienteTxt;
+    private javax.swing.JTextField ciudadProveedorTxt;
     private javax.swing.JTextField ciudadTxt;
     private javax.swing.JButton cleanFacturaButton;
+    private javax.swing.JButton cleanFacturaButton1;
     private javax.swing.JButton clearBusquedaTxt;
     private javax.swing.JButton clearBusquedaTxt1;
     private javax.swing.JTextField clienteFacturaTxt;
@@ -3853,16 +4917,24 @@ public final class Contab extends javax.swing.JFrame {
     private javax.swing.JTextField cobradoTxt2;
     private javax.swing.JTextField cobradoTxt4;
     private javax.swing.JButton cobrarFacturaButton1;
+    private javax.swing.JTextArea contactoTextArea;
     private javax.swing.JButton copiaBDButton;
     private javax.swing.JButton crearFacturaClienteButton;
+    private javax.swing.JButton crearFacturaClienteButton1;
     public javax.swing.JTextArea detalleArticuloTxt;
     private javax.swing.JTextField direccionClienteTxt;
+    private javax.swing.JTextField direccionProveedorTxt;
     private javax.swing.JTextField direccionTxt;
     private javax.swing.JButton eliminarArticuloButton;
     private javax.swing.JTextField emailClienteTxt;
+    private javax.swing.JTextField emailProveedorTxt;
+    private javax.swing.JTextField empresaTxt;
     private javax.swing.JTable facturaArticulosClienteTable;
+    private javax.swing.JTable facturasProveedoresTable;
     private javax.swing.JRadioButton fechaBuscarRadioButton;
+    private javax.swing.JRadioButton fechaBuscarRadioButton1;
     private javax.swing.JTextField fechaClienteTxt;
+    private javax.swing.JTextField fechaCompraTxt;
     private javax.swing.JTextField fechaTxt;
     private javax.swing.JTextField fuenteBaseTxt;
     private javax.swing.JTextField fuentePorTxt;
@@ -3870,15 +4942,23 @@ public final class Contab extends javax.swing.JFrame {
     private javax.swing.JButton guardarArticuloButton;
     private javax.swing.JButton guardarClienteButton;
     private javax.swing.JButton guardarFacturaButton;
+    private javax.swing.JButton guardarFacturaButton1;
+    private javax.swing.JButton guardarProveedorButton;
     public javax.swing.JTextField idArticuloTxt;
     private javax.swing.JTextField idClienteTxt;
+    private javax.swing.JTextField idFacturaProveedorTxt;
     private javax.swing.JTextField idFacturaTxt;
+    private javax.swing.JTextField idProveedorTxt;
     private javax.swing.JButton imprimirFacturaButton;
+    private javax.swing.JButton imprimirFacturaButton1;
     private javax.swing.JTextField ivaPorTxt;
     private javax.swing.JTextField ivaTxt;
     private javax.swing.JTextField ivaTxt1;
+    private javax.swing.JTextField ivaTxt2;
+    private javax.swing.JTextField ivaTxt3;
     private javax.swing.JTextField ivabaseTxt;
     private javax.swing.JTextField ivat12Txt;
+    private javax.swing.JTextField ivat12Txt1;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -3911,9 +4991,23 @@ public final class Contab extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel35;
     private javax.swing.JLabel jLabel36;
     private javax.swing.JLabel jLabel37;
+    private javax.swing.JLabel jLabel38;
+    private javax.swing.JLabel jLabel39;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel40;
+    private javax.swing.JLabel jLabel41;
+    private javax.swing.JLabel jLabel42;
+    private javax.swing.JLabel jLabel43;
+    private javax.swing.JLabel jLabel44;
+    private javax.swing.JLabel jLabel45;
+    private javax.swing.JLabel jLabel46;
+    private javax.swing.JLabel jLabel47;
+    private javax.swing.JLabel jLabel48;
     private javax.swing.JLabel jLabel49;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel50;
+    private javax.swing.JLabel jLabel51;
+    private javax.swing.JLabel jLabel52;
     private javax.swing.JLabel jLabel54;
     private javax.swing.JLabel jLabel55;
     private javax.swing.JLabel jLabel56;
@@ -3925,13 +5019,24 @@ public final class Contab extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel61;
     private javax.swing.JLabel jLabel62;
     private javax.swing.JLabel jLabel63;
+    private javax.swing.JLabel jLabel65;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel71;
+    private javax.swing.JLabel jLabel72;
+    private javax.swing.JLabel jLabel77;
+    private javax.swing.JLabel jLabel78;
+    private javax.swing.JLabel jLabel79;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel80;
+    private javax.swing.JLabel jLabel81;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
+    private javax.swing.JPanel jPanel12;
+    private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel25;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
@@ -3940,10 +5045,13 @@ public final class Contab extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane11;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
+    private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JToolBar.Separator jSeparator1;
     private javax.swing.JToolBar.Separator jSeparator10;
@@ -3992,12 +5100,44 @@ public final class Contab extends javax.swing.JFrame {
     private javax.swing.JToolBar.Separator jSeparator5;
     private javax.swing.JToolBar.Separator jSeparator50;
     private javax.swing.JToolBar.Separator jSeparator51;
+    private javax.swing.JToolBar.Separator jSeparator52;
+    private javax.swing.JToolBar.Separator jSeparator53;
+    private javax.swing.JToolBar.Separator jSeparator54;
+    private javax.swing.JToolBar.Separator jSeparator55;
+    private javax.swing.JToolBar.Separator jSeparator56;
+    private javax.swing.JToolBar.Separator jSeparator57;
+    private javax.swing.JToolBar.Separator jSeparator58;
+    private javax.swing.JToolBar.Separator jSeparator59;
     private javax.swing.JToolBar.Separator jSeparator6;
+    private javax.swing.JToolBar.Separator jSeparator60;
+    private javax.swing.JToolBar.Separator jSeparator61;
+    private javax.swing.JToolBar.Separator jSeparator62;
+    private javax.swing.JToolBar.Separator jSeparator63;
+    private javax.swing.JToolBar.Separator jSeparator64;
+    private javax.swing.JToolBar.Separator jSeparator65;
+    private javax.swing.JToolBar.Separator jSeparator66;
+    private javax.swing.JToolBar.Separator jSeparator67;
+    private javax.swing.JToolBar.Separator jSeparator68;
+    private javax.swing.JToolBar.Separator jSeparator69;
     private javax.swing.JToolBar.Separator jSeparator7;
+    private javax.swing.JToolBar.Separator jSeparator70;
+    private javax.swing.JToolBar.Separator jSeparator71;
+    private javax.swing.JToolBar.Separator jSeparator72;
+    private javax.swing.JToolBar.Separator jSeparator73;
+    private javax.swing.JToolBar.Separator jSeparator74;
+    private javax.swing.JToolBar.Separator jSeparator75;
+    private javax.swing.JToolBar.Separator jSeparator76;
+    private javax.swing.JToolBar.Separator jSeparator77;
+    private javax.swing.JToolBar.Separator jSeparator78;
+    private javax.swing.JToolBar.Separator jSeparator79;
     private javax.swing.JToolBar.Separator jSeparator8;
+    private javax.swing.JToolBar.Separator jSeparator80;
+    private javax.swing.JToolBar.Separator jSeparator81;
     private javax.swing.JToolBar.Separator jSeparator9;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JToolBar jToolBar1;
+    private javax.swing.JToolBar jToolBar10;
+    private javax.swing.JToolBar jToolBar11;
     private javax.swing.JToolBar jToolBar2;
     private javax.swing.JToolBar jToolBar3;
     private javax.swing.JToolBar jToolBar4;
@@ -4005,28 +5145,41 @@ public final class Contab extends javax.swing.JFrame {
     private javax.swing.JToolBar jToolBar6;
     private javax.swing.JToolBar jToolBar7;
     private javax.swing.JToolBar jToolBar8;
+    private javax.swing.JToolBar jToolBar9;
     private javax.swing.JButton limpiarArticuloTxt;
     private javax.swing.JTable listaArticulosTabla;
     private javax.swing.JTable listaFacturaClientesTabla;
     private javax.swing.JTextField nombreComercialTxt;
     private javax.swing.JButton nuevaFacturaButton;
+    private javax.swing.JButton nuevaFacturaButton1;
     private javax.swing.JButton nuevoArticuloButton;
     private javax.swing.JButton nuevoClienteButton;
+    private javax.swing.JButton nuevoProveedorButton;
     private javax.swing.JTextField numeroSerieTxt;
+    private javax.swing.JButton pagarFacturaButton;
     public javax.swing.JTextField precioCosteTxt;
     public javax.swing.JTextField precioFinalTxt;
     public javax.swing.JTextField precioVentaTxt;
+    private javax.swing.JTextField proveedorFacturaTxt;
     public javax.swing.JTextField proveedorTxt;
     private javax.swing.JTable proveedoresTable;
     private javax.swing.JTextField recividoTxt;
     private javax.swing.JTextField recividoTxt1;
     private javax.swing.JButton resturaBDButton;
     private javax.swing.JTextField retencionTxt;
+    private javax.swing.JTextField rucFacturaProveedorTxt;
+    private javax.swing.JTextField rucProveedorTxt;
     private javax.swing.JTextField rucTxt;
+    private javax.swing.JTextField serieFacturaProveedorTxt;
     public javax.swing.JTextField stockTxt;
     private javax.swing.JTextField subtotalTxt;
+    private javax.swing.JTextField subtotalTxt1;
     private javax.swing.JTextField telefonoClienteTxt;
+    private javax.swing.JTextField telefonoProveedorTxt;
+    private javax.swing.JTextArea telefonoTextArea;
     private javax.swing.JTextField telefonoTxt;
     private javax.swing.JTextField totalTxt;
+    private javax.swing.JTextField totalTxt1;
+    private javax.swing.JTextField wwwTxt;
     // End of variables declaration//GEN-END:variables
 }
