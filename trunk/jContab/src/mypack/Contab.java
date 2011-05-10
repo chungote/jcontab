@@ -17,6 +17,8 @@
 package mypack;
 
 
+import com.nilo.plaf.nimrod.NimRODLookAndFeel;
+import com.nilo.plaf.nimrod.NimRODTheme;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
@@ -154,10 +156,17 @@ public final class Contab extends javax.swing.JFrame {
         actualizaTablaProveedoresAnchos();
         seleccionProveedoresTabla();
         
-        leerFacturaProveedorBD("Proveedor", "");
+        buscarFechaTxt1.setText(hoy);
+        String find2;
+        if(fechaBuscarRadioButton1.isSelected()){
+            
+            find2 = buscarFechaTxt1.getText();
+        }else{
+            find2 = "";
+        }
+        leerFacturaProveedorBD("Proveedor", "", find2);
         actualizaTablaFacturasProveedoresAnchos();
         seleccionFacturasProveedoresTabla();
-        buscarFechaTxt1.setText(hoy);
     }
  
     /*
@@ -272,7 +281,6 @@ public final class Contab extends javax.swing.JFrame {
                                 "Retenido",
                                 "Recivido",
                                 "Nota"};
-        ArrayList data1 = new ArrayList();
         DefaultTableModel model = new DefaultTableModel(columnNames, 0);
                 
         //si esta presente driver guarda informacion
@@ -1204,6 +1212,7 @@ public final class Contab extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jLabel1.setBackground(new java.awt.Color(255, 255, 255));
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mypack/arcusmedicalogocolores.png"))); // NOI18N
 
         jToolBar1.setFloatable(false);
@@ -2588,6 +2597,7 @@ public final class Contab extends javax.swing.JFrame {
         jLabel78.setText("Factura SERIE Nº :");
 
         serieFacturaProveedorTxt.setFont(new java.awt.Font("Dialog", 0, 10));
+        serieFacturaProveedorTxt.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         subtotalTxt1.setFont(new java.awt.Font("Dialog", 0, 10));
         subtotalTxt1.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
@@ -2804,10 +2814,10 @@ public final class Contab extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jScrollPane11, javax.swing.GroupLayout.DEFAULT_SIZE, 755, Short.MAX_VALUE)
                 .addContainerGap())
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel25, javax.swing.GroupLayout.PREFERRED_SIZE, 579, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                         .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -2825,15 +2835,15 @@ public final class Contab extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jToolBar11, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jPanel25, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 64, Short.MAX_VALUE)
                         .addComponent(pagarFacturaButton)
-                        .addGap(27, 27, 27))))
+                        .addGap(27, 27, 27))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(jPanel25, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())))
         );
 
         jTabbedPane1.addTab("Facturas compras", new javax.swing.ImageIcon(getClass().getResource("/mypack/view-file-columns.png")), jPanel4); // NOI18N
@@ -3479,7 +3489,40 @@ public final class Contab extends javax.swing.JFrame {
 
     private void cobrarFacturaButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cobrarFacturaButton1ActionPerformed
         // TODO add your handling code here:
-        
+        if(flagDriver == 1){
+            conectarBD(baseDatos);
+            try {
+                    statement = connection.createStatement();
+                    int actualizar = statement.executeUpdate("UPDATE FacturasClientes SET " +
+                    "Cliente='"+clienteFacturaTxt.getText()+"' ,"+
+                    "RUC='"+rucTxt.getText()+"' ,"+
+                    "Cobrado='"+"true"+"' ,"+
+                    "Subtotal='"+subtotalTxt.getText()+"' ,"+
+                    "Iva='"+ivat12Txt.getText()+"' ,"+
+                    "Total='"+totalTxt.getText()+"' ,"+
+                    "Fuente='"+retencionTxt.getText()+"' ,"+
+                    "Recivido='"+recividoTxt1.getText()+"' ,"+
+                    "Fecha='"+fechaTxt.getText()+"' ,"+
+                    "Nserie='"+numeroSerieTxt.getText()+"' ,"+
+                    "Direccion='"+direccionTxt.getText()+"' ,"+
+                    "Ciudad='"+ciudadTxt.getText()+"' ,"+
+                    "Telefono='"+telefonoTxt.getText()+"'"+
+                    " WHERE id =" + (String)idFacturaTxt.getText());
+
+                    statement.close();
+                    connection.close();
+
+                //custom title, warning icon
+                JFrame frame = new JFrame();
+                JOptionPane.showMessageDialog(frame,
+                        "Factura cobrada",
+                        "Información", JOptionPane.WARNING_MESSAGE);
+                flagSaveFichaCliente = 1; //actualizar
+
+            } catch (Exception e) {
+                System.out.println("ERROR: "+e);
+            }
+        }
         
     }//GEN-LAST:event_cobrarFacturaButton1ActionPerformed
 
@@ -4169,24 +4212,196 @@ public final class Contab extends javax.swing.JFrame {
 
     private void nuevoProveedorButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nuevoProveedorButtonActionPerformed
         // TODO add your handling code here:
+        limpiaFichaProveedor();       
+        flagSaveFichaProveedor = 0;   //Guardar dato
     }//GEN-LAST:event_nuevoProveedorButtonActionPerformed
 
     private void borrarProveedorButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_borrarProveedorButtonActionPerformed
         // TODO add your handling code here:
+        //Necesita password de super usuario
+        JPasswordField jpf = new JPasswordField();
+        JOptionPane.showConfirmDialog(null, jpf, "Clave de administrador", JOptionPane.OK_CANCEL_OPTION);
+        // jpf.getPassword();
+        char[] input = jpf.getPassword();
+        char[] correctPassword = { '1','2'};
+        boolean isCorrect = true;
+        isCorrect = Arrays.equals(input, correctPassword);
+        if(isCorrect){
+            //Password Valido procede a borrar
+            ////chequea si es posible borrar
+            if (!idProveedorTxt.getText().isEmpty()){
+                borrarFichaProveedor();
+                limpiaFichaProveedor();
+            }
+        }
     }//GEN-LAST:event_borrarProveedorButtonActionPerformed
 
+    
+    /*
+     * Borrar proveedor de la base de datos
+     */
+    void borrarFichaProveedor(){
+        if(flagDriver == 1){
+            conectarBD(baseDatos);
+            try {
+                statement = connection.createStatement();
+                int borrar = statement.executeUpdate("DELETE FROM Proveedores WHERE id=" + (String)idProveedorTxt.getText());
+                System.out.println("Erased");
+                statement.close();
+                connection.close();
+                JFrame frame = new JFrame();
+                JOptionPane.showMessageDialog(frame,
+                        "Proveedor borrado",
+                        "Información", JOptionPane.INFORMATION_MESSAGE);
+            } catch (Exception e) {
+                JFrame frame = new JFrame();
+                JOptionPane.showMessageDialog(frame,
+                        "No se borro proveedor",
+                        "Error - 12", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+
+    /*
+     * Limpia ficha de proveedor
+     */
+    void limpiaFichaProveedor(){
+        idProveedorTxt.setText("");
+        empresaTxt.setText("");
+        contactoTextArea.setText("");
+        telefonoTextArea.setText("");
+        emailProveedorTxt.setText("");
+        ciudadProveedorTxt.setText("");
+        wwwTxt.setText("");
+        rucProveedorTxt.setText("");
+    }
+    
     private void guardarProveedorButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarProveedorButtonActionPerformed
         // TODO add your handling code here:
+        if (flagSaveFichaProveedor == 0){
+            //GUARDAR
+            //chequea si hay escrito los datos, si hay? guarda
+            if((!empresaTxt.getText().isEmpty()) && !telefonoTextArea.getText().isEmpty()){
+                guardarProveedorNuevo();
+            }
+        }else{
+            //ACTUALIZA
+            //chequea si hay escrito los datos
+           if((!empresaTxt.getText().isEmpty()) && !telefonoTextArea.getText().isEmpty()){
+                actualizarProveedor();
+            }
+        }
     }//GEN-LAST:event_guardarProveedorButtonActionPerformed
+
+    
+     /*
+     * Actualizar datos de proveedores en la base de datos
+     */
+    void actualizarProveedor(){
+        if(flagDriver == 1){
+            conectarBD(baseDatos);
+            try {
+                statement = connection.createStatement();
+                int actualizar = statement.executeUpdate("UPDATE Proveedores SET " +
+                    "Empresa='" + empresaTxt.getText()+"', "+
+                    "Contacto='" + contactoTextArea.getText()+"', "+
+                    "Email='" + emailProveedorTxt.getText()+"', "+
+                    "Telefono='" + telefonoTextArea.getText()+"', "+
+                    "Ciudad='" + ciudadProveedorTxt.getText()+"', "+
+                    "Direccion='" + wwwTxt.getText()+"', "+
+                    "RUC='" + rucProveedorTxt.getText()+"'"+
+                    " WHERE id =" + (String)idProveedorTxt.getText());
+
+                statement.close();
+                connection.close();
+                leerProveedorBD("Empresa", "");
+                actualizaTablaProveedoresAnchos();
+                //custom title, warning icon
+                JOptionPane.showMessageDialog(new JFrame(),
+                        "Proveedor actualizado",
+                        "Información", JOptionPane.WARNING_MESSAGE);
+                leerProveedorBD("Empresa", "");
+                actualizaTablaProveedoresAnchos();
+
+            } catch (Exception e) {
+                System.out.println("Error: "+ e);
+                JFrame frame = new JFrame();
+                JOptionPane.showMessageDialog(frame,
+                        "Proveedor no se actualizo",
+                        "Error - 14", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+
+    
+     /*
+     * Guarda en base de datos nueva ficha de proveedor
+     */
+    void guardarProveedorNuevo(){
+        if(flagDriver == 1){
+            conectarBD(baseDatos);
+            try {
+                statement = connection.createStatement();
+                int escribe = statement.executeUpdate("INSERT INTO Proveedores " +
+                        "(Empresa, Contacto, Email, Telefono, Ciudad, Direccion, RUC) " +
+                    "VALUES(" +
+                    "'"+empresaTxt.getText()+"' ,"+
+                    "'"+contactoTextArea.getText()+"' ,"+
+                    "'"+emailProveedorTxt.getText()+"' ,"+
+                    "'"+telefonoTextArea.getText()+"' ,"+
+                    "'"+ciudadProveedorTxt.getText()+"' ,"+
+                    "'"+wwwTxt.getText()+"' ,"+
+                    "'"+rucProveedorTxt.getText()+"'"+
+                ")");
+                flagSaveFichaProveedor = 1;
+                statement.close();
+                connection.close();
+                //custom title, warning icon
+                JOptionPane.showMessageDialog(new JFrame(),
+                        "Proveedor guardado",
+                        "Información", JOptionPane.WARNING_MESSAGE);
+                leerProveedorBD("Empresa", "");
+                actualizaTablaProveedoresAnchos();
+            } catch (Exception e) {
+                System.out.println("Error: "+ e);
+                JFrame frame = new JFrame();
+                JOptionPane.showMessageDialog(frame,
+                        "Ficha de proveedor no se guardo",
+                        "Error - 13", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
 
     private void crearFacturaClienteButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_crearFacturaClienteButton1ActionPerformed
         // TODO add your handling code here:
+        SimpleDateFormat formato = new SimpleDateFormat("dd/MMM/yyyy", new Locale("ES", "EC"));
+        Date fechaActual = new Date();
+        String hoy = formato.format(fechaActual);
+        
+        //escrituraFichaFactura();
+        //cargaFichaCliente();
+        jTabbedPane1.setSelectedIndex(3);
+        //Tomo informacion para crear factura
+        proveedorFacturaTxt.setText(empresaTxt.getText());
+        rucFacturaProveedorTxt.setText(rucProveedorTxt.getText());
+        fechaCompraTxt.setText(hoy);
+        direccionProveedorTxt.setText(wwwTxt.getText());
+        //telefonoProveedorTxt.setText(telefonoTextArea.getText());
+        subtotalTxt1.setText("0.00");
     }//GEN-LAST:event_crearFacturaClienteButton1ActionPerformed
 
     private void buscarFacturaProveedorTxtCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_buscarFacturaProveedorTxtCaretUpdate
         // TODO add your handling code here:
         String buscar = buscarFacturaProveedorTxt.getText();
-        leerFacturaProveedorBD("Proveedor", buscar);
+        String find2;
+        if(fechaBuscarRadioButton1.isSelected()){
+            
+            find2 = buscarFechaTxt1.getText();
+        }else{
+            find2 = "";
+        }
+        
+        leerFacturaProveedorBD("Proveedor", buscar, find2);
         actualizaTablaFacturasProveedoresAnchos();
     }//GEN-LAST:event_buscarFacturaProveedorTxtCaretUpdate
 
@@ -4194,7 +4409,8 @@ public final class Contab extends javax.swing.JFrame {
      /*
      * Lee base de datos leerToDB() de acuerdo a cierta busqueda
      */
-    void leerFacturaProveedorBD(String findClave, String find){
+    void leerFacturaProveedorBD(String findClave, String find, String findClave1){
+        //leerClientesFactura("Cliente", "", find1);
         facturasProveedoresTable.removeAll();
         facturasProveedoresTable.updateUI();
         String[] columnNames = {"Código",
@@ -4210,7 +4426,8 @@ public final class Contab extends javax.swing.JFrame {
             conectarBD(baseDatos);
             try {
                 statement = connection.createStatement();
-                rs = statement.executeQuery("SELECT * FROM FacturaProveedores WHERE " + findClave + " LIKE '%" + (String)find+"%'");
+                //rs = statement.executeQuery("SELECT * FROM FacturasClientes WHERE " + findClave + " LIKE '%" + (String)find+"%'" + "AND Fecha"+ " LIKE '%" + (String)findClave1 +"%'");
+                rs = statement.executeQuery("SELECT * FROM FacturaProveedores WHERE " + findClave + " LIKE '%" + (String)find+"%'"+ "AND Fecha"+ " LIKE '%" + (String)findClave1 +"%'");
                 while(rs.next()){
                     Object[] row = new Object[7];
                     row[0] = rs.getObject("id");
@@ -4223,7 +4440,34 @@ public final class Contab extends javax.swing.JFrame {
                     model.addRow(row);
                 }
                 facturasProveedoresTable.setModel(model);
-
+                rs.close();
+                statement.close();
+                connection.close();
+                
+                //Computo de totales de iva, fuente, recivido
+                //______________________________
+                DecimalFormat nf = new DecimalFormat("####.##");
+                nf.setMinimumFractionDigits(2);
+                nf.setMaximumFractionDigits(2);
+                
+                String iva = "";
+                String total = "";
+                Double res = 0.00;
+                Double res1 = 0.00;
+                Double temp = 0.00;
+                for (int i = 0, rows =facturasProveedoresTable.getRowCount(); i < rows; i++)
+                { 
+                    iva = (String) facturasProveedoresTable.getValueAt(i, 4).toString();
+                    temp =  Double.valueOf(iva);
+                    res = res + temp;
+                    
+                    total = (String) facturasProveedoresTable.getValueAt(i, 6).toString();
+                    temp =  Double.valueOf(total);
+                    res1 = res1 + temp;
+                }
+                ivaTxt2.setText(nf.format(res1));
+                ivaTxt3.setText(nf.format(res)); //compras
+                
             } catch (Exception e) {
                 System.out.println("Error de lectura");
                 System.out.println(e);
@@ -4233,10 +4477,22 @@ public final class Contab extends javax.swing.JFrame {
 
     private void cleanFacturaButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cleanFacturaButton1ActionPerformed
         // TODO add your handling code here:
+        buscarFacturaProveedorTxt.setText("");
     }//GEN-LAST:event_cleanFacturaButton1ActionPerformed
 
     private void buscarFechaTxt1CaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_buscarFechaTxt1CaretUpdate
         // TODO add your handling code here:
+        String buscar = buscarFacturaProveedorTxt.getText();
+        String find2;
+        if(fechaBuscarRadioButton1.isSelected()){
+            
+            find2 = buscarFechaTxt1.getText();
+        }else{
+            find2 = "";
+        }
+        
+        leerFacturaProveedorBD("Proveedor", buscar, find2);
+        actualizaTablaFacturasProveedoresAnchos();
     }//GEN-LAST:event_buscarFechaTxt1CaretUpdate
 
     private void nuevaFacturaButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nuevaFacturaButton1ActionPerformed
@@ -4268,8 +4524,53 @@ public final class Contab extends javax.swing.JFrame {
     
     private void borrarFacturaClienteButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_borrarFacturaClienteButton1ActionPerformed
         // TODO add your handling code here:
+        //Necesita password de super usuario
+        JPasswordField jpf = new JPasswordField();
+        JOptionPane.showConfirmDialog(null, jpf, "Clave de administrador", JOptionPane.OK_CANCEL_OPTION);
+        // jpf.getPassword();
+        char[] input = jpf.getPassword();
+        char[] correctPassword = { '1','2'};
+        boolean isCorrect = true;
+        isCorrect = Arrays.equals(input, correctPassword);
+        if(isCorrect){
+            //Password Valido procede a borrar
+            ////chequea si es posible borrar
+            if (!idFacturaProveedorTxt.getText().isEmpty()){
+               borrarFichaFacturaProveedor();
+               limpiaFichaFacturaProveedor();
+               leerFacturaProveedorBD("Proveedor", "", buscarFechaTxt1.getText());
+               actualizaTablaFacturasProveedoresAnchos();
+            }
+        }
     }//GEN-LAST:event_borrarFacturaClienteButton1ActionPerformed
 
+    
+     /*
+     * Borrar articulo de la base de datos
+     */
+    void borrarFichaFacturaProveedor(){
+        if(flagDriver == 1){
+            conectarBD(baseDatos);
+            try {
+                statement = connection.createStatement();
+                int borrar = statement.executeUpdate("DELETE FROM FacturaProveedores WHERE id=" + (String)idFacturaProveedorTxt.getText());
+                statement.close();
+                connection.close();
+                JFrame frame = new JFrame();
+                JOptionPane.showMessageDialog(frame,
+                        "Factura borrada",
+                        "Información", JOptionPane.INFORMATION_MESSAGE);
+            } catch (Exception e) {
+                System.out.println(e);
+                JFrame frame = new JFrame();
+                JOptionPane.showMessageDialog(frame,
+                        "No se borro factura",
+                        "Error - 11", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+
+    
     private void guardarFacturaButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarFacturaButton1ActionPerformed
         // TODO add your handling code here:
         //chequea si actualiza o guarda datos
@@ -4303,7 +4604,7 @@ public final class Contab extends javax.swing.JFrame {
                     "Proveedor='" + proveedorFacturaTxt.getText()+"', "+
                     "Fecha='" + fechaCompraTxt.getText()+"', "+
                     "RUC='" + rucFacturaProveedorTxt.getText()+"', "+
-                    "Pagado='" +"false"+"', "+
+                    //"Pagado='" +"false"+"', "+
                     "Direccion='" + direccionProveedorTxt.getText()+"', "+
                     "Subtotal='" + subtotalTxt1.getText()+"', "+
                     "IVA='" + ivat12Txt1.getText()+"', "+
@@ -4319,7 +4620,7 @@ public final class Contab extends javax.swing.JFrame {
                         "Factura actualizada",
                         "Información", JOptionPane.WARNING_MESSAGE);
                 flagSaveFacturaProveedor = 1; //actualizar
-                leerFacturaProveedorBD("Proveedor", "");
+                leerFacturaProveedorBD("Proveedor", "", buscarFechaTxt1.getText());
                 actualizaTablaFacturasProveedoresAnchos();
             } catch (Exception e) {
                 JFrame frame = new JFrame();
@@ -4359,7 +4660,7 @@ public final class Contab extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(new JFrame(),
                         "Factura guardada",
                         "Información", JOptionPane.WARNING_MESSAGE);
-                leerFacturaProveedorBD("Proveedor", "");
+                leerFacturaProveedorBD("Proveedor", "", buscarFechaTxt1.getText());
                 actualizaTablaFacturasProveedoresAnchos();
             } catch (Exception e) {
                 System.out.println("Error: "+ e);
@@ -4410,6 +4711,40 @@ public final class Contab extends javax.swing.JFrame {
 
     private void pagarFacturaButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pagarFacturaButtonActionPerformed
         // TODO add your handling code here:
+        if(flagDriver == 1){
+            conectarBD(baseDatos);
+            try {                    
+                statement = connection.createStatement();
+                int actualizar = statement.executeUpdate("UPDATE FacturaProveedores SET " +
+                    "Nserie='" +serieFacturaProveedorTxt.getText()+"', "+
+                    "Proveedor='" + proveedorFacturaTxt.getText()+"', "+
+                    "Fecha='" + fechaCompraTxt.getText()+"', "+
+                    "RUC='" + rucFacturaProveedorTxt.getText()+"', "+
+                    "Pagado='" +"true"+"', "+
+                    "Direccion='" + direccionProveedorTxt.getText()+"', "+
+                    "Subtotal='" + subtotalTxt1.getText()+"', "+
+                    "IVA='" + ivat12Txt1.getText()+"', "+
+                    "Total='" + totalTxt1.getText()+"', "+
+                    "Telefono='" + telefonoProveedorTxt.getText()+"', "+
+                    "Articulo='" + articuloComboBox.getSelectedIndex() +"'"+
+                    " WHERE id =" + (String)idFacturaProveedorTxt.getText());
+                statement.close();
+                connection.close();
+                 //custom title, warning icon
+                JFrame frame = new JFrame();
+                JOptionPane.showMessageDialog(frame,
+                        "Factura pagada",
+                        "Información", JOptionPane.WARNING_MESSAGE);
+                flagSaveFacturaProveedor = 1; //actualizar
+                leerFacturaProveedorBD("Proveedor", "", "");
+                actualizaTablaFacturasProveedoresAnchos();
+            } catch (Exception e) {
+                JFrame frame = new JFrame();
+                JOptionPane.showMessageDialog(frame,
+                        "Factura no se pago",
+                        "Error - 12", JOptionPane.ERROR_MESSAGE);
+            }
+        }
     }//GEN-LAST:event_pagarFacturaButtonActionPerformed
   
     
@@ -4576,13 +4911,13 @@ public final class Contab extends javax.swing.JFrame {
 
                 JFrame frame = new JFrame();
                 JOptionPane.showMessageDialog(frame,
-                        "Ficha de factura borrada",
+                        "Factura borrada",
                         "Información", JOptionPane.INFORMATION_MESSAGE);
             } catch (Exception e) {
                 JFrame frame = new JFrame();
                 JOptionPane.showMessageDialog(frame,
-                        "Error 2: al borrar ficha de factura",
-                        "Error", JOptionPane.ERROR_MESSAGE);
+                        "No se borro factura",
+                        "Error - 13", JOptionPane.ERROR_MESSAGE);
             }
         }
     }
@@ -4869,8 +5204,22 @@ public final class Contab extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        java.awt.EventQueue.invokeLater(new Runnable() {
+        /*try {
+            //UIManager.setLookAndFeel("Nimbus");
+            //UIManager.setLookAndFeel( new com.nilo.plaf.nimrod.NimRODLookAndFeel());
+            //String filename = "C:\\ClinicManager\\Snow.theme";
+            String filename = System.getProperty("user.home") + "/jContab/LightTabaco.theme";
+            NimRODTheme nt = new NimRODTheme(filename);
+            NimRODLookAndFeel nf = new NimRODLookAndFeel();
+            nf.setCurrentTheme(nt);
+            UIManager.setLookAndFeel(nf);
 
+        } catch (Exception e) {
+            System.out.println("Theme no encontrado: "+e);
+        }
+         * 
+         */
+        java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new Contab().setVisible(true);
             }
