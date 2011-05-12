@@ -317,6 +317,7 @@ public final class Contab extends javax.swing.JFrame {
                 String iva = "";
                 String fuente= "";
                 String total = "";
+                String cobrado = "";
                 Double res = 0.00;
                 Double res1 = 0.00;
                 Double res2 = 0.00;
@@ -324,21 +325,43 @@ public final class Contab extends javax.swing.JFrame {
                 Double temp = 0.00;
                 for (int i = 0, rows =listaFacturaClientesTabla.getRowCount(); i < rows; i++)
                 { 
-                    iva = (String) listaFacturaClientesTabla.getValueAt(i, 5).toString();
-                    temp =  Double.valueOf(iva);
-                    res = res + temp;
-                    
-                    total = (String) listaFacturaClientesTabla.getValueAt(i, 3).toString();
-                    temp =  Double.valueOf(total);
-                    res1 = res1 + temp;
-                    
-                    fuente = (String) listaFacturaClientesTabla.getValueAt(i, 6).toString();
-                    temp =  Double.valueOf(fuente);
-                    res2 = res2 + temp;
-                    
-                    recivido = (String) listaFacturaClientesTabla.getValueAt(i, 7).toString();
-                    temp =  Double.valueOf(recivido);
-                    res3 = res3 + temp;
+                    if(filtrarCobradoRadioButton.isSelected()){
+                        cobrado = (String) listaFacturaClientesTabla.getValueAt(i, 4).toString();
+                        if(cobrado.equals("true")){
+                            //Calcula y muestra solo facturas cobradas
+                            iva = (String) listaFacturaClientesTabla.getValueAt(i, 5).toString();
+                            temp =  Double.valueOf(iva);
+                            res = res + temp;
+
+                            total = (String) listaFacturaClientesTabla.getValueAt(i, 3).toString();
+                            temp =  Double.valueOf(total);
+                            res1 = res1 + temp;
+
+                            fuente = (String) listaFacturaClientesTabla.getValueAt(i, 6).toString();
+                            temp =  Double.valueOf(fuente);
+                            res2 = res2 + temp;
+
+                            recivido = (String) listaFacturaClientesTabla.getValueAt(i, 7).toString();
+                            temp =  Double.valueOf(recivido);
+                            res3 = res3 + temp;
+                        }
+                    }else{
+                        iva = (String) listaFacturaClientesTabla.getValueAt(i, 5).toString();
+                        temp =  Double.valueOf(iva);
+                        res = res + temp;
+
+                        total = (String) listaFacturaClientesTabla.getValueAt(i, 3).toString();
+                        temp =  Double.valueOf(total);
+                        res1 = res1 + temp;
+
+                        fuente = (String) listaFacturaClientesTabla.getValueAt(i, 6).toString();
+                        temp =  Double.valueOf(fuente);
+                        res2 = res2 + temp;
+
+                        recivido = (String) listaFacturaClientesTabla.getValueAt(i, 7).toString();
+                        temp =  Double.valueOf(recivido);
+                        res3 = res3 + temp;
+                    }
                 }
                 ivaTxt.setText(nf.format(res));
                 ivaTxt1.setText(nf.format(res1));
@@ -1050,6 +1073,7 @@ public final class Contab extends javax.swing.JFrame {
         recividoTxt = new javax.swing.JTextField();
         jLabel18 = new javax.swing.JLabel();
         ivaTxt1 = new javax.swing.JTextField();
+        filtrarCobradoRadioButton = new javax.swing.JRadioButton();
         cobrarFacturaButton1 = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
         jToolBar8 = new javax.swing.JToolBar();
@@ -2070,35 +2094,42 @@ public final class Contab extends javax.swing.JFrame {
         ivaTxt1.setFont(new java.awt.Font("Dialog", 0, 10));
         ivaTxt1.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
 
+        filtrarCobradoRadioButton.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
+        filtrarCobradoRadioButton.setText("Filtrar cobrados");
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addComponent(jLabel8)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(recividoTxt))
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(jLabel7)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(fuenteTxt))
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(jLabel6)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(ivaTxt))
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(jLabel18)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(ivaTxt1, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(recividoTxt, javax.swing.GroupLayout.DEFAULT_SIZE, 78, Short.MAX_VALUE))
+                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(jPanel5Layout.createSequentialGroup()
+                            .addComponent(jLabel7)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(fuenteTxt))
+                        .addGroup(jPanel5Layout.createSequentialGroup()
+                            .addComponent(jLabel6)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(ivaTxt))
+                        .addGroup(jPanel5Layout.createSequentialGroup()
+                            .addComponent(jLabel18)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(ivaTxt1, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(filtrarCobradoRadioButton))
+                .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(filtrarCobradoRadioButton)
+                .addGap(7, 7, 7)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel18)
                     .addComponent(ivaTxt1, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -2110,11 +2141,11 @@ public final class Contab extends javax.swing.JFrame {
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
                     .addComponent(fuenteTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
                     .addComponent(recividoTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(52, 52, 52))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         cobrarFacturaButton1.setFont(new java.awt.Font("Dialog", 1, 10));
@@ -2138,7 +2169,6 @@ public final class Contab extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGap(50, 50, 50)
@@ -2163,10 +2193,10 @@ public final class Contab extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jToolBar4, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addGap(18, 18, 18)
-                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 158, Short.MAX_VALUE)
+                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 150, Short.MAX_VALUE)
                         .addComponent(cobrarFacturaButton1)
                         .addGap(25, 25, 25))
                     .addGroup(jPanel2Layout.createSequentialGroup()
@@ -3608,7 +3638,7 @@ public final class Contab extends javax.swing.JFrame {
                 facturaArticulosClienteTable.setValueAt(nf.format(res), i, 3);
         }
         Double subtotal;
-        res = 0.0;
+        res = 0.00;
          for (int i = 0, rows = facturaArticulosClienteTable.getRowCount(); i < rows; i++)
         {
                 //Calculo de subtotal
@@ -5285,6 +5315,7 @@ public final class Contab extends javax.swing.JFrame {
     private javax.swing.JTextField fechaClienteTxt;
     private javax.swing.JTextField fechaCompraTxt;
     private javax.swing.JTextField fechaTxt;
+    private javax.swing.JRadioButton filtrarCobradoRadioButton;
     private javax.swing.JTextField fuenteBaseTxt;
     private javax.swing.JTextField fuentePorTxt;
     private javax.swing.JTextField fuenteTxt;
