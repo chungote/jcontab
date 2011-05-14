@@ -1235,7 +1235,12 @@ public final class Contab extends javax.swing.JFrame {
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
-        reporteVentasMenuItem = new javax.swing.JMenuItem();
+        reporteFacturasCobradasMenuItem = new javax.swing.JMenuItem();
+        facturasNoCobradasMenuItem = new javax.swing.JMenuItem();
+        jSeparator4 = new javax.swing.JPopupMenu.Separator();
+        jMenuItem3 = new javax.swing.JMenuItem();
+        jMenuItem4 = new javax.swing.JMenuItem();
+        jSeparator5 = new javax.swing.JPopupMenu.Separator();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -1994,7 +1999,7 @@ public final class Contab extends javax.swing.JFrame {
         jToolBar4.add(jSeparator30);
 
         calucularFacturaButton.setBackground(new java.awt.Color(255, 255, 51));
-        calucularFacturaButton.setFont(new java.awt.Font("Dialog", 1, 10));
+        calucularFacturaButton.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
         calucularFacturaButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mypack/accessories-calculator.png"))); // NOI18N
         calucularFacturaButton.setText("Calc");
         calucularFacturaButton.setToolTipText("Computar factura");
@@ -3191,7 +3196,7 @@ public final class Contab extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Equipos", new javax.swing.ImageIcon(getClass().getResource("/mypack/hwinfo.png")), jPanel9); // NOI18N
 
-        jLabel2.setFont(new java.awt.Font("Purisa", 3, 18)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Purisa", 3, 18));
         jLabel2.setText("jContab - V3.0");
         jLabel2.setPreferredSize(new java.awt.Dimension(109, 22));
 
@@ -3220,13 +3225,31 @@ public final class Contab extends javax.swing.JFrame {
 
         jMenu2.setText("Reportes");
 
-        reporteVentasMenuItem.setText("Ventas");
-        reporteVentasMenuItem.addActionListener(new java.awt.event.ActionListener() {
+        reporteFacturasCobradasMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mypack/news-subscribe.png"))); // NOI18N
+        reporteFacturasCobradasMenuItem.setText("Facturas venta cobradas");
+        reporteFacturasCobradasMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                reporteVentasMenuItemActionPerformed(evt);
+                reporteFacturasCobradasMenuItemActionPerformed(evt);
             }
         });
-        jMenu2.add(reporteVentasMenuItem);
+        jMenu2.add(reporteFacturasCobradasMenuItem);
+
+        facturasNoCobradasMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mypack/news-unsubscribe.png"))); // NOI18N
+        facturasNoCobradasMenuItem.setText("Facturas venta x cobrar");
+        facturasNoCobradasMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                facturasNoCobradasMenuItemActionPerformed(evt);
+            }
+        });
+        jMenu2.add(facturasNoCobradasMenuItem);
+        jMenu2.add(jSeparator4);
+
+        jMenuItem3.setText("Facturas compra pagadas");
+        jMenu2.add(jMenuItem3);
+
+        jMenuItem4.setText("Facturas compra x pagar");
+        jMenu2.add(jMenuItem4);
+        jMenu2.add(jSeparator5);
 
         jMenuBar1.add(jMenu2);
 
@@ -4779,21 +4802,62 @@ public final class Contab extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
-    private void reporteVentasMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reporteVentasMenuItemActionPerformed
+    private void reporteFacturasCobradasMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reporteFacturasCobradasMenuItemActionPerformed
         // TODO add your handling code here:
         String filename = System.getProperty("user.home") + "/jContab/FacturasVenta.jasper";
-        Connection con;
+        Connection con = null;
         try {
-            Class.forName("com.myql.jdbc.Driver");
+            Class.forName("com.mysql.jdbc.Driver");
             con = DriverManager.getConnection(baseDatos);
+            HashMap parameters = new HashMap();
+            parameters.put("cobrado", "true");
+            parameters.put("indica", " cobradas");
+            
+            String input = JOptionPane.showInputDialog(new JFrame(),"Generar reporte:\n% - todo\n%2011 - periodo\nabr/2011 - mes",
+                        "Ingrese fecha", 
+                        JOptionPane.WARNING_MESSAGE);
+    
+            parameters.put("fecha", input);
             JasperReport reporte = (JasperReport) JRLoader.loadObject(filename);
-            JasperPrint jasperPrint = JasperFillManager.fillReport(filename, new HashMap(), con);
+            JasperPrint jasperPrint = JasperFillManager.fillReport(filename, parameters, con);
             JasperViewer jv = new JasperViewer(jasperPrint, false);
             jv.setVisible(true);
-        } catch (Exception e) {
+        } catch (Exception ex) {
+            System.out.println("CAUSE: " + ex.getCause());
+            System.out.println("MESSAGE" + ex.getMessage());
+            System.out.println("LOCAL MESSAGE" + ex.getLocalizedMessage());
+            ex.printStackTrace();
         }
         
-    }//GEN-LAST:event_reporteVentasMenuItemActionPerformed
+    }//GEN-LAST:event_reporteFacturasCobradasMenuItemActionPerformed
+
+    private void facturasNoCobradasMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_facturasNoCobradasMenuItemActionPerformed
+        // TODO add your handling code here:
+        String filename = System.getProperty("user.home") + "/jContab/FacturasVenta.jasper";
+        Connection con = null;
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            con = DriverManager.getConnection(baseDatos);
+            HashMap parameters = new HashMap();
+            parameters.put("cobrado", "false");
+            parameters.put("indica", " por cobrar");
+            
+            String input = JOptionPane.showInputDialog(new JFrame(),"Generar reporte:\n% - todo\n%2011 - periodo\nabr/2011 - mes",
+                        "Ingrese fecha", 
+                        JOptionPane.WARNING_MESSAGE);
+    
+            parameters.put("fecha", input);
+            JasperReport reporte = (JasperReport) JRLoader.loadObject(filename);
+            JasperPrint jasperPrint = JasperFillManager.fillReport(filename, parameters, con);
+            JasperViewer jv = new JasperViewer(jasperPrint, false);
+            jv.setVisible(true);
+        } catch (Exception ex) {
+            System.out.println("CAUSE: " + ex.getCause());
+            System.out.println("MESSAGE" + ex.getMessage());
+            System.out.println("LOCAL MESSAGE" + ex.getLocalizedMessage());
+            ex.printStackTrace();
+        }
+    }//GEN-LAST:event_facturasNoCobradasMenuItemActionPerformed
   
     
     /*
@@ -5326,6 +5390,7 @@ public final class Contab extends javax.swing.JFrame {
     private javax.swing.JTextField emailProveedorTxt;
     private javax.swing.JTextField empresaTxt;
     private javax.swing.JTable facturaArticulosClienteTable;
+    private javax.swing.JMenuItem facturasNoCobradasMenuItem;
     private javax.swing.JTable facturasProveedoresTable;
     private javax.swing.JRadioButton fechaBuscarRadioButton;
     private javax.swing.JRadioButton fechaBuscarRadioButton1;
@@ -5432,6 +5497,8 @@ public final class Contab extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
@@ -5488,6 +5555,7 @@ public final class Contab extends javax.swing.JFrame {
     private javax.swing.JToolBar.Separator jSeparator37;
     private javax.swing.JToolBar.Separator jSeparator38;
     private javax.swing.JToolBar.Separator jSeparator39;
+    private javax.swing.JPopupMenu.Separator jSeparator4;
     private javax.swing.JToolBar.Separator jSeparator40;
     private javax.swing.JToolBar.Separator jSeparator41;
     private javax.swing.JToolBar.Separator jSeparator42;
@@ -5498,6 +5566,7 @@ public final class Contab extends javax.swing.JFrame {
     private javax.swing.JToolBar.Separator jSeparator47;
     private javax.swing.JToolBar.Separator jSeparator48;
     private javax.swing.JToolBar.Separator jSeparator49;
+    private javax.swing.JPopupMenu.Separator jSeparator5;
     private javax.swing.JToolBar.Separator jSeparator50;
     private javax.swing.JToolBar.Separator jSeparator51;
     private javax.swing.JToolBar.Separator jSeparator52;
@@ -5563,7 +5632,7 @@ public final class Contab extends javax.swing.JFrame {
     private javax.swing.JTable proveedoresTable;
     private javax.swing.JTextField recividoTxt;
     private javax.swing.JTextField recividoTxt1;
-    private javax.swing.JMenuItem reporteVentasMenuItem;
+    private javax.swing.JMenuItem reporteFacturasCobradasMenuItem;
     private javax.swing.JTextField retencionTxt;
     private javax.swing.JTextField rucFacturaProveedorTxt;
     private javax.swing.JTextField rucProveedorTxt;
