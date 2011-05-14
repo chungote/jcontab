@@ -8,7 +8,7 @@
  *
  * Created on May 1, 2011, 10:01:05 PM
  * 
- * Correccion de vector to arraylist
+ * Correccion de vector to arraylist100
  * Mejoras de interfaz
  * Codigo mas limpio
  * Mas estabilidad y nuevas caracteristicas
@@ -48,6 +48,7 @@ import javax.swing.JLabel;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.Image;
+import java.beans.PropertyVetoException;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -74,7 +75,9 @@ import java.io.*;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.HashMap;
 import javax.swing.JCheckBox;
+import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
@@ -933,14 +936,6 @@ public final class Contab extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jToolBar1 = new javax.swing.JToolBar();
-        jSeparator4 = new javax.swing.JToolBar.Separator();
-        jLabel2 = new javax.swing.JLabel();
-        jSeparator5 = new javax.swing.JToolBar.Separator();
-        jSeparator6 = new javax.swing.JToolBar.Separator();
-        copiaBDButton = new javax.swing.JButton();
-        resturaBDButton = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jToolBar2 = new javax.swing.JToolBar();
@@ -1233,53 +1228,19 @@ public final class Contab extends javax.swing.JFrame {
         jSeparator44 = new javax.swing.JToolBar.Separator();
         agregarArticuloAFacturaButton = new javax.swing.JButton();
         jPanel9 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        jMenu3 = new javax.swing.JMenu();
+        jMenu2 = new javax.swing.JMenu();
+        reporteVentasMenuItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setBackground(new java.awt.Color(255, 255, 255));
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mypack/arcusmedicalogocolores.png"))); // NOI18N
-
-        jToolBar1.setFloatable(false);
-        jToolBar1.setRollover(true);
-        jToolBar1.add(jSeparator4);
-
-        jLabel2.setFont(new java.awt.Font("Purisa", 3, 18));
-        jLabel2.setText("jContab - V3.0");
-        jLabel2.setPreferredSize(new java.awt.Dimension(109, 22));
-        jToolBar1.add(jLabel2);
-        jToolBar1.add(jSeparator5);
-        jToolBar1.add(jSeparator6);
-
-        copiaBDButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mypack/media-floppy.png"))); // NOI18N
-        copiaBDButton.setToolTipText("Guardar base de datos");
-        copiaBDButton.setFocusable(false);
-        copiaBDButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        copiaBDButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        copiaBDButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                copiaBDButtonActionPerformed(evt);
-            }
-        });
-        jToolBar1.add(copiaBDButton);
-
-        resturaBDButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mypack/document-export-table.png"))); // NOI18N
-        resturaBDButton.setToolTipText("Restaurar base de datos");
-        resturaBDButton.setFocusable(false);
-        resturaBDButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        resturaBDButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        resturaBDButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                resturaBDButtonActionPerformed(evt);
-            }
-        });
-        jToolBar1.add(resturaBDButton);
-
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mypack/documentinfo.png"))); // NOI18N
-        jButton3.setToolTipText("Informacion");
-        jButton3.setFocusable(false);
-        jButton3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton3.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jToolBar1.add(jButton3);
 
         jToolBar2.setFloatable(false);
         jToolBar2.setRollover(true);
@@ -2094,7 +2055,7 @@ public final class Contab extends javax.swing.JFrame {
         ivaTxt1.setFont(new java.awt.Font("Dialog", 0, 10));
         ivaTxt1.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
 
-        filtrarCobradoRadioButton.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
+        filtrarCobradoRadioButton.setFont(new java.awt.Font("Dialog", 1, 10));
         filtrarCobradoRadioButton.setText("Filtrar cobrados");
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
@@ -3230,6 +3191,47 @@ public final class Contab extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Equipos", new javax.swing.ImageIcon(getClass().getResource("/mypack/hwinfo.png")), jPanel9); // NOI18N
 
+        jLabel2.setFont(new java.awt.Font("Purisa", 3, 18)); // NOI18N
+        jLabel2.setText("jContab - V3.0");
+        jLabel2.setPreferredSize(new java.awt.Dimension(109, 22));
+
+        jMenu1.setText("Base Datos");
+
+        jMenuItem1.setText("Copiar");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem1);
+
+        jMenuItem2.setText("Restaurar");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem2);
+
+        jMenuBar1.add(jMenu1);
+
+        jMenu3.setText("Info");
+        jMenuBar1.add(jMenu3);
+
+        jMenu2.setText("Reportes");
+
+        reporteVentasMenuItem.setText("Ventas");
+        reporteVentasMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                reporteVentasMenuItemActionPerformed(evt);
+            }
+        });
+        jMenu2.add(reporteVentasMenuItem);
+
+        jMenuBar1.add(jMenu2);
+
+        setJMenuBar(jMenuBar1);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -3240,7 +3242,7 @@ public final class Contab extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 641, Short.MAX_VALUE))
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 767, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
@@ -3252,8 +3254,8 @@ public final class Contab extends javax.swing.JFrame {
                         .addContainerGap()
                         .addComponent(jLabel1))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(21, 21, 21)
-                        .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(34, 34, 34)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 631, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -4047,130 +4049,6 @@ public final class Contab extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_imprimirFacturaButtonActionPerformed
 
-    private void copiaBDButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_copiaBDButtonActionPerformed
-        // TODO add your handling code here:
-        //LINUX
-        String filename = System.getProperty("user.home") + "/jContab/";
-        //WINDOWS
-        //String filename = File.separator + "D:\\HC9\\";
-
-        Calendar c = Calendar.getInstance();
-        int day = c.get(Calendar.DATE);
-        int month = c.get(Calendar.MONTH) + 1;
-        int year = c.get(Calendar.YEAR);
-        String fecha = String.valueOf(year)+"_"+String.valueOf(month)+"_"+String.valueOf(day);
-
-        JFileChooser chooser = new JFileChooser();
-        File f = new File( filename + fecha + "_jContab_empresa_bckup.sql");
-        FileFilter jpegFilter = new FileNameExtensionFilter(null, new String[] { "sql"});
-
-        chooser.addChoosableFileFilter(jpegFilter);
-        chooser.setSelectedFile(f);
-        chooser.showSaveDialog(null);
-        File curFile = chooser.getSelectedFile();
-
-        //LINUX
-        //String command= "mysqldump --opt --user=root --password=treky5 --host=localhost historias_clinicas -r copia-seguridad.sql";
-        String command= "mysqldump --opt --user=root --password=treky5 --host=localhost empresa -r "+ String.valueOf(curFile);
-
-        //WINDOWS
-        //String command= "D:/Archivos de programa/MySQL/MySQL Server 5.1/bin/mysqldump --opt --user=root --password=treky5 --host=localhost historias_clinicas -r C:/copia-seguridad.sql";
-        //String command= "C:/Program Files/MySQL/MySQL Server 5.1/bin/mysqldump --opt --user=root --password=treky5 --host=localhost historias_clinicas -r "+ String.valueOf(curFile);
-
-        String line;
-        try{
-            java.lang.Process proc = Runtime.getRuntime().exec(command);
-            BufferedReader input = new BufferedReader(new InputStreamReader(proc.getErrorStream()));
-            while ((line = input.readLine()) != null) {
-                System.out.println(line);
-            }
-            input.close();
-            int retVal = proc.waitFor();
-            System.out.println(retVal);
-            proc.destroy(); //beta
-            if (retVal == 0){
-                JOptionPane.showMessageDialog(null, "Copia de seguridad realizada ...");
-            }
-
-        } catch(Exception e){
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Error al guardar base de datos! ...");
-        }
-    }//GEN-LAST:event_copiaBDButtonActionPerformed
-
-    private void resturaBDButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resturaBDButtonActionPerformed
-        // TODO add your handling code here:
-        //Necesita password de super usuario
-        JPasswordField jpf = new JPasswordField();
-        JOptionPane.showConfirmDialog(null, jpf, "Código Super Usuario", JOptionPane.OK_CANCEL_OPTION);
-        // jpf.getPassword();
-        char[] input = jpf.getPassword();
-        char[] correctPassword = { '1','2'};
-        boolean isCorrect = true;
-        isCorrect = Arrays.equals(input, correctPassword);
-        if(isCorrect){
-
-            //LINUX
-            String filename = System.getProperty("user.home") + "/jContab/";
-
-            //WINDOWS
-            //String filename = File.separator + "D:\\HC9\\";
-
-            Calendar c = Calendar.getInstance();
-            int day = c.get(Calendar.DATE);
-            int month = c.get(Calendar.MONTH) + 1;
-            int year = c.get(Calendar.YEAR);
-            String fecha = String.valueOf(year)+"_"+String.valueOf(month)+"_"+String.valueOf(day);
-
-            JFileChooser chooser = new JFileChooser();
-            File f = new File( filename + fecha + "_jContab_empresa_bckup.sql");
-            FileFilter jpegFilter = new FileNameExtensionFilter(null, new String[] { "sql"});
-            chooser.addChoosableFileFilter(jpegFilter);
-            chooser.setSelectedFile(f);
-            chooser.showOpenDialog(null);
-            File curFile = chooser.getSelectedFile();
-
-            int processComplete;
-            //String command= "mysqldump --opt --user=root --password=treky5 --host=localhost historias_clinicas -r copia-seguridad.sql";
-            try {
-                //LINUX
-                //String[] executeCmd = new String[]{"mysql", "historias_clinicas", "--user=" + "root", "--password=" + "treky5", "-e", " source /home/jacg/NetBeansProjects/ListaBaseDatos/copia-seguridad.sql" };
-                //String[] executeCmd = new String[]{"mysql", "ClinicManagerPediatria", "--user=" + "root", "--password=" + "treky5", "-e", " source " + curFile };
-                String[] executeCmd = new String[]{"mysql", "empresa", "--user=" + "root", "--password=" + "treky5", "-e", " source " + curFile };
-
-                //WINDOWS
-                //String[] executeCmd = new String[]{"C:/Program Files/MySQL/MySQL Server 5.1/bin/mysql", "historias_clinicas", "--user=" + "root", "--password=" + "treky5", "-e", " source " + curFile };
-
-
-                java.lang.Process runtimeProcess = Runtime.getRuntime().exec(executeCmd);
-                processComplete = runtimeProcess.waitFor();
-                int pc = processComplete;
-                System.out.print(processComplete);
-                runtimeProcess.destroy();
-                
-                leerClientes("Cliente","");
-                actualizaListaClientesTablaAnchos();
-                leerArticulos("");
-                actualizaListaArticulosTablaAnchos();
-                leerClientesFactura("Cliente","","");
-                actualizaListaFacturasClientesTablaAnchos();
-
-                JOptionPane.showMessageDialog(null, "Restauracion exitosa ...");
-   
-
-            }catch(Exception e){
-                JOptionPane.showMessageDialog(null, "Error no se actualizo la DB: " + e.getMessage(), "Verificar",JOptionPane.ERROR_MESSAGE);
-                e.printStackTrace();
-            }
-        }else{
-                //custom title, warning icon
-                JFrame frame = new JFrame();
-                JOptionPane.showMessageDialog(frame,
-                        "Base de datos no restaurada",
-                        "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    }//GEN-LAST:event_resturaBDButtonActionPerformed
-
     private void buscarProveedorTxtCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_buscarProveedorTxtCaretUpdate
         // TODO add your handling code here:
         String buscar = buscarProveedorTxt.getText();
@@ -4776,6 +4654,146 @@ public final class Contab extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_pagarFacturaButtonActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        // TODO add your handling code here:
+        //LINUX
+        String filename = System.getProperty("user.home") + "/jContab/";
+        //WINDOWS
+        //String filename = File.separator + "D:\\HC9\\";
+
+        Calendar c = Calendar.getInstance();
+        int day = c.get(Calendar.DATE);
+        int month = c.get(Calendar.MONTH) + 1;
+        int year = c.get(Calendar.YEAR);
+        String fecha = String.valueOf(year)+"_"+String.valueOf(month)+"_"+String.valueOf(day);
+
+        JFileChooser chooser = new JFileChooser();
+        File f = new File( filename + fecha + "_jContab_empresa_bckup.sql");
+        FileFilter jpegFilter = new FileNameExtensionFilter(null, new String[] { "sql"});
+
+        chooser.addChoosableFileFilter(jpegFilter);
+        chooser.setSelectedFile(f);
+        chooser.showSaveDialog(null);
+        File curFile = chooser.getSelectedFile();
+
+        //LINUX
+        //String command= "mysqldump --opt --user=root --password=treky5 --host=localhost historias_clinicas -r copia-seguridad.sql";
+        String command= "mysqldump --opt --user=root --password=treky5 --host=localhost empresa -r "+ String.valueOf(curFile);
+
+        //WINDOWS
+        //String command= "D:/Archivos de programa/MySQL/MySQL Server 5.1/bin/mysqldump --opt --user=root --password=treky5 --host=localhost historias_clinicas -r C:/copia-seguridad.sql";
+        //String command= "C:/Program Files/MySQL/MySQL Server 5.1/bin/mysqldump --opt --user=root --password=treky5 --host=localhost historias_clinicas -r "+ String.valueOf(curFile);
+
+        String line;
+        try{
+            java.lang.Process proc = Runtime.getRuntime().exec(command);
+            BufferedReader input = new BufferedReader(new InputStreamReader(proc.getErrorStream()));
+            while ((line = input.readLine()) != null) {
+                System.out.println(line);
+            }
+            input.close();
+            int retVal = proc.waitFor();
+            System.out.println(retVal);
+            proc.destroy(); //beta
+            if (retVal == 0){
+                JOptionPane.showMessageDialog(null, "Copia de seguridad realizada ...");
+            }
+
+        } catch(Exception e){
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error al guardar base de datos! ...");
+        }
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        // TODO add your handling code here:
+        //Necesita password de super usuario
+        JPasswordField jpf = new JPasswordField();
+        JOptionPane.showConfirmDialog(null, jpf, "Código Super Usuario", JOptionPane.OK_CANCEL_OPTION);
+        // jpf.getPassword();
+        char[] input = jpf.getPassword();
+        char[] correctPassword = { '1','2'};
+        boolean isCorrect = true;
+        isCorrect = Arrays.equals(input, correctPassword);
+        if(isCorrect){
+
+            //LINUX
+            String filename = System.getProperty("user.home") + "/jContab/";
+
+            //WINDOWS
+            //String filename = File.separator + "D:\\HC9\\";
+
+            Calendar c = Calendar.getInstance();
+            int day = c.get(Calendar.DATE);
+            int month = c.get(Calendar.MONTH) + 1;
+            int year = c.get(Calendar.YEAR);
+            String fecha = String.valueOf(year)+"_"+String.valueOf(month)+"_"+String.valueOf(day);
+
+            JFileChooser chooser = new JFileChooser();
+            File f = new File( filename + fecha + "_jContab_empresa_bckup.sql");
+            FileFilter jpegFilter = new FileNameExtensionFilter(null, new String[] { "sql"});
+            chooser.addChoosableFileFilter(jpegFilter);
+            chooser.setSelectedFile(f);
+            chooser.showOpenDialog(null);
+            File curFile = chooser.getSelectedFile();
+
+            int processComplete;
+            //String command= "mysqldump --opt --user=root --password=treky5 --host=localhost historias_clinicas -r copia-seguridad.sql";
+            try {
+                //LINUX
+                //String[] executeCmd = new String[]{"mysql", "historias_clinicas", "--user=" + "root", "--password=" + "treky5", "-e", " source /home/jacg/NetBeansProjects/ListaBaseDatos/copia-seguridad.sql" };
+                //String[] executeCmd = new String[]{"mysql", "ClinicManagerPediatria", "--user=" + "root", "--password=" + "treky5", "-e", " source " + curFile };
+                String[] executeCmd = new String[]{"mysql", "empresa", "--user=" + "root", "--password=" + "treky5", "-e", " source " + curFile };
+
+                //WINDOWS
+                //String[] executeCmd = new String[]{"C:/Program Files/MySQL/MySQL Server 5.1/bin/mysql", "historias_clinicas", "--user=" + "root", "--password=" + "treky5", "-e", " source " + curFile };
+
+
+                java.lang.Process runtimeProcess = Runtime.getRuntime().exec(executeCmd);
+                processComplete = runtimeProcess.waitFor();
+                int pc = processComplete;
+                System.out.print(processComplete);
+                runtimeProcess.destroy();
+                
+                leerClientes("Cliente","");
+                actualizaListaClientesTablaAnchos();
+                leerArticulos("");
+                actualizaListaArticulosTablaAnchos();
+                leerClientesFactura("Cliente","","");
+                actualizaListaFacturasClientesTablaAnchos();
+
+                JOptionPane.showMessageDialog(null, "Restauracion exitosa ...");
+   
+
+            }catch(Exception e){
+                JOptionPane.showMessageDialog(null, "Error no se actualizo la DB: " + e.getMessage(), "Verificar",JOptionPane.ERROR_MESSAGE);
+                e.printStackTrace();
+            }
+        }else{
+                //custom title, warning icon
+                JFrame frame = new JFrame();
+                JOptionPane.showMessageDialog(frame,
+                        "Base de datos no restaurada",
+                        "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void reporteVentasMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reporteVentasMenuItemActionPerformed
+        // TODO add your handling code here:
+        String filename = System.getProperty("user.home") + "/jContab/FacturasVenta.jasper";
+        Connection con;
+        try {
+            Class.forName("com.myql.jdbc.Driver");
+            con = DriverManager.getConnection(baseDatos);
+            JasperReport reporte = (JasperReport) JRLoader.loadObject(filename);
+            JasperPrint jasperPrint = JasperFillManager.fillReport(filename, new HashMap(), con);
+            JasperViewer jv = new JasperViewer(jasperPrint, false);
+            jv.setVisible(true);
+        } catch (Exception e) {
+        }
+        
+    }//GEN-LAST:event_reporteVentasMenuItemActionPerformed
   
     
     /*
@@ -5297,7 +5315,6 @@ public final class Contab extends javax.swing.JFrame {
     private javax.swing.JTextField cobradoTxt4;
     private javax.swing.JButton cobrarFacturaButton1;
     private javax.swing.JTextArea contactoTextArea;
-    private javax.swing.JButton copiaBDButton;
     private javax.swing.JButton crearFacturaClienteButton;
     private javax.swing.JButton crearFacturaClienteButton1;
     public javax.swing.JTextArea detalleArticuloTxt;
@@ -5339,7 +5356,6 @@ public final class Contab extends javax.swing.JFrame {
     private javax.swing.JTextField ivabaseTxt;
     private javax.swing.JTextField ivat12Txt;
     private javax.swing.JTextField ivat12Txt1;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -5410,6 +5426,12 @@ public final class Contab extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel80;
     private javax.swing.JLabel jLabel81;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu3;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
@@ -5466,7 +5488,6 @@ public final class Contab extends javax.swing.JFrame {
     private javax.swing.JToolBar.Separator jSeparator37;
     private javax.swing.JToolBar.Separator jSeparator38;
     private javax.swing.JToolBar.Separator jSeparator39;
-    private javax.swing.JToolBar.Separator jSeparator4;
     private javax.swing.JToolBar.Separator jSeparator40;
     private javax.swing.JToolBar.Separator jSeparator41;
     private javax.swing.JToolBar.Separator jSeparator42;
@@ -5477,7 +5498,6 @@ public final class Contab extends javax.swing.JFrame {
     private javax.swing.JToolBar.Separator jSeparator47;
     private javax.swing.JToolBar.Separator jSeparator48;
     private javax.swing.JToolBar.Separator jSeparator49;
-    private javax.swing.JToolBar.Separator jSeparator5;
     private javax.swing.JToolBar.Separator jSeparator50;
     private javax.swing.JToolBar.Separator jSeparator51;
     private javax.swing.JToolBar.Separator jSeparator52;
@@ -5488,7 +5508,6 @@ public final class Contab extends javax.swing.JFrame {
     private javax.swing.JToolBar.Separator jSeparator57;
     private javax.swing.JToolBar.Separator jSeparator58;
     private javax.swing.JToolBar.Separator jSeparator59;
-    private javax.swing.JToolBar.Separator jSeparator6;
     private javax.swing.JToolBar.Separator jSeparator60;
     private javax.swing.JToolBar.Separator jSeparator61;
     private javax.swing.JToolBar.Separator jSeparator62;
@@ -5515,7 +5534,6 @@ public final class Contab extends javax.swing.JFrame {
     private javax.swing.JToolBar.Separator jSeparator81;
     private javax.swing.JToolBar.Separator jSeparator9;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JToolBar jToolBar1;
     private javax.swing.JToolBar jToolBar10;
     private javax.swing.JToolBar jToolBar11;
     private javax.swing.JToolBar jToolBar2;
@@ -5545,7 +5563,7 @@ public final class Contab extends javax.swing.JFrame {
     private javax.swing.JTable proveedoresTable;
     private javax.swing.JTextField recividoTxt;
     private javax.swing.JTextField recividoTxt1;
-    private javax.swing.JButton resturaBDButton;
+    private javax.swing.JMenuItem reporteVentasMenuItem;
     private javax.swing.JTextField retencionTxt;
     private javax.swing.JTextField rucFacturaProveedorTxt;
     private javax.swing.JTextField rucProveedorTxt;
