@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.4641000000000028"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="tipo" class="java.lang.String"/>
+	<parameter name="activo" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT
+     Contratos.`id` AS Contratos_id,
+     Contratos.`nContrato` AS Contratos_nContrato,
+     Contratos.`Empresa` AS Contratos_Empresa,
+     Contratos.`TipoContrato` AS Contratos_TipoContrato,
+     Contratos.`Ciudad` AS Contratos_Ciudad,
+     Contratos.`Direccion` AS Contratos_Direccion,
+     Contratos.`Telefono` AS Contratos_Telefono,
+     Contratos.`FirmaContrato` AS Contratos_FirmaContrato,
+     Contratos.`Duracion` AS Contratos_Duracion,
+     Contratos.`Cancelacion` AS Contratos_Cancelacion,
+     Contratos.`nEquipos` AS Contratos_nEquipos,
+     Contratos.`pEquipos` AS Contratos_pEquipos,
+     Contratos.`cInsumos` AS Contratos_cInsumos,
+     Contratos.`pInsumos` AS Contratos_pInsumos,
+     Contratos.`EnvioInsumos` AS Contratos_EnvioInsumos
+FROM
+     `Contratos` Contratos
+WHERE
+     Contratos.`TipoContrato` LIKE $P{tipo}
+ AND Contratos.`Cancelacion` LIKE $P{activo}
+ORDER BY
+     Contratos.`nContrato` ASC]]>
+	</queryString>
+	<field name="Contratos_id" class="java.lang.Long"/>
+	<field name="Contratos_nContrato" class="java.lang.String"/>
+	<field name="Contratos_Empresa" class="java.lang.String"/>
+	<field name="Contratos_TipoContrato" class="java.lang.String"/>
+	<field name="Contratos_Ciudad" class="java.lang.String"/>
+	<field name="Contratos_Direccion" class="java.lang.String"/>
+	<field name="Contratos_Telefono" class="java.lang.String"/>
+	<field name="Contratos_FirmaContrato" class="java.lang.String"/>
+	<field name="Contratos_Duracion" class="java.lang.String"/>
+	<field name="Contratos_Cancelacion" class="java.lang.String"/>
+	<field name="Contratos_nEquipos" class="java.lang.String"/>
+	<field name="Contratos_pEquipos" class="java.lang.String"/>
+	<field name="Contratos_cInsumos" class="java.lang.String"/>
+	<field name="Contratos_pInsumos" class="java.lang.String"/>
+	<field name="Contratos_EnvioInsumos" class="java.lang.String"/>
+	<variable name="Insumos_COUNT" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[new Integer($F{Contratos_cInsumos})]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<variable name="Equipos_COUNT" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[new Integer($F{Contratos_nEquipos})]]></variableExpression>
+	</variable>
+	<group name="Contrato">
+		<groupExpression><![CDATA[$F{Contratos_nContrato}]]></groupExpression>
+		<groupHeader>
+			<band height="10">
+				<textField>
+					<reportElement x="0" y="0" width="62" height="10"/>
+					<textElement>
+						<font size="8" isBold="false"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{Contratos_nContrato}]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement x="0" y="0" width="555" height="1"/>
+				</line>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band/>
+		</groupFooter>
+	</group>
+	<group name="Institucion">
+		<groupExpression><![CDATA[$F{Contratos_Empresa}]]></groupExpression>
+		<groupHeader>
+			<band height="52">
+				<textField>
+					<reportElement x="119" y="0" width="201" height="12"/>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{Contratos_Empresa}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="62" y="0" width="57" height="12"/>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{Contratos_TipoContrato}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="320" y="0" width="81" height="12"/>
+					<textElement textAlignment="Center">
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{Contratos_Ciudad}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="401" y="0" width="88" height="12"/>
+					<textElement textAlignment="Center">
+						<font size="8" isBold="false"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{Contratos_FirmaContrato}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="489" y="0" width="65" height="12"/>
+					<textElement textAlignment="Center">
+						<font size="8" isBold="false"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{Contratos_Duracion}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="288" y="38" width="150" height="10"/>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{Contratos_EnvioInsumos}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="167" y="18" width="110" height="10"/>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[Número de equipos:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true">
+					<reportElement x="288" y="28" width="150" height="10"/>
+					<textElement>
+						<font size="8" isBold="false"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{Contratos_cInsumos}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement x="288" y="18" width="150" height="10"/>
+					<textElement>
+						<font size="8" isBold="false"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{Contratos_nEquipos}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="167" y="28" width="110" height="10"/>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[Cantidad de insumos:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="167" y="38" width="110" height="10"/>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[Fecha de envio de insumos:]]></text>
+				</staticText>
+				<line>
+					<reportElement x="0" y="51" width="555" height="1"/>
+				</line>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band/>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="73" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="0" y="0" width="555" height="72" backcolor="#FFFFFF"/>
+				<staticText>
+					<reportElement x="288" y="29" width="266" height="24" forecolor="#000000"/>
+					<textElement textAlignment="Center">
+						<font size="9" isBold="true" isItalic="false"/>
+					</textElement>
+					<text><![CDATA[Reporte de contratos, fecha de entregas y cantidad insumos]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="120" y="29" width="99" height="24"/>
+					<textElement textAlignment="Center">
+						<font fontName="Vera Humana 95" size="8" isUnderline="false" isStrikeThrough="false"/>
+					</textElement>
+					<text><![CDATA[Especialistas en Ingeniería Biomédica]]></text>
+				</staticText>
+				<image>
+					<reportElement x="20" y="20" width="99" height="33"/>
+					<imageExpression class="java.lang.String"><![CDATA["/home/jacg/NetBeansProjects/jContab/src/mypack/logoescalagrises.jpg"]]></imageExpression>
+				</image>
+			</frame>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="18" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="62" height="10" forecolor="#FFFFFF" backcolor="#000000"/>
+				<textElement textAlignment="Center">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[# Contrato]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="120" y="0" width="200" height="10" forecolor="#FFFFFF" backcolor="#000000"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Empresa]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="320" y="0" width="81" height="10" forecolor="#FFFFFF" backcolor="#000000"/>
+				<textElement textAlignment="Center">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Ciudad]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="401" y="0" width="88" height="10" forecolor="#FFFFFF" backcolor="#000000"/>
+				<textElement textAlignment="Center">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Firma Contrato]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="62" y="0" width="57" height="10" forecolor="#FFFFFF" backcolor="#000000"/>
+				<textElement textAlignment="Center">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tipo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="489" y="0" width="65" height="10" forecolor="#FFFFFF" backcolor="#000000"/>
+				<textElement textAlignment="Center">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Duración]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band height="3" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="17" splitType="Stretch">
+			<textField>
+				<reportElement mode="Transparent" x="0" y="0" width="515" height="13" backcolor="#E6E6E6"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["Pág. "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement mode="Transparent" x="515" y="0" width="40" height="13" backcolor="#E6E6E6"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd MMMMM yyyy">
+				<reportElement mode="Transparent" x="0" y="0" width="219" height="13"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[(new java.text.SimpleDateFormat("dd/MMM/yyyy, hh:mm aaa",new Locale("ES", "EC"))).format(new Date())]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch">
+			<textField>
+				<reportElement x="245" y="9" width="100" height="10"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{Equipos_COUNT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="245" y="19" width="100" height="10"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{Insumos_COUNT}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="135" y="9" width="100" height="10"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Total de equipos:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="135" y="19" width="100" height="10"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Total de insumos/mes:]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>

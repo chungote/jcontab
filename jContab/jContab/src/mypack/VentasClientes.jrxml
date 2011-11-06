@@ -1,0 +1,449 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.2100000000000029"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="fecha" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT
+     FacturasClientes.`id` AS FacturasClientes_id,
+     FacturasClientes.`Cliente` AS FacturasClientes_Cliente,
+     FacturasClientes.`RUC` AS FacturasClientes_RUC,
+     FacturasClientes.`Cobrado` AS FacturasClientes_Cobrado,
+     FacturasClientes.`Subtotal` AS FacturasClientes_Subtotal,
+     FacturasClientes.`Iva` AS FacturasClientes_Iva,
+     FacturasClientes.`Total` AS FacturasClientes_Total,
+     FacturasClientes.`Recivido` AS FacturasClientes_Recivido,
+     FacturasClientes.`Notas` AS FacturasClientes_Notas,
+     FacturasClientes.`Fecha` AS FacturasClientes_Fecha,
+     FacturasClientes.`Nserie` AS FacturasClientes_Nserie,
+     FacturasClientes.`Direccion` AS FacturasClientes_Direccion,
+     FacturasClientes.`Telefono` AS FacturasClientes_Telefono,
+     FacturasClientes.`Ciudad` AS FacturasClientes_Ciudad,
+     FacturasClientes.`Fuente` AS FacturasClientes_Fuente
+FROM
+     `FacturasClientes` FacturasClientes
+WHERE
+     FacturasClientes.`Fecha` LIKE $P{fecha}
+GROUP BY
+     FacturasClientes_Cliente,
+     FacturasClientes_Cobrado,
+     FacturasClientes_Nserie]]>
+	</queryString>
+	<field name="FacturasClientes_id" class="java.lang.Long"/>
+	<field name="FacturasClientes_Cliente" class="java.lang.String"/>
+	<field name="FacturasClientes_RUC" class="java.lang.String"/>
+	<field name="FacturasClientes_Cobrado" class="java.lang.String"/>
+	<field name="FacturasClientes_Subtotal" class="java.lang.String"/>
+	<field name="FacturasClientes_Iva" class="java.lang.String"/>
+	<field name="FacturasClientes_Total" class="java.lang.String"/>
+	<field name="FacturasClientes_Recivido" class="java.lang.String"/>
+	<field name="FacturasClientes_Notas" class="java.lang.String"/>
+	<field name="FacturasClientes_Fecha" class="java.lang.String"/>
+	<field name="FacturasClientes_Nserie" class="java.lang.String"/>
+	<field name="FacturasClientes_Direccion" class="java.lang.String"/>
+	<field name="FacturasClientes_Telefono" class="java.lang.String"/>
+	<field name="FacturasClientes_Ciudad" class="java.lang.String"/>
+	<field name="FacturasClientes_Fuente" class="java.lang.String"/>
+	<variable name="total" class="java.lang.Double" resetType="Group" resetGroup="FacturasClientes_Cliente" calculation="Sum">
+		<variableExpression><![CDATA[new Double($F{FacturasClientes_Total})]]></variableExpression>
+	</variable>
+	<variable name="recivido" class="java.lang.Double" resetType="Group" resetGroup="FacturasClientes_Cliente" calculation="Sum">
+		<variableExpression><![CDATA[new Double($F{FacturasClientes_Recivido})]]></variableExpression>
+	</variable>
+	<variable name="retenido" class="java.lang.Double" resetType="Group" resetGroup="FacturasClientes_Cliente" calculation="Sum">
+		<variableExpression><![CDATA[new Double($F{FacturasClientes_Fuente})]]></variableExpression>
+	</variable>
+	<variable name="xcobrar" class="java.lang.Double" resetType="Group" resetGroup="FacturasClientes_Cobrado" calculation="Sum">
+		<variableExpression><![CDATA[new Double($F{FacturasClientes_Recivido})]]></variableExpression>
+	</variable>
+	<variable name="resCobro" class="java.lang.Double" resetType="Group" resetGroup="FacturasClientes_Cliente" calculation="Sum">
+		<variableExpression><![CDATA[new Double($V{recivido}-$V{xcobrar})]]></variableExpression>
+	</variable>
+	<variable name="tRecivido" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[new Double($F{FacturasClientes_Recivido})]]></variableExpression>
+	</variable>
+	<variable name="tRetenido" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[new Double($F{FacturasClientes_Fuente})]]></variableExpression>
+	</variable>
+	<variable name="tIVA" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[new Double($F{FacturasClientes_Iva})]]></variableExpression>
+	</variable>
+	<variable name="cobrado" class="java.lang.String" resetType="None">
+		<variableExpression><![CDATA[( $F{FacturasClientes_Cobrado}.compareTo( "true" ) ? "NO" : "SI" )]]></variableExpression>
+	</variable>
+	<variable name="cobro_COUNT" class="java.lang.Double" resetType="Group" resetGroup="FacturasClientes_Cliente" calculation="Sum">
+		<variableExpression><![CDATA[( $F{FacturasClientes_Cobrado}.compareTo( "false" ) ? 0.00 : new Double($F{FacturasClientes_Recivido}))]]></variableExpression>
+	</variable>
+	<variable name="temp_COUNT" class="java.lang.Double" resetType="Group" resetGroup="FacturasClientes_Cliente" calculation="Sum">
+		<variableExpression><![CDATA[( $F{FacturasClientes_Cobrado}.compareTo( "true" ) ? 0.00 : new Double($F{FacturasClientes_Recivido}) )]]></variableExpression>
+	</variable>
+	<variable name="venta_COUNT" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[new Double($F{FacturasClientes_Total})]]></variableExpression>
+		<initialValueExpression><![CDATA[]]></initialValueExpression>
+	</variable>
+	<variable name="t_cobrado_COUNT" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[( $F{FacturasClientes_Cobrado}.compareTo( "false" ) ? 0.00 : new Double($F{FacturasClientes_Recivido}))]]></variableExpression>
+	</variable>
+	<variable name="t_recivido_COUNT" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[( $F{FacturasClientes_Cobrado}.compareTo( "true" ) ? 0.00 : new Double($F{FacturasClientes_Recivido}) )]]></variableExpression>
+	</variable>
+	<group name="FacturasClientes_Cliente">
+		<groupExpression><![CDATA[$F{FacturasClientes_Cliente}]]></groupExpression>
+		<groupHeader>
+			<band height="12">
+				<textField>
+					<reportElement mode="Opaque" x="34" y="0" width="521" height="10" forecolor="#000000" backcolor="#EEEEEE"/>
+					<textElement>
+						<font size="8" isBold="false"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{FacturasClientes_Cliente}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="42">
+				<textField pattern="###0.00;-###0.00">
+					<reportElement x="438" y="4" width="57" height="10"/>
+					<textElement textAlignment="Right">
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression class="java.lang.Double"><![CDATA[$V{retenido}]]></textFieldExpression>
+				</textField>
+				<textField pattern="###0.00;-###0.00">
+					<reportElement x="378" y="4" width="60" height="10"/>
+					<textElement textAlignment="Right">
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression class="java.lang.Double"><![CDATA[$V{total}]]></textFieldExpression>
+				</textField>
+				<textField pattern="###0.00;-###0.00">
+					<reportElement x="495" y="4" width="60" height="10"/>
+					<textElement textAlignment="Right">
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression class="java.lang.Double"><![CDATA[$V{recivido}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="336" y="4" width="33" height="10"/>
+					<textElement textAlignment="Right">
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[Total:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="435" y="28" width="50" height="11"/>
+					<textElement textAlignment="Right">
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[Por cobrar:]]></text>
+				</staticText>
+				<textField pattern="###0.00;-###0.00">
+					<reportElement x="495" y="17" width="59" height="10"/>
+					<textElement textAlignment="Right">
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression class="java.lang.Double"><![CDATA[$V{temp_COUNT}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="435" y="17" width="50" height="11"/>
+					<textElement textAlignment="Right">
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[Cobrado:]]></text>
+				</staticText>
+				<textField pattern="###0.00;-###0.00">
+					<reportElement x="495" y="28" width="60" height="11"/>
+					<textElement textAlignment="Right">
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression class="java.lang.Double"><![CDATA[$V{cobro_COUNT}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<group name="FacturasClientes_Cobrado">
+		<groupExpression><![CDATA[$F{FacturasClientes_Cobrado}]]></groupExpression>
+		<groupHeader>
+			<band height="11">
+				<staticText>
+					<reportElement x="44" y="1" width="33" height="9" forecolor="#666666"/>
+					<textElement>
+						<font size="6"/>
+					</textElement>
+					<text><![CDATA[Cobrado:]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="77" y="1" width="100" height="9"/>
+					<textElement>
+						<font size="6"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$V{cobrado}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band/>
+		</groupFooter>
+	</group>
+	<background>
+		<band/>
+	</background>
+	<title>
+		<band height="72">
+			<frame>
+				<reportElement mode="Opaque" x="0" y="0" width="555" height="72" backcolor="#FFFFFF"/>
+				<staticText>
+					<reportElement x="288" y="29" width="193" height="19" forecolor="#000000"/>
+					<textElement textAlignment="Right">
+						<font size="9" isBold="true" isItalic="false"/>
+					</textElement>
+					<text><![CDATA[Reporte Ventas]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="120" y="29" width="99" height="24"/>
+					<textElement textAlignment="Center">
+						<font fontName="Vera Humana 95" size="8" isUnderline="false" isStrikeThrough="false"/>
+					</textElement>
+					<text><![CDATA[Especialistas en Ingeniería Biomédica]]></text>
+				</staticText>
+				<image>
+					<reportElement x="20" y="20" width="99" height="33"/>
+					<imageExpression class="java.lang.String"><![CDATA["/home/jacg/NetBeansProjects/jContab/src/mypack/logoescalagrises.jpg"]]></imageExpression>
+				</image>
+				<textField>
+					<reportElement x="378" y="53" width="100" height="10"/>
+					<textElement textAlignment="Right">
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$P{fecha}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="13"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="21">
+			<staticText>
+				<reportElement mode="Opaque" x="143" y="0" width="59" height="10" forecolor="#FFFFFF" backcolor="#000000"/>
+				<textElement textAlignment="Center">
+					<font size="8" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[Fecha]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="259" y="0" width="59" height="10" forecolor="#FFFFFF" backcolor="#000000"/>
+				<textElement textAlignment="Right">
+					<font size="8" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[Subtotal]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="318" y="0" width="57" height="10" forecolor="#FFFFFF" backcolor="#000000"/>
+				<textElement textAlignment="Right">
+					<font size="8" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[I.V.A.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="375" y="0" width="60" height="10" forecolor="#FFFFFF" backcolor="#000000"/>
+				<textElement textAlignment="Right">
+					<font size="8" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[Total]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="495" y="0" width="60" height="10" forecolor="#FFFFFF" backcolor="#000000"/>
+				<textElement textAlignment="Right">
+					<font size="8" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[Recivido]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="435" y="0" width="60" height="10" forecolor="#FFFFFF" backcolor="#000000"/>
+				<textElement textAlignment="Right">
+					<font size="8" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[Retenido]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="202" y="0" width="57" height="10" forecolor="#FFFFFF" backcolor="#000000"/>
+				<textElement textAlignment="Center">
+					<font size="8" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[Factura]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="34" y="0" width="109" height="10" forecolor="#FFFFFF" backcolor="#000000"/>
+				<textElement>
+					<font size="8" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[Cliente]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="34" height="10" forecolor="#FFFFFF" backcolor="#000000"/>
+				<textElement textAlignment="Center">
+					<font size="8" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[Venta]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="13">
+			<textField isStretchWithOverflow="true">
+				<reportElement x="201" y="1" width="57" height="10"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{FacturasClientes_Nserie}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="258" y="1" width="60" height="10"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{FacturasClientes_Subtotal}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="318" y="1" width="60" height="10"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{FacturasClientes_Iva}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="378" y="1" width="60" height="10"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{FacturasClientes_Total}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="495" y="1" width="60" height="10"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{FacturasClientes_Recivido}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="142" y="1" width="59" height="10"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{FacturasClientes_Fecha}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="438" y="1" width="57" height="10"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{FacturasClientes_Fuente}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="1" width="34" height="10"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band/>
+	</columnFooter>
+	<pageFooter>
+		<band height="17">
+			<textField>
+				<reportElement mode="Transparent" x="0" y="4" width="515" height="13" backcolor="#E6E6E6"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["Pág. "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement mode="Transparent" x="515" y="4" width="40" height="13" backcolor="#E6E6E6"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement mode="Opaque" x="0" y="4" width="201" height="13"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[(new java.text.SimpleDateFormat("dd/MMM/yyyy, hh:mm aaa",new Locale("ES", "EC"))).format(new Date())]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="48">
+			<textField pattern="###0.00;-###0.00">
+				<reportElement x="492" y="10" width="63" height="10"/>
+				<textElement textAlignment="Right">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{tRecivido}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00;-###0.00">
+				<reportElement x="442" y="10" width="53" height="10"/>
+				<textElement textAlignment="Right">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{tRetenido}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00;-###0.00">
+				<reportElement x="318" y="10" width="60" height="10"/>
+				<textElement textAlignment="Right">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{tIVA}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="258" y="10" width="59" height="10" forecolor="#FFFFFF" backcolor="#000000"/>
+				<textElement textAlignment="Right">
+					<font size="8" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[Venta total:]]></text>
+			</staticText>
+			<textField pattern="###0.00;-###0.00">
+				<reportElement x="492" y="28" width="60" height="10"/>
+				<textElement textAlignment="Right">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{t_cobrado_COUNT}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="433" y="28" width="59" height="10" forecolor="#FFFFFF" backcolor="#000000"/>
+				<textElement textAlignment="Right">
+					<font size="8" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[Por cobrar:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="433" y="38" width="59" height="10" forecolor="#FFFFFF" backcolor="#000000"/>
+				<textElement textAlignment="Right">
+					<font size="8" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[Cobrado:]]></text>
+			</staticText>
+			<textField pattern="###0.00;-###0.00">
+				<reportElement x="492" y="38" width="60" height="10"/>
+				<textElement textAlignment="Right">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{t_recivido_COUNT}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00;-###0.00">
+				<reportElement x="378" y="10" width="60" height="10"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{venta_COUNT}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>
