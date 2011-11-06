@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" columnCount="2" pageWidth="595" pageHeight="842" columnWidth="277" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="2.357947691000004"/>
+	<property name="ireport.x" value="6"/>
+	<property name="ireport.y" value="164"/>
+	<parameter name="Buscar" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     Tesoreria.`Fecha` AS Tesoreria_Fecha,
+     Tesoreria.`Concepto` AS Tesoreria_Concepto,
+     Tesoreria.`Ingresos` AS Tesoreria_Ingresos,
+     Tesoreria.`Pagos` AS Tesoreria_Pagos,
+     Tesoreria.`ClienteProveedor` AS Tesoreria_ClienteProveedor
+FROM
+     `Tesoreria` Tesoreria
+WHERE
+     Tesoreria.`Fecha` LIKE $P{Buscar}
+ORDER BY
+     Tesoreria.`Fecha` ASC]]>
+	</queryString>
+	<field name="Tesoreria_Fecha" class="java.lang.String"/>
+	<field name="Tesoreria_Concepto" class="java.lang.String"/>
+	<field name="Tesoreria_Ingresos" class="java.lang.String"/>
+	<field name="Tesoreria_Pagos" class="java.lang.String"/>
+	<field name="Tesoreria_ClienteProveedor" class="java.lang.String"/>
+	<variable name="txtConcepto" class="java.lang.String" resetType="None">
+		<variableExpression><![CDATA[($F{Tesoreria_Concepto}.equals( "0" ) ? "Pago sueldo" :
+        ($F{Tesoreria_Concepto}.equals( "1" ) ? "Pago envio courier/carga" :
+	($F{Tesoreria_Concepto}.equals( "2" ) ? "Pago carro gasolina" :
+	($F{Tesoreria_Concepto}.equals( "3" ) ? "Pago carro reparacion/mantenimiento" :
+	($F{Tesoreria_Concepto}.equals( "4" ) ? "Pago carro parqueadero" :
+	($F{Tesoreria_Concepto}.equals( "5" ) ? "Pago carro cuota" :
+	($F{Tesoreria_Concepto}.equals( "6" ) ? "Pago carro seguro" :
+	($F{Tesoreria_Concepto}.equals( "7" ) ? "Pago insumos/suministros medicos" :
+	($F{Tesoreria_Concepto}.equals( "8" ) ? "Pago repuestos" :
+	($F{Tesoreria_Concepto}.equals( "9" ) ? "Pago equipo medico" :
+	($F{Tesoreria_Concepto}.equals( "10" ) ? "Pago herrmientas trabajo" :
+	($F{Tesoreria_Concepto}.equals( "11" ) ? "Pago material oficina" :
+	($F{Tesoreria_Concepto}.equals( "12" ) ? "Pago publicidad" :
+	($F{Tesoreria_Concepto}.equals( "13" ) ? "Pago impuestos SRI" :
+	($F{Tesoreria_Concepto}.equals( "14" ) ? "Pago servicio bancario" :
+	($F{Tesoreria_Concepto}.equals( "15" ) ? "Pago seguro social" :
+  "No implementado"
+  )))))))))))))))
+)]]></variableExpression>
+	</variable>
+	<variable name="tpagos" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[new Double($F{Tesoreria_Pagos})]]></variableExpression>
+	</variable>
+	<variable name="tingresos" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[new Double($F{Tesoreria_Ingresos})]]></variableExpression>
+	</variable>
+	<variable name="tsaldo" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[new Double($F{Tesoreria_Ingresos}) - new Double($F{Tesoreria_Pagos})]]></variableExpression>
+	</variable>
+	<group name="Tesoreria_Fecha">
+		<groupExpression><![CDATA[$F{Tesoreria_Fecha}]]></groupExpression>
+		<groupHeader>
+			<band height="10">
+				<line>
+					<reportElement x="0" y="9" width="260" height="1" forecolor="#666666"/>
+				</line>
+				<textField>
+					<reportElement mode="Transparent" x="0" y="0" width="59" height="8" forecolor="#000000" backcolor="#E6E6E6"/>
+					<textElement>
+						<font size="6" isBold="true"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{Tesoreria_Fecha}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band/>
+		</groupFooter>
+	</group>
+	<group name="Tesoreria_Concepto">
+		<groupExpression><![CDATA[$F{Tesoreria_Concepto}]]></groupExpression>
+		<groupHeader>
+			<band height="8">
+				<textField>
+					<reportElement mode="Transparent" x="33" y="0" width="56" height="8" forecolor="#000000"/>
+					<textElement>
+						<font size="6" isBold="true"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{Tesoreria_Concepto}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band/>
+		</groupFooter>
+	</group>
+	<background>
+		<band/>
+	</background>
+	<title>
+		<band height="72">
+			<frame>
+				<reportElement mode="Opaque" x="0" y="0" width="555" height="72" backcolor="#FFFFFF"/>
+				<staticText>
+					<reportElement x="288" y="29" width="216" height="19" forecolor="#000000"/>
+					<textElement textAlignment="Right">
+						<font size="9" isBold="true" isItalic="false"/>
+					</textElement>
+					<text><![CDATA[Reporte de caja]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="120" y="29" width="133" height="24"/>
+					<textElement textAlignment="Center">
+						<font fontName="Liberation Sans" size="8" isUnderline="false" isStrikeThrough="false"/>
+					</textElement>
+					<text><![CDATA[Especialistas en Ingeniería Biomédica]]></text>
+				</staticText>
+				<image>
+					<reportElement x="20" y="20" width="99" height="33"/>
+					<imageExpression class="java.lang.String"><![CDATA["/home/jacg/NetBeansProjects/jContab/src/mypack/logoescalagrises.jpg"]]></imageExpression>
+				</image>
+			</frame>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="13"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="18">
+			<staticText>
+				<reportElement mode="Opaque" x="222" y="0" width="38" height="8" forecolor="#FFFFFF" backcolor="#000000"/>
+				<textElement textAlignment="Center">
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Pagos]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="89" y="0" width="95" height="8" forecolor="#FFFFFF" backcolor="#000000"/>
+				<textElement textAlignment="Left">
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cliente/Proveedor]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="33" height="8" forecolor="#FFFFFF" backcolor="#000000"/>
+				<textElement>
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="184" y="0" width="38" height="8" forecolor="#FFFFFF" backcolor="#000000"/>
+				<textElement textAlignment="Center">
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Ingresos]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="33" y="0" width="56" height="8" forecolor="#FFFFFF" backcolor="#000000"/>
+				<textElement>
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Concepto]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="10">
+			<textField isStretchWithOverflow="true">
+				<reportElement x="184" y="0" width="38" height="8"/>
+				<textElement textAlignment="Right">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{Tesoreria_Ingresos}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="89" y="0" width="95" height="8"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{Tesoreria_ClienteProveedor}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="222" y="0" width="38" height="8"/>
+				<textElement textAlignment="Right">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{Tesoreria_Pagos}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band/>
+	</columnFooter>
+	<pageFooter>
+		<band height="17">
+			<textField>
+				<reportElement mode="Transparent" x="0" y="4" width="515" height="13" backcolor="#E6E6E6"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["Pág. "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement mode="Transparent" x="515" y="4" width="40" height="13" backcolor="#E6E6E6"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement mode="Transparent" x="0" y="4" width="253" height="13"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[(new java.text.SimpleDateFormat("dd/MMM/yyyy, hh:mm aaa",new Locale("ES", "EC"))).format(new Date())]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="46">
+			<textField pattern="###0.00;-###0.00">
+				<reportElement x="455" y="21" width="100" height="8"/>
+				<textElement textAlignment="Right">
+					<font size="6" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{tpagos}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00;-###0.00">
+				<reportElement x="355" y="21" width="100" height="8"/>
+				<textElement textAlignment="Right">
+					<font size="6" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{tingresos}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="296" y="36" width="59" height="8" forecolor="#FFFFFF" backcolor="#000000"/>
+				<textElement textAlignment="Right">
+					<font size="6" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[Saldo:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="296" y="21" width="59" height="8" forecolor="#FFFFFF" backcolor="#000000"/>
+				<textElement textAlignment="Right">
+					<font size="6" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[Total:]]></text>
+			</staticText>
+			<textField pattern="###0.00;-###0.00">
+				<reportElement x="355" y="36" width="100" height="8"/>
+				<textElement textAlignment="Right">
+					<font size="6" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{tsaldo}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="295" y="11" width="260" height="1"/>
+			</line>
+			<line>
+				<reportElement x="295" y="15" width="260" height="1"/>
+			</line>
+		</band>
+	</summary>
+</jasperReport>

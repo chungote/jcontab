@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.6500000000000012"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="isActive" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     Fallas.`id` AS Fallas_id,
+     Fallas.`nSerie` AS Fallas_nSerie,
+     Fallas.`Marca` AS Fallas_Marca,
+     Fallas.`Modelo` AS Fallas_Modelo,
+     Fallas.`Detalle` AS Fallas_Detalle,
+     Fallas.`Fecha` AS Fallas_Fecha,
+     ContratoEquipos_A.`id` AS ContratoEquipos_A_id,
+     ContratoEquipos_A.`nSerie` AS ContratoEquipos_A_nSerie,
+     ContratoEquipos_A.`FechaInstalacion` AS ContratoEquipos_A_FechaInstalacion,
+     ContratoEquipos_A.`TipoEquipo` AS ContratoEquipos_A_TipoEquipo,
+     ContratoEquipos_A.`Contrato` AS ContratoEquipos_A_Contrato,
+     ContratoEquipos_A.`FechaRetiro` AS ContratoEquipos_A_FechaRetiro,
+     ContratoEquipos_A.`Activo` AS ContratoEquipos_A_Activo
+FROM
+     `ContratoEquipos` ContratoEquipos_A INNER JOIN `Fallas` Fallas ON ContratoEquipos_A.`nSerie` = Fallas.`nSerie`
+WHERE
+     ContratoEquipos_A.`Activo` = $P{isActive}]]>
+	</queryString>
+	<field name="Fallas_id" class="java.lang.Long"/>
+	<field name="Fallas_nSerie" class="java.lang.String"/>
+	<field name="Fallas_Marca" class="java.lang.String"/>
+	<field name="Fallas_Modelo" class="java.lang.String"/>
+	<field name="Fallas_Detalle" class="java.lang.String"/>
+	<field name="Fallas_Fecha" class="java.lang.String"/>
+	<field name="ContratoEquipos_A_id" class="java.lang.Long"/>
+	<field name="ContratoEquipos_A_nSerie" class="java.lang.String"/>
+	<field name="ContratoEquipos_A_FechaInstalacion" class="java.lang.String"/>
+	<field name="ContratoEquipos_A_TipoEquipo" class="java.lang.String"/>
+	<field name="ContratoEquipos_A_Contrato" class="java.lang.String"/>
+	<field name="ContratoEquipos_A_FechaRetiro" class="java.lang.String"/>
+	<field name="ContratoEquipos_A_Activo" class="java.lang.String"/>
+	<variable name="activo" class="java.lang.String" resetType="None">
+		<variableExpression><![CDATA[( $F{ContratoEquipos_A_Activo}.compareTo( "true" ) ? "NO" : "SI" )]]></variableExpression>
+	</variable>
+	<group name="ContratoEquipos_A_Activo">
+		<groupExpression><![CDATA[$F{ContratoEquipos_A_Activo}]]></groupExpression>
+		<groupHeader>
+			<band height="9">
+				<staticText>
+					<reportElement mode="Transparent" x="0" y="0" width="76" height="8" forecolor="#000000" backcolor="#E6E6E6"/>
+					<textElement>
+						<font size="6"/>
+					</textElement>
+					<text><![CDATA[Equipo contrato activo:]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="76" y="0" width="100" height="8"/>
+					<textElement>
+						<font size="6" isBold="true"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$V{activo}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band/>
+		</groupFooter>
+	</group>
+	<group name="Fallas_nSerie">
+		<groupExpression><![CDATA[$F{Fallas_nSerie}]]></groupExpression>
+		<groupHeader>
+			<band height="16">
+				<textField>
+					<reportElement mode="Opaque" x="0" y="0" width="554" height="12" forecolor="#000000" backcolor="#EEEEEE"/>
+					<textElement textAlignment="Left">
+						<font size="8" isBold="true"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{Fallas_nSerie}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band/>
+		</groupFooter>
+	</group>
+	<background>
+		<band/>
+	</background>
+	<title>
+		<band height="72">
+			<frame>
+				<reportElement mode="Opaque" x="0" y="0" width="555" height="72" backcolor="#FFFFFF"/>
+				<staticText>
+					<reportElement x="288" y="29" width="216" height="19" forecolor="#000000"/>
+					<textElement textAlignment="Right">
+						<font size="9" isBold="true" isItalic="false"/>
+					</textElement>
+					<text><![CDATA[Reporte fallas equipos]]></text>
+				</staticText>
+				<image>
+					<reportElement x="20" y="20" width="99" height="33"/>
+					<imageExpression class="java.lang.String"><![CDATA["/home/jacg/NetBeansProjects/jContab/src/mypack/logoescalagrises.jpg"]]></imageExpression>
+				</image>
+			</frame>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="13"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="27">
+			<staticText>
+				<reportElement mode="Opaque" x="100" y="0" width="150" height="10" forecolor="#FFFFFF" backcolor="#000000"/>
+				<textElement textAlignment="Center">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Marca Equipo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="100" y="10" width="101" height="10" forecolor="#FFFFFF" backcolor="#000000"/>
+				<textElement textAlignment="Left">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Modelo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="400" y="0" width="154" height="10" forecolor="#FFFFFF" backcolor="#000000"/>
+				<textElement textAlignment="Center">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Detalle]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="328" y="0" width="72" height="10" forecolor="#FFFFFF" backcolor="#000000"/>
+				<textElement textAlignment="Center">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha falla]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="250" y="0" width="78" height="10" forecolor="#FFFFFF" backcolor="#000000"/>
+				<textElement textAlignment="Left">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tipo equipo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="10" width="50" height="10" forecolor="#FFFFFF" backcolor="#000000"/>
+				<textElement textAlignment="Center">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Contrato]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="100" height="10" forecolor="#FFFFFF" backcolor="#000000"/>
+				<textElement textAlignment="Left">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Número de serie]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="28">
+			<textField isStretchWithOverflow="true">
+				<reportElement x="100" y="0" width="150" height="12"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{Fallas_Marca}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="100" y="14" width="151" height="12"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{Fallas_Modelo}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="328" y="0" width="72" height="12"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{Fallas_Fecha}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="250" y="0" width="78" height="24"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{ContratoEquipos_A_TipoEquipo}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="0" y="0" width="50" height="12"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{ContratoEquipos_A_Contrato}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="400" y="0" width="154" height="12"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{Fallas_Detalle}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band/>
+	</columnFooter>
+	<pageFooter>
+		<band height="31">
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement mode="Transparent" x="0" y="18" width="253" height="13"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[(new java.text.SimpleDateFormat("dd/MMM/yyyy, hh:mm aaa",new Locale("ES", "EC"))).format(new Date())]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement mode="Transparent" x="515" y="18" width="40" height="13" backcolor="#E6E6E6"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="0" y="18" width="515" height="13" backcolor="#E6E6E6"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["Pág. "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band/>
+	</summary>
+</jasperReport>

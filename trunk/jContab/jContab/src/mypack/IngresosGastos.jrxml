@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[SELECT
+     FacturaProveedores.`Proveedor` AS FacturaProveedores_Proveedor,
+     FacturasClientes.`Cliente` AS FacturasClientes_Cliente,
+     FacturaProveedores.`Total` AS FacturaProveedores_Total,
+     FacturasClientes.`Total` AS FacturasClientes_Total,
+     FacturasClientes.`Fecha` AS FacturasClientes_Fecha,
+     FacturasClientes.`Cobrado` AS FacturasClientes_Cobrado,
+     FacturaProveedores.`Fecha` AS FacturaProveedores_Fecha,
+     FacturaProveedores.`Pagado` AS FacturaProveedores_Pagado
+FROM
+     `FacturasClientes` FacturasClientes,
+     `FacturaProveedores` FacturaProveedores
+GROUP BY
+     FacturasClientes_Cobrado,
+     FacturaProveedores_Pagado]]>
+	</queryString>
+	<field name="FacturaProveedores_Proveedor" class="java.lang.String"/>
+	<field name="FacturasClientes_Cliente" class="java.lang.String"/>
+	<field name="FacturaProveedores_Total" class="java.lang.String"/>
+	<field name="FacturasClientes_Total" class="java.lang.String"/>
+	<field name="FacturasClientes_Fecha" class="java.lang.String"/>
+	<field name="FacturasClientes_Cobrado" class="java.lang.String"/>
+	<field name="FacturaProveedores_Fecha" class="java.lang.String"/>
+	<field name="FacturaProveedores_Pagado" class="java.lang.String"/>
+	<group name="FacturasClientes_Cliente">
+		<groupExpression><![CDATA[$F{FacturasClientes_Cliente}]]></groupExpression>
+		<groupHeader>
+			<band height="56">
+				<staticText>
+					<reportElement mode="Opaque" x="0" y="0" width="100" height="12" forecolor="#666666" backcolor="#E6E6E6"/>
+					<textElement>
+						<font size="10"/>
+					</textElement>
+					<text><![CDATA[Cliente]]></text>
+				</staticText>
+				<textField>
+					<reportElement mode="Opaque" x="100" y="0" width="225" height="12" forecolor="#000000" backcolor="#E6E6E6"/>
+					<textElement>
+						<font size="10" isBold="true"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{FacturasClientes_Cliente}]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement x="-20" y="55" width="595" height="1" forecolor="#666666"/>
+				</line>
+				<staticText>
+					<reportElement mode="Opaque" x="1" y="20" width="92" height="12" forecolor="#000000" backcolor="#E6E6E6"/>
+					<textElement textAlignment="Center">
+						<font size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Total]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="105" y="20" width="92" height="12" forecolor="#000000" backcolor="#E6E6E6"/>
+					<textElement textAlignment="Center">
+						<font size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Fecha]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="220" y="20" width="92" height="12" forecolor="#000000" backcolor="#E6E6E6"/>
+					<textElement textAlignment="Center">
+						<font size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Cobrado]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true">
+					<reportElement x="1" y="32" width="92" height="12"/>
+					<textElement>
+						<font size="10"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{FacturasClientes_Total}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement x="105" y="32" width="92" height="12"/>
+					<textElement>
+						<font size="10"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{FacturasClientes_Fecha}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement x="220" y="32" width="92" height="12"/>
+					<textElement>
+						<font size="10"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{FacturasClientes_Cobrado}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band/>
+		</groupFooter>
+	</group>
+	<group name="FacturaProveedores_Proveedor">
+		<groupExpression><![CDATA[$F{FacturaProveedores_Proveedor}]]></groupExpression>
+		<groupHeader>
+			<band height="52">
+				<textField>
+					<reportElement x="100" y="0" width="225" height="12" forecolor="#000000"/>
+					<textElement>
+						<font size="10" isBold="true"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{FacturaProveedores_Proveedor}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="0" y="0" width="100" height="12" forecolor="#666666"/>
+					<textElement>
+						<font size="10"/>
+					</textElement>
+					<text><![CDATA[Proveedor]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="1" y="20" width="92" height="12" forecolor="#000000" backcolor="#E6E6E6"/>
+					<textElement textAlignment="Center">
+						<font size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Total]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="105" y="20" width="92" height="12" forecolor="#000000" backcolor="#E6E6E6"/>
+					<textElement textAlignment="Center">
+						<font size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Fecha]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="220" y="20" width="92" height="12" forecolor="#000000" backcolor="#E6E6E6"/>
+					<textElement textAlignment="Center">
+						<font size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Pagado]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true">
+					<reportElement x="0" y="32" width="92" height="12"/>
+					<textElement>
+						<font size="10"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{FacturaProveedores_Total}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement x="105" y="32" width="92" height="12"/>
+					<textElement>
+						<font size="10"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{FacturaProveedores_Fecha}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement x="220" y="32" width="92" height="12"/>
+					<textElement>
+						<font size="10"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{FacturaProveedores_Pagado}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band/>
+		</groupFooter>
+	</group>
+	<background>
+		<band/>
+	</background>
+	<title>
+		<band height="72">
+			<frame>
+				<reportElement mode="Opaque" x="-20" y="-20" width="595" height="92" backcolor="#FFFFFF"/>
+				<staticText>
+					<reportElement x="217" y="45" width="115" height="19" forecolor="#000000"/>
+					<textElement textAlignment="Right">
+						<font size="12" isBold="false" isItalic="false"/>
+					</textElement>
+					<text><![CDATA[Ingresos y Gastos]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="21" y="64" width="99" height="24"/>
+					<textElement textAlignment="Center">
+						<font fontName="Vera Humana 95" size="8" isUnderline="false" isStrikeThrough="false"/>
+					</textElement>
+					<text><![CDATA[Especialistas en Ingeniería Biomédica]]></text>
+				</staticText>
+				<image>
+					<reportElement x="20" y="20" width="99" height="33"/>
+					<imageExpression class="java.lang.String"><![CDATA["/home/jacg/NetBeansProjects/jContab/src/mypack/logoescalagrises.jpg"]]></imageExpression>
+				</image>
+				<staticText>
+					<reportElement x="441" y="72" width="49" height="20"/>
+					<textElement/>
+					<text><![CDATA[Periodo:]]></text>
+				</staticText>
+			</frame>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="13"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="21"/>
+	</columnHeader>
+	<detail>
+		<band height="20">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="19" width="555" height="1"/>
+			</line>
+		</band>
+	</detail>
+	<columnFooter>
+		<band/>
+	</columnFooter>
+	<pageFooter>
+		<band height="17">
+			<textField>
+				<reportElement mode="Opaque" x="0" y="4" width="515" height="13" backcolor="#E6E6E6"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String"><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement mode="Opaque" x="515" y="4" width="40" height="13" backcolor="#E6E6E6"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="0" y="4" width="100" height="13"/>
+				<textElement/>
+				<textFieldExpression class="java.util.Date"><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band/>
+	</summary>
+</jasperReport>
