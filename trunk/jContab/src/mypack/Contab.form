@@ -838,7 +838,7 @@
                   </Properties>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JLayeredPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JLayeredPaneSupportLayout$JLayeredPaneConstraintsDescription">
-                      <JLayeredPaneConstraints x="10" y="0" width="740" height="560" layer="0" position="-1"/>
+                      <JLayeredPaneConstraints x="10" y="10" width="740" height="550" layer="0" position="-1"/>
                     </Constraint>
                   </Constraints>
 
@@ -1875,9 +1875,6 @@
         </Container>
         <Container class="javax.swing.JPanel" name="proveedoresPanel">
           <Properties>
-            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="ff" green="ff" red="ff" type="rgb"/>
-            </Property>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
                 <EmptyBorder/>
@@ -1930,14 +1927,28 @@
 
               <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBoxLayout"/>
               <SubComponents>
-                <Component class="javax.swing.JToolBar$Separator" name="jSeparator49">
-                </Component>
                 <Component class="javax.swing.JLabel" name="jLabel37">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Buscar proveedor:"/>
+                    <Property name="text" type="java.lang.String" value="Buscar por:"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JToolBar$Separator" name="jSeparator50">
+                </Component>
+                <Component class="javax.swing.JComboBox" name="buscarProveedorComboBox">
+                  <Properties>
+                    <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                      <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                    </Property>
+                    <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                      <StringArray count="3">
+                        <StringItem index="0" value="Empresa"/>
+                        <StringItem index="1" value="Ciudad"/>
+                        <StringItem index="2" value="RUC"/>
+                      </StringArray>
+                    </Property>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JToolBar$Separator" name="jSeparator49">
                 </Component>
                 <Component class="javax.swing.JTextField" name="buscarProveedorTxt">
                   <Properties>
@@ -1987,8 +1998,6 @@
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="nuevoProveedorButtonActionPerformed"/>
                   </Events>
                 </Component>
-                <Component class="javax.swing.JToolBar$Separator" name="jSeparator91">
-                </Component>
               </SubComponents>
             </Container>
             <Container class="javax.swing.JLayeredPane" name="jLayeredPane3">
@@ -2009,18 +2018,18 @@
                   </Properties>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JLayeredPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JLayeredPaneSupportLayout$JLayeredPaneConstraintsDescription">
-                      <JLayeredPaneConstraints x="210" y="10" width="420" height="490" layer="0" position="-1"/>
+                      <JLayeredPaneConstraints x="100" y="30" width="550" height="490" layer="0" position="-1"/>
                     </Constraint>
                   </Constraints>
 
                   <Layout>
                     <DimensionLayout dim="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jToolBar12" alignment="0" pref="408" max="32767" attributes="1"/>
+                          <Component id="jToolBar12" alignment="0" pref="538" max="32767" attributes="1"/>
                           <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jPanel14" max="32767" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
+                              <EmptySpace min="6" pref="6" max="6" attributes="0"/>
+                              <Component id="jPanel14" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="16" pref="16" max="16" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -2029,8 +2038,7 @@
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="jToolBar12" min="-2" pref="26" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jPanel14" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace pref="7" max="32767" attributes="0"/>
+                              <Component id="jPanel14" pref="427" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -2042,55 +2050,51 @@
                         <DimensionLayout dim="0">
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" attributes="0">
+                                  <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Group type="102" alignment="1" attributes="0">
-                                          <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
+                                      <Group type="102" alignment="0" attributes="0">
                                           <Component id="jLabel38" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="idProveedorTxt" pref="328" max="32767" attributes="0"/>
+                                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                          <Component id="idProveedorTxt" pref="477" max="32767" attributes="0"/>
                                       </Group>
                                       <Group type="102" alignment="0" attributes="0">
-                                          <EmptySpace max="-2" attributes="0"/>
                                           <Component id="jLabel39" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="empresaTxt" pref="319" max="32767" attributes="0"/>
+                                          <Component id="empresaTxt" pref="439" max="32767" attributes="0"/>
                                       </Group>
                                       <Group type="102" alignment="0" attributes="0">
-                                          <EmptySpace min="-2" pref="90" max="-2" attributes="0"/>
                                           <Component id="jLabel45" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="rucProveedorTxt" pref="253" max="32767" attributes="0"/>
+                                          <Component id="rucProveedorTxt" pref="457" max="32767" attributes="0"/>
                                       </Group>
                                       <Group type="102" alignment="0" attributes="0">
-                                          <EmptySpace min="-2" pref="81" max="-2" attributes="0"/>
                                           <Component id="jLabel41" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="ciudadProveedorTxt" pref="256" max="32767" attributes="0"/>
+                                          <Component id="ciudadProveedorTxt" pref="451" max="32767" attributes="0"/>
                                       </Group>
                                       <Group type="102" alignment="0" attributes="0">
-                                          <EmptySpace min="-2" pref="67" max="-2" attributes="0"/>
                                           <Component id="jLabel44" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="wwwTxt" pref="255" max="32767" attributes="0"/>
+                                          <Component id="wwwTxt" pref="436" max="32767" attributes="0"/>
                                       </Group>
                                       <Group type="102" alignment="0" attributes="0">
-                                          <EmptySpace min="-2" pref="91" max="-2" attributes="0"/>
                                           <Component id="jLabel43" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="emailProveedorTxt" pref="256" max="32767" attributes="0"/>
+                                          <Component id="emailProveedorTxt" pref="461" max="32767" attributes="0"/>
                                       </Group>
                                       <Group type="102" alignment="0" attributes="0">
-                                          <EmptySpace min="-2" pref="55" max="-2" attributes="0"/>
-                                          <Component id="jLabel40" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="jScrollPane6" pref="257" max="32767" attributes="0"/>
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Component id="jLabel42" min="-2" max="-2" attributes="0"/>
+                                              <Component id="jScrollPane7" pref="248" max="32767" attributes="1"/>
+                                          </Group>
+                                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Component id="jLabel40" min="-2" max="-2" attributes="0"/>
+                                              <Component id="jScrollPane6" min="-2" max="-2" attributes="1"/>
+                                          </Group>
                                       </Group>
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <EmptySpace min="-2" pref="56" max="-2" attributes="0"/>
-                                          <Component id="jLabel42" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="jScrollPane7" pref="259" max="32767" attributes="0"/>
-                                      </Group>
+                                      <Component id="jScrollPane16" alignment="0" pref="504" max="32767" attributes="0"/>
+                                      <Component id="jLabel5" alignment="0" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
                               </Group>
@@ -2099,67 +2103,51 @@
                         <DimensionLayout dim="1">
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="1" attributes="0">
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="idProveedorTxt" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jLabel38" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="empresaTxt" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jLabel39" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="rucProveedorTxt" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jLabel45" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="ciudadProveedorTxt" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jLabel41" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="wwwTxt" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jLabel44" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="emailProveedorTxt" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jLabel43" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  </Group>
                                   <EmptySpace max="32767" attributes="0"/>
                                   <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="jLabel38" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="idProveedorTxt" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jLabel40" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jLabel42" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="jLabel39" min="-2" max="-2" attributes="0"/>
-                                      <Component id="empresaTxt" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Group type="102" attributes="0">
-                                          <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
-                                          <Component id="jLabel45" min="-2" max="-2" attributes="0"/>
-                                      </Group>
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="rucProveedorTxt" min="-2" max="-2" attributes="0"/>
-                                      </Group>
-                                  </Group>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Group type="102" attributes="0">
-                                          <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
-                                          <Component id="jLabel41" min="-2" max="-2" attributes="0"/>
-                                      </Group>
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="ciudadProveedorTxt" min="-2" max="-2" attributes="0"/>
-                                      </Group>
-                                  </Group>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Group type="102" attributes="0">
-                                          <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
-                                          <Component id="jLabel44" min="-2" max="-2" attributes="0"/>
-                                      </Group>
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="wwwTxt" min="-2" max="-2" attributes="0"/>
-                                      </Group>
-                                  </Group>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Group type="102" attributes="0">
-                                          <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
-                                          <Component id="jLabel43" min="-2" max="-2" attributes="0"/>
-                                      </Group>
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="emailProveedorTxt" min="-2" max="-2" attributes="0"/>
-                                      </Group>
+                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                      <Component id="jScrollPane6" min="0" pref="0" max="32767" attributes="1"/>
+                                      <Component id="jScrollPane7" alignment="0" pref="87" max="32767" attributes="1"/>
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="jScrollPane6" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jLabel40" min="-2" max="-2" attributes="0"/>
-                                  </Group>
+                                  <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="jScrollPane7" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jLabel42" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                                  <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
+                                  <Component id="jScrollPane16" min="-2" pref="67" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
@@ -2252,6 +2240,26 @@
                         </Component>
                         <Component class="javax.swing.JTextField" name="rucProveedorTxt">
                         </Component>
+                        <Component class="javax.swing.JLabel" name="jLabel5">
+                          <Properties>
+                            <Property name="text" type="java.lang.String" value="Cuenta Ahorros/Deposito:"/>
+                          </Properties>
+                        </Component>
+                        <Container class="javax.swing.JScrollPane" name="jScrollPane16">
+                          <AuxValues>
+                            <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+                          </AuxValues>
+
+                          <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+                          <SubComponents>
+                            <Component class="javax.swing.JTextArea" name="cuentaProveedorTextArea">
+                              <Properties>
+                                <Property name="columns" type="int" value="20"/>
+                                <Property name="rows" type="int" value="5"/>
+                              </Properties>
+                            </Component>
+                          </SubComponents>
+                        </Container>
                       </SubComponents>
                     </Container>
                     <Container class="javax.swing.JToolBar" name="jToolBar12">
@@ -2263,8 +2271,6 @@
 
                       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBoxLayout"/>
                       <SubComponents>
-                        <Component class="javax.swing.JToolBar$Separator" name="jSeparator108">
-                        </Component>
                         <Component class="javax.swing.JButton" name="nuevoProveedorButton1">
                           <Properties>
                             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
@@ -2361,8 +2367,6 @@
                             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cerrarButton2ActionPerformed"/>
                           </Events>
                         </Component>
-                        <Component class="javax.swing.JToolBar$Separator" name="jSeparator7">
-                        </Component>
                       </SubComponents>
                     </Container>
                   </SubComponents>
@@ -2370,13 +2374,13 @@
                 <Container class="javax.swing.JScrollPane" name="jScrollPane4">
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JLayeredPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JLayeredPaneSupportLayout$JLayeredPaneConstraintsDescription">
-                      <JLayeredPaneConstraints x="0" y="0" width="740" height="540" layer="0" position="-1"/>
+                      <JLayeredPaneConstraints x="10" y="0" width="730" height="540" layer="0" position="-1"/>
                     </Constraint>
                   </Constraints>
 
                   <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
                   <SubComponents>
-                    <Component class="javax.swing.JTable" name="proveedoresTable">
+                    <Component class="javax.swing.JTable" name="proveedoresTabla">
                       <Properties>
                         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                           <Font name="Dialog" size="14" style="0"/>
@@ -2402,9 +2406,6 @@
         </Container>
         <Container class="javax.swing.JPanel" name="comprasPanel">
           <Properties>
-            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="ff" green="ff" red="ff" type="rgb"/>
-            </Property>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
                 <EmptyBorder/>
@@ -2457,14 +2458,31 @@
 
               <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBoxLayout"/>
               <SubComponents>
-                <Component class="javax.swing.JToolBar$Separator" name="jSeparator57">
-                </Component>
                 <Component class="javax.swing.JLabel" name="jLabel46">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Buscar factura:"/>
+                    <Property name="text" type="java.lang.String" value="Buscar por:"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JToolBar$Separator" name="jSeparator58">
+                </Component>
+                <Component class="javax.swing.JComboBox" name="buscarFacturaProveedorComboBox">
+                  <Properties>
+                    <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                      <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                    </Property>
+                    <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                      <StringArray count="3">
+                        <StringItem index="0" value="Proveedor"/>
+                        <StringItem index="1" value="Nserie"/>
+                        <StringItem index="2" value="RUC"/>
+                      </StringArray>
+                    </Property>
+                    <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                      <Dimension value="[100, 25]"/>
+                    </Property>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JToolBar$Separator" name="jSeparator57">
                 </Component>
                 <Component class="javax.swing.JTextField" name="buscarFacturaProveedorTxt">
                   <Properties>
@@ -2472,7 +2490,7 @@
                       <Dimension value="[100, 39]"/>
                     </Property>
                     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[280, 27]"/>
+                      <Dimension value="[250, 27]"/>
                     </Property>
                   </Properties>
                   <Events>
@@ -2502,11 +2520,9 @@
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Dialog" size="10" style="1"/>
                     </Property>
-                    <Property name="selected" type="boolean" value="true"/>
                     <Property name="text" type="java.lang.String" value="Fecha"/>
                     <Property name="focusable" type="boolean" value="false"/>
                     <Property name="horizontalTextPosition" type="int" value="4"/>
-                    <Property name="verticalTextPosition" type="int" value="3"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JToolBar$Separator" name="jSeparator63">
@@ -2520,7 +2536,7 @@
                       <Dimension value="[200, 25]"/>
                     </Property>
                     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[200, 27]"/>
+                      <Dimension value="[100, 27]"/>
                     </Property>
                   </Properties>
                   <Events>
@@ -2567,7 +2583,7 @@
                   </Properties>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JLayeredPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JLayeredPaneSupportLayout$JLayeredPaneConstraintsDescription">
-                      <JLayeredPaneConstraints x="100" y="10" width="630" height="310" layer="0" position="-1"/>
+                      <JLayeredPaneConstraints x="70" y="50" width="630" height="310" layer="0" position="-1"/>
                     </Constraint>
                   </Constraints>
 
@@ -2575,15 +2591,17 @@
                     <DimensionLayout dim="0">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jToolBar11" alignment="0" pref="618" max="32767" attributes="1"/>
-                          <Group type="102" alignment="1" attributes="0">
-                              <EmptySpace max="-2" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <EmptySpace min="6" pref="6" max="6" attributes="0"/>
                               <Component id="jPanel25" max="32767" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
+                              <EmptySpace min="6" pref="6" max="6" attributes="0"/>
                           </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="-2" pref="230" max="-2" attributes="0"/>
-                              <Component id="pagarFacturaButton" min="-2" pref="158" max="-2" attributes="1"/>
-                              <EmptySpace pref="230" max="32767" attributes="0"/>
+                          <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
+                              <Group type="102" alignment="0" attributes="0">
+                                  <EmptySpace min="-2" pref="204" max="-2" attributes="0"/>
+                                  <Component id="cobrarFacturaCheckBox1" pref="209" max="32767" attributes="0"/>
+                                  <EmptySpace min="-2" pref="205" max="-2" attributes="0"/>
+                              </Group>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -2593,9 +2611,14 @@
                               <Component id="jToolBar11" min="-2" pref="25" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="jPanel25" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="pagarFacturaButton" min="-2" pref="24" max="-2" attributes="0"/>
-                              <EmptySpace pref="8" max="32767" attributes="0"/>
+                              <EmptySpace pref="18" max="32767" attributes="0"/>
+                          </Group>
+                          <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
+                              <Group type="102" alignment="0" attributes="0">
+                                  <EmptySpace min="-2" pref="130" max="-2" attributes="0"/>
+                                  <Component id="cobrarFacturaCheckBox1" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace pref="131" max="32767" attributes="0"/>
+                              </Group>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -2716,71 +2739,79 @@
                       <Layout>
                         <DimensionLayout dim="0">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" alignment="1" attributes="0">
+                              <Group type="102" attributes="0">
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Group type="102" alignment="0" attributes="0">
+                                      <Group type="102" alignment="1" attributes="0">
                                           <Group type="103" groupAlignment="0" attributes="0">
                                               <Group type="102" alignment="0" attributes="0">
-                                                  <Component id="jLabel77" min="-2" max="-2" attributes="0"/>
-                                                  <EmptySpace max="-2" attributes="0"/>
-                                                  <Component id="idFacturaProveedorTxt" pref="253" max="32767" attributes="0"/>
-                                              </Group>
-                                              <Component id="jLabel51" alignment="0" min="-2" max="-2" attributes="0"/>
-                                              <Group type="102" alignment="0" attributes="1">
-                                                  <Component id="jLabel50" min="-2" max="-2" attributes="0"/>
-                                                  <EmptySpace max="-2" attributes="0"/>
-                                                  <Component id="articuloComboBox" pref="218" max="32767" attributes="0"/>
+                                                  <Group type="103" groupAlignment="0" attributes="0">
+                                                      <Group type="102" alignment="0" attributes="0">
+                                                          <Component id="jLabel77" min="-2" max="-2" attributes="0"/>
+                                                          <EmptySpace max="-2" attributes="0"/>
+                                                          <Component id="idFacturaProveedorTxt" pref="253" max="32767" attributes="0"/>
+                                                      </Group>
+                                                      <Component id="jLabel51" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                      <Group type="102" alignment="0" attributes="1">
+                                                          <Component id="jLabel50" min="-2" max="-2" attributes="0"/>
+                                                          <EmptySpace max="-2" attributes="0"/>
+                                                          <Component id="articuloComboBox" pref="218" max="32767" attributes="0"/>
+                                                      </Group>
+                                                      <Group type="102" alignment="0" attributes="0">
+                                                          <Component id="jLabel47" min="-2" max="-2" attributes="0"/>
+                                                          <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
+                                                          <Component id="direccionProveedorTxt" pref="200" max="32767" attributes="1"/>
+                                                      </Group>
+                                                      <Component id="rucFacturaProveedorTxt" alignment="1" min="-2" pref="234" max="-2" attributes="1"/>
+                                                  </Group>
+                                                  <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
                                               </Group>
                                               <Group type="102" alignment="0" attributes="0">
-                                                  <Component id="jLabel47" min="-2" max="-2" attributes="0"/>
-                                                  <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
-                                                  <Component id="direccionProveedorTxt" pref="200" max="32767" attributes="1"/>
+                                                  <Component id="jLabel71" min="-2" max="-2" attributes="0"/>
+                                                  <EmptySpace max="-2" attributes="0"/>
+                                                  <Component id="proveedorFacturaTxt" pref="206" max="32767" attributes="1"/>
+                                                  <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
                                               </Group>
-                                              <Component id="rucFacturaProveedorTxt" alignment="1" min="-2" pref="234" max="-2" attributes="1"/>
                                           </Group>
-                                          <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Component id="jLabel48" alignment="0" pref="303" max="32767" attributes="0"/>
+                                              <Group type="102" alignment="1" attributes="0">
+                                                  <EmptySpace max="-2" attributes="0"/>
+                                                  <Group type="103" groupAlignment="1" attributes="0">
+                                                      <Group type="102" attributes="0">
+                                                          <Group type="103" groupAlignment="1" attributes="0">
+                                                              <Component id="jLabel81" min="-2" max="-2" attributes="0"/>
+                                                              <Component id="jLabel80" min="-2" max="-2" attributes="0"/>
+                                                              <Component id="jLabel79" min="-2" max="-2" attributes="0"/>
+                                                          </Group>
+                                                          <EmptySpace max="-2" attributes="0"/>
+                                                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                                              <Component id="totalTxt1" alignment="1" max="32767" attributes="1"/>
+                                                              <Component id="ivat12Txt1" alignment="1" max="32767" attributes="1"/>
+                                                              <Component id="subtotalTxt1" alignment="0" min="-2" pref="106" max="-2" attributes="1"/>
+                                                          </Group>
+                                                      </Group>
+                                                      <Component id="telefonoProveedorTxt" alignment="1" min="-2" pref="205" max="-2" attributes="1"/>
+                                                      <Group type="103" alignment="1" groupAlignment="0" max="-2" attributes="0">
+                                                          <Group type="102" alignment="0" attributes="1">
+                                                              <Component id="jLabel72" min="-2" pref="94" max="-2" attributes="0"/>
+                                                              <EmptySpace max="-2" attributes="0"/>
+                                                              <Component id="fechaCompraTxt" max="32767" attributes="1"/>
+                                                          </Group>
+                                                          <Group type="102" alignment="1" attributes="0">
+                                                              <Component id="jLabel78" min="-2" max="-2" attributes="0"/>
+                                                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                                                              <Component id="serieFacturaProveedorTxt" min="-2" pref="165" max="-2" attributes="0"/>
+                                                          </Group>
+                                                      </Group>
+                                                  </Group>
+                                                  <EmptySpace min="-2" max="-2" attributes="0"/>
+                                              </Group>
+                                          </Group>
                                       </Group>
                                       <Group type="102" alignment="0" attributes="0">
-                                          <Component id="jLabel71" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="proveedorFacturaTxt" pref="206" max="32767" attributes="1"/>
-                                          <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
-                                      </Group>
-                                  </Group>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="jLabel48" alignment="0" pref="303" max="32767" attributes="0"/>
-                                      <Group type="102" alignment="1" attributes="0">
-                                          <EmptySpace max="-2" attributes="0"/>
-                                          <Group type="103" groupAlignment="1" attributes="0">
-                                              <Group type="102" attributes="0">
-                                                  <Group type="103" groupAlignment="1" attributes="0">
-                                                      <Component id="jLabel81" min="-2" max="-2" attributes="0"/>
-                                                      <Component id="jLabel80" min="-2" max="-2" attributes="0"/>
-                                                      <Component id="jLabel79" min="-2" max="-2" attributes="0"/>
-                                                  </Group>
-                                                  <EmptySpace max="-2" attributes="0"/>
-                                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                                      <Component id="totalTxt1" alignment="1" max="32767" attributes="1"/>
-                                                      <Component id="ivat12Txt1" alignment="1" max="32767" attributes="1"/>
-                                                      <Component id="subtotalTxt1" alignment="0" min="-2" pref="106" max="-2" attributes="1"/>
-                                                  </Group>
-                                              </Group>
-                                              <Component id="telefonoProveedorTxt" alignment="1" min="-2" pref="205" max="-2" attributes="1"/>
-                                              <Group type="103" alignment="1" groupAlignment="0" max="-2" attributes="0">
-                                                  <Group type="102" alignment="0" attributes="1">
-                                                      <Component id="jLabel72" min="-2" pref="82" max="-2" attributes="0"/>
-                                                      <EmptySpace max="-2" attributes="0"/>
-                                                      <Component id="fechaCompraTxt" max="32767" attributes="1"/>
-                                                  </Group>
-                                                  <Group type="102" alignment="1" attributes="0">
-                                                      <Component id="jLabel78" min="-2" max="-2" attributes="0"/>
-                                                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                                                      <Component id="serieFacturaProveedorTxt" min="-2" pref="165" max="-2" attributes="0"/>
-                                                  </Group>
-                                              </Group>
-                                          </Group>
-                                          <EmptySpace min="-2" max="-2" attributes="0"/>
+                                          <Component id="pagarFacturaCheckBox" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace pref="412" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                               </Group>
@@ -2796,7 +2827,7 @@
                                       <Component id="serieFacturaProveedorTxt" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="jLabel78" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace max="32767" attributes="0"/>
+                                  <EmptySpace pref="14" max="32767" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Group type="103" groupAlignment="3" attributes="0">
                                           <Component id="jLabel51" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -2847,6 +2878,7 @@
                                       </Group>
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="pagarFacturaCheckBox" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
@@ -3040,25 +3072,17 @@
                             </Property>
                           </Properties>
                         </Component>
+                        <Component class="javax.swing.JCheckBox" name="pagarFacturaCheckBox">
+                          <Properties>
+                            <Property name="text" type="java.lang.String" value="Pagar factura a proveedor"/>
+                          </Properties>
+                        </Component>
                       </SubComponents>
                     </Container>
-                    <Component class="javax.swing.JButton" name="pagarFacturaButton">
+                    <Component class="javax.swing.JCheckBox" name="cobrarFacturaCheckBox1">
                       <Properties>
-                        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                          <Color blue="0" green="ff" red="66" type="rgb"/>
-                        </Property>
-                        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                          <Font name="Dialog" size="10" style="1"/>
-                        </Property>
-                        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                          <Image iconType="3" name="/mypack/dialog-ok-apply.png"/>
-                        </Property>
-                        <Property name="text" type="java.lang.String" value="Pagar factura"/>
-                        <Property name="horizontalTextPosition" type="int" value="4"/>
+                        <Property name="text" type="java.lang.String" value="Cobrar factura a Cliente"/>
                       </Properties>
-                      <Events>
-                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="pagarFacturaButtonActionPerformed"/>
-                      </Events>
                     </Component>
                   </SubComponents>
                 </Container>
@@ -3071,7 +3095,7 @@
 
                   <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
                   <SubComponents>
-                    <Component class="javax.swing.JTable" name="facturasProveedoresTable">
+                    <Component class="javax.swing.JTable" name="comprasTabla">
                       <Properties>
                         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                           <Font name="Dialog" size="14" style="0"/>
@@ -5570,11 +5594,6 @@
           </SubComponents>
         </Container>
         <Container class="javax.swing.JPanel" name="tesoreriaPanel">
-          <Properties>
-            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="ff" green="ff" red="ff" type="rgb"/>
-            </Property>
-          </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
               <JTabbedPaneConstraints tabName="Tesoreria">
@@ -6034,13 +6053,13 @@
                   </AuxValues>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JLayeredPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JLayeredPaneSupportLayout$JLayeredPaneConstraintsDescription">
-                      <JLayeredPaneConstraints x="0" y="10" width="760" height="560" layer="0" position="-1"/>
+                      <JLayeredPaneConstraints x="10" y="10" width="740" height="560" layer="0" position="-1"/>
                     </Constraint>
                   </Constraints>
 
                   <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
                   <SubComponents>
-                    <Component class="javax.swing.JTable" name="tesoreriaTable">
+                    <Component class="javax.swing.JTable" name="tesoreriaTabla">
                       <Properties>
                         <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                           <Table columnCount="4" rowCount="4">
